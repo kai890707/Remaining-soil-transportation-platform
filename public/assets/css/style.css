@@ -1,0 +1,7 @@
+html,body{
+    /* background-color: antiquewhite; */
+    background: linear-gradient(0deg,#3d3949,#6772a4);
+    display: block; 
+    width: 100%; 
+    height: 100%;
+}
