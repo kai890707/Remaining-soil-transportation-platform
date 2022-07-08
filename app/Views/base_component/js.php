@@ -1,5 +1,6 @@
 <script type="text/javascript" src="<?php echo base_url('assets/js/bootstrap.bundle.min.js'); ?>"></script>
-<script>     
+
+<script>
     // PWA Service-work
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('<?php echo base_url('/service-worker.js') ?>')

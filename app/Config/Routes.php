@@ -40,8 +40,12 @@ $routes->set404Override();
 //view
 
 $routes->get('/','Home::index');
+$routes->get('register', 'Home::register');
+
 
 //測試
+$routes->get('lobby', 'Home::lobby');
+$routes->get('personal', 'Home::personal');
 // $routes->get('/', 'Home::index');
 $routes->get('pwa','Home::pwa');
 $routes->get('qrcode', 'QrcodeRender::index');
