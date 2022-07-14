@@ -46,6 +46,14 @@ $routes->get('register', 'Home::register');
 //測試
 $routes->get('lobby', 'Home::lobby');
 $routes->get('personal', 'Home::personal');
+$routes->get('projectList', 'Home::projectList');
+$routes->get('documentUse', 'Home::documentUse');
+$routes->get('documentList', 'Home::documentList');
+$routes->get('qrscan', 'Home::qrscan');
+$routes->get('sign', 'Home::sign');
+$routes->get('signRecords', 'Home::signRecords');
+$routes->get('project', 'Home::project');
+
 // $routes->get('/', 'Home::index');
 $routes->get('pwa','Home::pwa');
 $routes->get('qrcode', 'QrcodeRender::index');

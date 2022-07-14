@@ -34,3 +34,15 @@
     </div>
 
 </div>
+<div class=" col-11 bg-light shadow p-4 m-1  mx-auto shadow rounded">
+    <div class="row">
+        <div class="col-4 border-end d-flex align-items-center justify-content-center">
+            <i class="bi bi-truck" style="font-size: 2rem;"></i>
+        </div>
+        <div class="col-8">
+            <p class="h4 text-center">執行中聯單</p>
+            <p class="h5 p-0 m-0 text-center">In Execution</p>
+        </div>
+    </div>
+
+</div>

@@ -4,7 +4,7 @@
 
 <div style="margin-top: 60px;">
     <h1 class="text-center mt-3 text-dark fw-bolder" style="font-size:45px">營建剩餘土石方</h1>
-    <h1 class="text-center  text-white fs-2  fw-bolder">憑證系統</h1>
+    <h1 class="text-center  text-dark fs-2  fw-bolder">憑證系統</h1>
 
 </div>
 

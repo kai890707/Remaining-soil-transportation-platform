@@ -34,6 +34,55 @@ class Home extends BaseController
         ];
         return view('personal', $data);
     }
+    public function projectList()
+    {
+        $data = [
+            "title" => $this->title . ' - 工程列表'
+        ];
+        return view('projectList', $data);
+    }
+    public function documentUse()
+    {
+        $data = [
+            "title" => $this->title . ' - 聯單使用(司機)'
+        ];
+        return view('documentUse', $data);
+    }
+    public function documentList()
+    {
+        $data = [
+            "title" => $this->title . ' - 工程流量編號清單'
+        ];
+        return view('documentList', $data);
+    }
+    public function qrscan()
+    {
+        // $data = [
+        //     "title" => $this->title . ' - 聯單使用(司機)'
+        // ];
+        return view('qrscan');
+    }
+    public function sign()
+    {
+        $data = [
+            "title" => $this->title . ' - 簽章使用'
+        ];
+        return view('sign',$data);
+    }
+    public function signRecords()
+    {
+        $data = [
+            "title" => $this->title . ' - 使用狀態'
+        ];
+        return view('signRecords', $data);
+    }
+    public function project()
+    {
+        $data = [
+            "title" => $this->title . ' - 工程聯單列表'
+        ];
+        return view('project', $data);
+    }
     public function pwa()
     {
         return view('pwa');
