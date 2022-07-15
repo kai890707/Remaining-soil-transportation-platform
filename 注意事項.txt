@@ -1,3 +1,12 @@
-1. 因開發環境於UBUNTU中加上DOMPDF套件庫緣故，在產生帶有圖片的PDF時會出現減少套件的錯誤，減少之套件為"php gd"，為避免功能異常需額外加載該套件
+1. 專案下載完後需先在檔案目錄中下指令 composer update ，將所有關聯套件都引入。
+
+2. codeIgniter部屬需將對php設定檔進行更改，將 php.ini檔案中的 extension=intl 註解拿掉。
+
+3. 因PDF套件無原生中文字體故需另行安裝，字體檔已存在otherUtils資料夾中。
+    3-1 將 otherUtils 資料夾中的load_font.php 複製一份放至 vendor/dompdf/dompdf中與lib與src同層目錄
+    3-2 進入該目錄中 執行指令  php load_font.php 'edukai-4.0' /var/www/html/edukai-4.0/edukai-4.0.ttf
+    3-3 即完成字體加載
+
+4. 因開發環境於UBUNTU中加上DOMPDF套件庫緣故，在產生帶有圖片的PDF時會出現減少套件的錯誤，減少之套件為"php gd"，為避免功能異常需額外加載該套件
 下載指令 : sudo apt-get install php8.0-gd 
 提醒 : 下載前先查看當前php版本(php -v)，再下載對應版本的套件(如php版本為7.4則指令改為php7.4-gd)。
