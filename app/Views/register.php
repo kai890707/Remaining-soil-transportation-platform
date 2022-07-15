@@ -2,10 +2,17 @@
 <?= $this->extend('layout_blade/register_layout') ?>
 <?= $this->section('main') ?>
 
-<div style="margin-top: 60px;">
-    <h1 class="text-center mt-3 text-dark fw-bolder" style="font-size:45px">營建剩餘土石方</h1>
-    <h1 class="text-center  text-dark fs-2  fw-bolder">憑證系統</h1>
 
+<div class="jumbotron jumbotron-fluid" style="background-image:url('<?php echo base_url('assets/images/personalbanner.jpg') ?>') ;background-repeat: no-repeat;
+    background-size: cover;">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 mx-auto p-4">
+                <h1 class="display-4 fw-bold text-white text-shadow">司機註冊</h1>
+                <p class="lead fw-bold text-white text-shadow p-0 m-0">Driver Sign Up</p>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="container">

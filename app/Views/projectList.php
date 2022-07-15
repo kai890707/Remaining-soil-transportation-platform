@@ -33,17 +33,17 @@
                 </thead>
                 <tbody style="word-break: break-all;">
                     <tr>
-                        <td>台中市憶及文化園區第二期實驗工程第三園區之驗收</td>
+                        <td>工程流向編號清單名稱1</td>
                         <td>EOG24264asdasdas+4+15165</td>
                         <td><button type="button" class="btn btn-outline-primary">查看</button></td>
                     </tr>
                     <tr>
-                        <td>台中市憶及文化園區第二期實驗工程第三園區之驗收</td>
+                        <td>工程流向編號清單名稱2</td>
                         <td>EO</td>
                         <td><button type="button" class="btn btn-outline-primary">查看</button></td>
                     </tr>
                     <tr>
-                        <td>台中市憶及文化園區第二期實驗工程第三園區之驗收</td>
+                        <td>工程流向編號清單名稱3</td>
                         <td>EOG24264984651516</td>
                         <td><button type="button" class="btn btn-outline-primary">查看</button></td>
                     </tr>
