@@ -26,6 +26,7 @@ class App extends BaseConfig
      */
     public $baseURL = 'http://localhost:8080/'; //spark預設server
     // public $baseURL = 'http://127.0.0.1/projectx/'; //ubuntu server
+    
     /**
      * --------------------------------------------------------------------------
      * Index File

@@ -33,7 +33,7 @@ class ContainmentCompany extends Migration
                 'constraint' => 100,
                 'comment' => '負責人電話'
             ],
-            'clearingDriver_placeAddress' =>[
+            'containmentCompany_placeAddress' =>[
                 'type' => 'VARCHAR',
                 'constraint' => 100,
                 'comment' => '收容公司場所地址'
@@ -42,6 +42,16 @@ class ContainmentCompany extends Migration
                 'type' => 'VARCHAR',
                 'constraint' => 100,
                 'comment' => '收容公司地址'
+            ],
+            'user_id' =>[
+                'type' => 'INT',
+                'constraint' => 11,
+                'comment' => '使用者id'
+            ],
+            'permission_id' =>[
+                'type' => 'INT',
+                'constraint' => 11,
+                'comment' => '權限id'
             ],
             'created_at datetime default current_timestamp',
             'updated_date datetime default current_timestamp on update current_timestamp',

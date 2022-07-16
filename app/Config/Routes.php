@@ -61,6 +61,14 @@ $routes->get('pd', 'QrcodeRender::pdf');
 $routes->get('pdf', 'PdfController::index');
 $routes->get('htmlToPDF', 'PdfController::htmlToPDF');
 
+// Register Route
+$routes->group('register', static function ($routes) {
+    $routes->post('clearingDriver', 'RegisterController::clearingDriverRegister'); //清運司機註冊
+    $routes->post('clearingCompany', 'RegisterController::clearingCompanyRegister'); //清運公司註冊
+    $routes->post('containmentcompany', 'RegisterController::containmentcompanyRegister'); //收容公司註冊
+    $routes->post('contractingcompany', 'RegisterController::contractingcompanyRegister'); //承造公司註冊
+});
+
 
 /*
  * --------------------------------------------------------------------

@@ -45,6 +45,16 @@ class ClearingCompany extends Migration
                 'constraint' => 100,
                 'comment' => '清運公司地址'
             ],
+            'user_id' =>[
+                'type' => 'INT',
+                'constraint' => 11,
+                'comment' => '使用者id'
+            ],
+            'permission_id' =>[
+                'type' => 'INT',
+                'constraint' => 11,
+                'comment' => '權限id'
+            ],
 
             'created_at datetime default current_timestamp',
             'updated_date datetime default current_timestamp on update current_timestamp',
