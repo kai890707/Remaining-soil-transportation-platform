@@ -53,6 +53,8 @@ $routes->get('qrscan', 'Home::qrscan');
 $routes->get('sign', 'Home::sign');
 $routes->get('signRecords', 'Home::signRecords');
 $routes->get('project', 'Home::project');
+$routes->get('accountLobby', 'Home::accountLobby');
+$routes->get('accountCreate', 'Home::accountCreate');
 
 // $routes->get('/', 'Home::index');
 $routes->get('pwa','Home::pwa');

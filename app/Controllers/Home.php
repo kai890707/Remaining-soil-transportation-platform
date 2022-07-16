@@ -83,6 +83,20 @@ class Home extends BaseController
         ];
         return view('project', $data);
     }
+    public function accountLobby()
+    {
+         $data = [
+            "title" => $this->title . ' - 超級帳號(子身分註冊)'
+        ];
+        return view('user_root/accountLobby', $data);
+    }
+    public function accountCreate()
+    {
+         $data = [
+            "title" => $this->title . ' - 超級帳號(子身分註冊)'
+        ];
+        return view('user_root/accountCreate', $data);
+    }
     public function pwa()
     {
         return view('pwa');

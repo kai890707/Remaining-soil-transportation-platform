@@ -28,8 +28,9 @@
 <div class="container">
     <div class="row mt-4 p-0  ">
         <h2 class="text-center">功能列表</h2>
+        <?= $this->include('lobbyMain_component/root')?>
         <!-- include lobby main page start-->
-        <div class=" col-11 bg-light shadow p-4 m-1  mx-auto shadow rounded">
+        <!-- <div class=" col-11 bg-light shadow p-4 m-1  mx-auto shadow rounded">
             <div class="row">
                 <div class="col-4 border-end d-flex align-items-center justify-content-center">
                     <i class="bi bi-building " style="font-size: 2rem;"></i>
@@ -76,7 +77,7 @@
                     <p class="h5 p-0 m-0 text-center">Project Closed Area</p>
                 </div>
             </div>
-        </div>
+        </div> -->
         <!-- end -->
 
     </div>
