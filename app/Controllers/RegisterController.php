@@ -8,9 +8,14 @@ use App\Models\ClearingDriverModel;
 use App\Models\ContainmentCompanyModel;
 use App\Models\ContractingCompanyModel;
 
+
+/**
+ * 註冊控制器
+ * 身分別 => 已使用靜態變數定義於BaseController中
+ */
+
 class RegisterController extends BaseController
 {   
-
     protected $userModel;
     protected $clearingCompanyModel;
     protected $clearingDriverModel;
@@ -28,6 +33,42 @@ class RegisterController extends BaseController
         $this->db = db_connect();
     }
     
+    /**
+     * register index
+     *
+     * @return void
+     */
+    public function index()
+    {
+        $data = [
+            "title" => "營建剩餘土石方憑證系統 - 身分註冊",
+            "key"   => '999'
+        ];
+        return view('user_root/accountCreate', $data);
+    }
+
+    /**
+     * 註冊頁面判斷
+     *
+     * @param [INT] $permissionId
+     * @return view
+     */
+    public function viewVaild($permissionId=null)
+    {
+        if($permissionId == null){ $permissionId = 6;}
+        $data = [
+            "title" => "營建剩餘土石方憑證系統 - 身分註冊",
+            "key"   => $permissionId
+        ];
+        return view('user_root/accountCreate', $data);
+
+    }
+
+    /**
+     * 清運司機註冊
+     *
+     * @return json
+     */
     public function clearingDriverRegister()
     {
         $email = $this->request->getPostGet('user_email');
@@ -54,7 +95,7 @@ class RegisterController extends BaseController
             $data = [
                 'user_email' => $email,
                 'user_password' => $password,
-                'user_permission' => "3",
+                'user_permission' => $this::$permissionIdByClearingDriver,
             ];
             $insertUser = $this->userModel->insert($data);
             if($insertUser){
@@ -67,7 +108,7 @@ class RegisterController extends BaseController
                     'clearingDriver_bloodType' => $driverBloodType,
                     'clearingCompany_id ' => $findClearCompanyId['clearingCompany_id'],
                     'user_id' => $getUserId,
-                    'permission_id' => "3",
+                    'permission_id' => $this::$permissionIdByClearingDriver,
                 ];
 
                 if($this->clearingDriverModel->save($driverData)){
@@ -86,6 +127,11 @@ class RegisterController extends BaseController
         }
     }
 
+    /**
+     * 清運公司註冊
+     *
+     * @return json
+     */
     public function clearingCompanyRegister()
     {
         $email = $this->request->getPostGet('user_email');
@@ -112,11 +158,11 @@ class RegisterController extends BaseController
             $data = [
                 'user_email' => $email,
                 'user_password' => $password,
-                'user_permission' => "2",
+                'permission_id' => $this::$permissionIdByClearingCompany,
             ];
             $insertUser = $this->userModel->insert($data);
             if($insertUser){
-                $getUserId = $insertUser->getInsertID();
+                $getUserId = $insertUser;
             }
 
             $companyData=[
@@ -127,10 +173,10 @@ class RegisterController extends BaseController
                 'clearingCompany_phone' => $clearingCompanyPhone,
                 'clearingCompany_address ' => $clearingCompanyAddress,
                 'user_id' => $getUserId,
-                'permission_id' => "2",
+                'permission_id' => $this::$permissionIdByClearingCompany,
             ];
 
-            if($this->clearingCompanyModel->save($companyData)){
+            if($this->clearingCompanyModel->insert($companyData)){
                 $response=[
                     'status' => 'success',
                     'message' => '註冊成功'
@@ -147,7 +193,11 @@ class RegisterController extends BaseController
         return $this->response->setJSON($response);
     }
 
-
+    /**
+     * 收容場所註冊
+     *
+     * @return json
+     */
     public function containmentcompanyRegister()
     {
         $email = $this->request->getPostGet('user_email');
@@ -173,7 +223,7 @@ class RegisterController extends BaseController
             $data = [
                 'user_email' => $email,
                 'user_password' => $password,
-                'user_permission' => "4",
+                'user_permission' => $this::$permissionIdByContainmentCompany,
             ];
 
             $insertUser = $this->userModel->insert($data);
@@ -189,7 +239,7 @@ class RegisterController extends BaseController
                 'containmentCompany_placeAddress' => $containmentCompanyPlaceAddress,
                 'containmentCompany_address ' => $containmentCompanyAddress,
                 'user_id' => $getUserId,
-                'permission_id' => "4",
+                'permission_id' => $this::$permissionIdByContainmentCompany,
             ];
 
             if($this->clearingCompanyModel->save($companyData)){
@@ -208,8 +258,13 @@ class RegisterController extends BaseController
         return $this->response->setJSON($response);
     }
 
-
+    /**
+     * 承造公司註冊
+     *
+     * @return json
+    */
     public function contractingcompanyRegister(){
+
         $email = $this->request->getPostGet('user_email');
         $password = sha1($this->request->getPostGet('user_password'));
         $contractingCompanyName = $this->request->getPostGet('contracting_companyName');
@@ -220,6 +275,8 @@ class RegisterController extends BaseController
         $contractingContractWatcherPhone = $this->request->getPostGet('contracting_contractWatcherPhone');
         $contractingCompanyAddress = $this->request->getPostGet('contracting_companyAddress');
         
+           
+
         if($this->userModel->where('user_email',$email)->first()){
             $response=[
                 'status' => 'fail',
@@ -234,28 +291,28 @@ class RegisterController extends BaseController
             $data = [
                 'user_email' => $email,
                 'user_password' => $password,
-                'user_permission' => "1",
+                'permission_id' =>"2",
             ];
 
             $insertUser = $this->userModel->insert($data);
-            if($insertUser){
-                $getUserId = $insertUser->getInsertID();
-            }
 
+            if($insertUser){
+                $getUserId = $insertUser;
+            }
+      
             $companyData=[
                 'contracting_companyName' => $contractingCompanyName,
                 'contracting_uniformNumbers' => $contractingUniformNumbers,
                 'contracting_contractUserName' => $contractingContractUserName,
                 'contracting_contractUserPhone' => $contractingContractUserPhone,
                 'contracting_contractWatcherName' => $contractingContractWatcherName,
-                'contracting_contractWatcherPhone ' => $contractingContractWatcherPhone,
-                'contracting_companyAddress ' => $contractingCompanyAddress,
-           
+                'contracting_contractWatcherPhone' => $contractingContractWatcherPhone,
+                'contracting_companyAddress' => $contractingCompanyAddress,
                 'user_id' => $getUserId,
-                'permission_id' => "1",
+                'permission_id' => $this::$permissionIdByContractingCompany,
             ];
 
-            if($this->contractingCompanyModel->save($companyData)){
+            if($this->contractingCompanyModel->insert($companyData)){
                 $response=[
                     'status' => 'success',
                     'message' => '註冊成功'

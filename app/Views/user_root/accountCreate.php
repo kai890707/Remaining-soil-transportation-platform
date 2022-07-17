@@ -16,52 +16,35 @@
 </div>
 <div class="container">
     <div class="row mt-4 p-0  ">
-        <div class=" col-11 bg-light shadow p-4 m-1  mx-auto shadow rounded block-btn">
+        <div class=" col-11 bg-light shadow p-4 m-1  mx-auto shadow rounded">
             <div class="row">
-                <div class="col-4 border-end d-flex align-items-center justify-content-center">
-                    <i class="bi bi-file-earmark" style="font-size: 2rem;"></i>
-                </div>
-                <div class="col-8">
-                    <p class="h4 text-center">承造公司身分創建</p>
-                    <p class="h5 p-0 m-0 text-center">Contracting Company</p>
-                </div>
-            </div>
-        </div>
-        <div class=" col-11 bg-light shadow p-4 m-1  mx-auto shadow rounded block-btn">
-            <div class="row">
-                <div class="col-4 border-end d-flex align-items-center justify-content-center">
-                    <i class="bi bi-file-earmark" style="font-size: 2rem;"></i>
-                </div>
-                <div class="col-8">
-                    <p class="h4 text-center">清運公司身分創建</p>
-                    <p class="h5 p-0 m-0 text-center">Transport Company</p>
-                </div>
-            </div>
-        </div>
-        <div class=" col-11 bg-light shadow p-4 m-1  mx-auto shadow rounded block-btn">
-            <div class="row">
-                <div class="col-4 border-end d-flex align-items-center justify-content-center">
-                    <i class="bi bi-file-earmark" style="font-size: 2rem;"></i>
-                </div>
-                <div class="col-8">
-                    <p class="h4 text-center">清運司機身分創建</p>
-                    <p class="h5 p-0 m-0 text-center">Transport Driver</p>
-                </div>
-            </div>
-        </div>
-        <div class=" col-11 bg-light shadow p-4 m-1  mx-auto shadow rounded block-btn">
-            <div class="row">
-                <div class="col-4 border-end d-flex align-items-center justify-content-center">
-                    <i class="bi bi-file-earmark" style="font-size: 2rem;"></i>
-                </div>
-                <div class="col-8">
-                    <p class="h4 text-center">收容場所身分創建</p>
-                    <p class="h5 p-0 m-0 text-center">Shelter</p>
-                </div>
-            </div>
-        </div>
+                <?php 
+                    switch ($key) {
+                        case '2':
+                ?>
+                            <?= $this->include('registerMain_component/contract') ?>
+                <?php   break;
+                        case '3':
+                ?>
+                            <?=$this->include('registerMain_component/company')?>
+                <?php   break;
+                        case '4':
+                ?>
+                            <?=$this->include('registerMain_component/drive')?>
+                <?php   break;
+                        case '5':
+                ?>
+                           <?=$this->include('registerMain_component/shelter') ?>
+                <?php   break; 
+                        default:
+                ?>
+                            <?=$this->include('registerMain_component/404') ?>
+                <?php   break;
+                    }
+                ?>
 
-
+            </div>
+        </div>
     </div>
 </div>
 

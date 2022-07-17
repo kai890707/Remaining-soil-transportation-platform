@@ -1,4 +1,7 @@
 <div class="mb-3">
+    <h3 class="text-center">清運司機帳號創建</h3>
+</div>
+<div class="mb-3">
     <label for="company_name" class="form-label">公司名稱</label>
     <input type="text" class="form-control" id="company_name" name="company_name">
 </div>
@@ -26,7 +29,6 @@
     <label for="blood_type" class="form-label">血型</label>
     <input type="text" class="form-control" id="blood_type" name="blood_type">
 </div>
-<div class="d-grid gap-2 d-md-block">
-    <button class="btn btn-danger" type="button">保存</button>
-    <button class="btn btn-secondary" type="button">取消</button>
+<div class="d-grid gap-2">
+  <button class="btn btn-primary" type="button">註冊</button>
 </div>

@@ -16,7 +16,7 @@
 </div>
 <div class="container">
     <div class="row mt-4 p-0  ">
-        <div class=" col-11 bg-light shadow p-4 m-1  mx-auto shadow rounded block-btn">
+        <div class=" col-11 bg-light shadow p-4 m-1  mx-auto shadow rounded block-btn" id="contract" onclick="location.href='<?php echo base_url('register/2')?>'">
             <div class="row">
                 <div class="col-4 border-end d-flex align-items-center justify-content-center">
                     <i class="bi bi-file-earmark" style="font-size: 2rem;"></i>
@@ -27,7 +27,7 @@
                 </div>
             </div>
         </div>
-        <div class=" col-11 bg-light shadow p-4 m-1  mx-auto shadow rounded block-btn">
+        <div class=" col-11 bg-light shadow p-4 m-1  mx-auto shadow rounded block-btn" id="transport" onclick="location.href='<?php echo base_url('register/3')?>'">
             <div class="row">
                 <div class="col-4 border-end d-flex align-items-center justify-content-center">
                     <i class="bi bi-file-earmark" style="font-size: 2rem;"></i>
@@ -38,7 +38,7 @@
                 </div>
             </div>
         </div>
-        <div class=" col-11 bg-light shadow p-4 m-1  mx-auto shadow rounded block-btn">
+        <div class=" col-11 bg-light shadow p-4 m-1  mx-auto shadow rounded block-btn" id="drive" onclick="location.href='<?php echo base_url('register/4')?>'">
             <div class="row">
                 <div class="col-4 border-end d-flex align-items-center justify-content-center">
                     <i class="bi bi-file-earmark" style="font-size: 2rem;"></i>
@@ -49,7 +49,7 @@
                 </div>
             </div>
         </div>
-        <div class=" col-11 bg-light shadow p-4 m-1  mx-auto shadow rounded block-btn">
+        <div class=" col-11 bg-light shadow p-4 m-1  mx-auto shadow rounded block-btn" id="shelter" onclick="location.href='<?php echo base_url('register/5')?>'">
             <div class="row">
                 <div class="col-4 border-end d-flex align-items-center justify-content-center">
                     <i class="bi bi-file-earmark" style="font-size: 2rem;"></i>
@@ -65,4 +65,9 @@
     </div>
 </div>
 
+<?= $this->endSection() ?>
+<?= $this->section('customJs') ?>
+    <script>
+
+    </script>
 <?= $this->endSection() ?>

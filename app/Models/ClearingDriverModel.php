@@ -3,7 +3,7 @@ namespace App\Models;
 use CodeIgniter\Model;
 
 class ClearingDriverModel extends Model{
-    protected $table = 'clearingdriver';
+    protected $table = 'ClearingDriver';
     protected $primaryKey = 'clearingDriver_id';
     protected $allowedFields = [
         'clearingDriver_id',

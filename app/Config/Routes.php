@@ -40,7 +40,7 @@ $routes->set404Override();
 //view
 
 $routes->get('/','Home::index');
-$routes->get('register', 'Home::register');
+// $routes->get('register', 'Home::register');
 
 
 //測試
@@ -54,7 +54,7 @@ $routes->get('sign', 'Home::sign');
 $routes->get('signRecords', 'Home::signRecords');
 $routes->get('project', 'Home::project');
 $routes->get('accountLobby', 'Home::accountLobby');
-$routes->get('accountCreate', 'Home::accountCreate');
+// $routes->get('accountCreate', 'Home::accountCreate');
 
 // $routes->get('/', 'Home::index');
 $routes->get('pwa','Home::pwa');
@@ -64,13 +64,25 @@ $routes->get('pdf', 'PdfController::index');
 $routes->get('htmlToPDF', 'PdfController::htmlToPDF');
 
 // Register Route
-$routes->group('register', static function ($routes) {
-    $routes->post('clearingDriver', 'RegisterController::clearingDriverRegister'); //清運司機註冊
-    $routes->post('clearingCompany', 'RegisterController::clearingCompanyRegister'); //清運公司註冊
-    $routes->post('containmentcompany', 'RegisterController::containmentcompanyRegister'); //收容公司註冊
-    $routes->post('contractingcompany', 'RegisterController::contractingcompanyRegister'); //承造公司註冊
-});
+//     // $routes->get('/(:num)', 'RegisterController::viewVaild/$1'); //清運司機註冊頁面
+//     // $routes->get('clearingCompany', 'RegisterController::clearingCompanyRegister'); //清運公司註冊頁面
+//     // $routes->get('containmentcompany', 'RegisterController::containmentcompanyRegister'); //收容公司註冊頁面
+//     // $routes->get('contractingcompany', 'RegisterController::contractingcompanyRegister'); //承造公司註冊頁面
 
+$routes->group(
+    'register',
+    [
+        'namespace' => 'App\Controllers',
+    ],
+    function (\CodeIgniter\Router\RouteCollection $routes) {
+        $routes->get('/', 'RegisterController::index'); 
+        $routes->get('(:num)', 'RegisterController::viewVaild/$1'); 
+        $routes->post('clearingDriver', 'RegisterController::clearingDriverRegister'); //清運司機註冊
+        $routes->post('clearingCompany', 'RegisterController::clearingCompanyRegister'); //清運公司註冊
+        $routes->post('containmentcompany', 'RegisterController::containmentcompanyRegister'); //收容公司註冊
+        $routes->post('contractingcompany', 'RegisterController::contractingcompanyRegister'); //承造公司註冊
+    }
+);
 
 /*
  * --------------------------------------------------------------------

@@ -49,4 +49,21 @@ abstract class BaseController extends Controller
 
         // E.g.: $this->session = \Config\Services::session();
     }
+
+    /**
+     * 使用者權限設定
+     * Root    = 1
+     * 承造公司 = 2
+     * 清運公司 = 3
+     * 清運司機 = 4
+     * 收容場所 = 5
+     * 政府單位 = 6
+     */
+    static $permissionIdByRoot = "1" ;
+    static $permissionIdByContractingCompany = "2" ;
+    static $permissionIdByClearingCompany = "3" ;
+    static $permissionIdByClearingDriver = "4" ;
+    static $permissionIdByContainmentCompany = "5" ;
+    static $permissionIdByGovernment = "6" ;
+
 }

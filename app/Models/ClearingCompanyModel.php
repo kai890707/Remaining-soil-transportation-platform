@@ -3,7 +3,7 @@ namespace App\Models;
 use CodeIgniter\Model;
 
 class ClearingCompanyModel extends Model{
-    protected $table = 'clearingcompany';
+    protected $table = 'ClearingCompany';
     protected $primaryKey = 'clearingCompany_id';
     protected $allowedFields = [
         'clearingCompany_id ',

@@ -11,7 +11,6 @@ class Permission extends Migration
         $this->forge->addField([
             'permission_id' =>[
                 'type' => 'INT',
-                'auto_increment' =>true
             ],
             'permission_name' =>[
                 'type' => 'VARCHAR',

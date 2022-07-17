@@ -7,7 +7,7 @@
     <meta name="description" content="The small framework with powerful features">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
-    <link rel="manifest" href="manifest.json" />
+    <link rel="manifest" href="<?php echo base_url('manifest.json')?>" />
     <!-- Apple Safari -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -20,6 +20,4 @@
     <link rel="apple-touch-icon" href="https://fakeimg.pl/192x192/" sizes="192x192">
     <link rel="apple-touch-icon" href="https://fakeimg.pl/384x384/" sizes="384x384">
     <link rel="apple-touch-icon" href="https://fakeimg.pl/512x512/" sizes="512x512">
-
-
 </head>
