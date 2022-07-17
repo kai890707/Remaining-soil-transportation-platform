@@ -1,30 +1,44 @@
 <div class="mb-3">
     <h3 class="text-center">收容場所帳號創建</h3>
 </div>
-<div class="mb-3">
-    <label for="company_name" class="form-label">公司名稱</label>
-    <input type="text" class="form-control" id="company_name" name="company_name">
-</div>
-<div class="mb-3">
-    <label for="company_number" class="form-label">公司統編</label>
-    <input type="text" class="form-control" id="company_number" name="company_number">
-</div>
-<div class="mb-3">
-    <label for="boss_name" class="form-label">負責人姓名</label>
-    <input type="text" class="form-control" id="boss_name" name="boss_name">
-</div>
-<div class="mb-3">
-    <label for="phone" class="form-label">負責人電話</label>
-    <input type="text" class="form-control" id="phone" name="phone">
-</div>
-<div class="mb-3">
-    <label for="shelter_address" class="form-label">收容場所地址</label>
-    <input type="text" class="form-control" id="shelter_address" name="shelter_address">
-</div>
-<div class="mb-3">
-    <label for="company_address" class="form-label">收容公司地址</label>
-    <input type="text" class="form-control" id="company_address" name="company_address">
-</div>
-<div class="d-grid gap-2">
-  <button class="btn btn-primary" type="button">註冊</button>
-</div>
+<form id="shelter_register_form">
+    <div class="mb-3">
+        <label for="user_email" class="form-label">使用者帳號</label>
+        <input type="text" class="form-control" id="user_email" name="user_email" required>
+    </div>
+    <div class="mb-3">
+        <label for="user_password" class="form-label">使用者密碼 <span class="text-danger">*密碼長度需大於6個字</span></label>
+        <input type="password" class="form-control" id="user_password" name="user_password" required>
+    </div>
+    <div class="mb-3">
+        <label for="re_user_password" class="form-label">再次輸入使用者密碼</label>
+        <input type="password" class="form-control" id="re_user_password" name="re_user_password" required>
+    </div>
+    <div class="mb-3">
+        <label for="containmentCompany_name" class="form-label">公司名稱</label>
+        <input type="text" class="form-control" id="containmentCompany_name" name="containmentCompany_name">
+    </div>
+    <div class="mb-3">
+        <label for="containmentCompany_uniformNumbers" class="form-label">公司統編</label>
+        <input type="text" class="form-control" id="containmentCompany_uniformNumbers" name="containmentCompany_uniformNumbers">
+    </div>
+    <div class="mb-3">
+        <label for="containmentCompany_principalName" class="form-label">負責人姓名</label>
+        <input type="text" class="form-control" id="containmentCompany_principalName" name="containmentCompany_principalName">
+    </div>
+    <div class="mb-3">
+        <label for="containmentCompany_principalPhone" class="form-label">負責人電話</label>
+        <input type="text" class="form-control" id="containmentCompany_principalPhone" name="containmentCompany_principalPhone">
+    </div>
+    <div class="mb-3">
+        <label for="containmentCompany_placeAddress" class="form-label">收容場所地址</label>
+        <input type="text" class="form-control" id="containmentCompany_placeAddress" name="containmentCompany_placeAddress">
+    </div>
+    <div class="mb-3">
+        <label for="containmentCompany_address" class="form-label">收容公司地址</label>
+        <input type="text" class="form-control" id="containmentCompany_address" name="containmentCompany_address">
+    </div>
+    <div class="d-grid gap-2">
+    <button class="btn btn-primary" type="button">註冊</button>
+    </div>
+</form>
