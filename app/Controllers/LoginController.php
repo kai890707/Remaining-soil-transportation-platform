@@ -39,9 +39,7 @@ class LoginController extends BaseController
         $loginCheck = $this->userModel->where('user_email',$email)->where('user_password',$password)->first();
         if($loginCheck){
             $permission_id = $loginCheck['permission_id'];
-            if($permission_id == $this::$permissionIdByClearingDriver){
-                return $this->LoginForClearingDriver($loginCheck['user_id']);
-            }
+            return $this->LoginAndSetSession($loginCheck['user_id'],$loginCheck['user_email'],$permission_id);
 
         }else{
             $response=[
@@ -55,26 +53,39 @@ class LoginController extends BaseController
     }
 
 
-    public function LoginForClearingDriver($user_id)
+    public function LoginAndSetSession($user_id,$user_email,$permission_id)
     {
-        $getDriverData = $this->clearingDriverModel->where('user_id',$user_id)->first();
-        if($getDriverData){
-            $this->session->start();
-            $this->session = session();
-            $this->session->set('user_id',$user_id);
-            $this->session->set('clearingDriver_name',$getDriverData['clearingDriver_name']);
-            $this->session->set('clearingDriver_identityCard',$getDriverData['clearingDriver_identityCard']);
-            $this->session->set('clearingDriver_licensePlate',$getDriverData['clearingDriver_licensePlate']);
-            $this->session->set('clearingDriver_phone',$getDriverData['clearingDriver_phone']);
-            $this->session->set('clearingDriver_bloodType',$getDriverData['clearingDriver_bloodType']);
-            $this->session->set('clearingCompany_id',$getDriverData['clearingCompany_id']);
-            $this->session->set('permission_id',$getDriverData['permission_id']);
 
-            $response=[
-                'status' => 'success',
-                'message' => '登入成功'
-            ];
+        $response=[
+            'status' => 'success',
+            'message' => '成功'
+        ];
+        //清運司機session set
+        if($permission_id ==  $this::$permissionIdByClearingDriver){
+            $getDriverData = $this->clearingDriverModel->where('user_id',$user_id)->first();
+            $getDriverData['user_email'] = $user_email;
+            foreach ($getDriverData as $key => $value) {
+                $this->session->set($key,$value);
+            }
 
+        }else if($permission_id ==  $this::$permissionIdByClearingCompany){    //清運公司session set
+            $getClearCompanyData = $this->clearingCompanyModel->where('user_id',$user_id)->first();
+            $getClearCompanyData['user_email'] = $user_email;
+            foreach ($getClearCompanyData as $key => $value) {
+                $this->session->set($key,$value);
+            }
+        }else if($permission_id ==  $this::$permissionIdByContractingCompany){ //承造公司session set
+            $getContractCompanyData = $this->contractingCompanyModel->where('user_id',$user_id)->first();
+            $getContractCompanyData['user_email'] = $user_email;
+            foreach ($getContractCompanyData as $key => $value) {
+                $this->session->set($key,$value);
+            }
+        }else if($permission_id ==  $this::$permissionIdByContainmentCompany){ //收容公司session set
+            $getContainmentCompanyData = $this->containmentCompanyModel->where('user_id',$user_id)->first();
+            $getContainmentCompanyData['user_email'] = $user_email;
+            foreach ($getContainmentCompanyData as $key => $value) {
+                $this->session->set($key,$value);
+            }
         }else{
             $response=[
                 'status' => 'fail',
@@ -83,6 +94,7 @@ class LoginController extends BaseController
         }
 
         return $this->response->setJSON($response);
+
     }
 
 }
