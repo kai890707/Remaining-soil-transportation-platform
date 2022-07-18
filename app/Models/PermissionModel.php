@@ -11,4 +11,10 @@ class PermissionModel extends Model{
         'created_at',
         'updated_date',
     ];
+
+    public function getPermissonName($permission_id)
+    {
+        $getPermissionName = $this->select('permission_name')->where('permission_id',$permission_id)->first();
+        return $getPermissionName;
+    }
 }

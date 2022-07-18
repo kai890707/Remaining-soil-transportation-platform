@@ -20,22 +20,22 @@
     <div class="row mt-4 p-0  ">
         <div class=" col-11 bg-light shadow p-4 m-1  mx-auto shadow">
             <h2 class="text-center mb-2">使用者登入</h2>
-            <form>
+            <form id="login_form">
                 <div class="mb-3">
                     <label for="exampleInputEmail1" class="form-label">電子郵件</label>
-                    <input type="email" class="form-control" id="account" name="account" aria-describedby="emailHelp">
+                    <input type="email" class="form-control" id="account" name="user_email" aria-describedby="emailHelp">
                     <div id="emailHelp" class="form-text"></div>
                 </div>
                 <div class="mb-3">
                     <label for="exampleInputPassword1" class="form-label">密碼</label>
-                    <input type="password" class="form-control" id="password" name="password">
+                    <input type="password" class="form-control" id="password" name="user_password">
                 </div>
                 <div class="mb-3 form-check">
                     <input type="checkbox" class="form-check-input" id="remrberMeCheckBox" name="remrberMeCheckBox">
                     <label class="form-check-label" for="exampleCheck1">記住我</label>
                 </div>
                 <div class="d-grid gap-2">
-                    <button type="button" class="btn btn-primary btn-lg" id="login">登入</button>
+                    <button type="submit" class="btn btn-primary btn-lg" id="login">登入</button>
                     <a type="button" class="btn btn-secondary btn-lg" href="<?php echo base_url('drverRegister') ?>">清運司機註冊</a>
                 </div>
 
@@ -49,23 +49,40 @@
 <?= $this->endSection() ?>
 <?= $this->section('customJs') ?>
 <script>
-    function $(e) {
-        return document.querySelector(e);
-    }
+    
     if (localStorage.getItem('account')) {
-        $('#account').value = localStorage.getItem('account');
+        $('#account').val(localStorage.getItem('account'));
     }
     if (localStorage.getItem('password')) {
-        $('#password').value = localStorage.getItem('password');
-        $('#remrberMeCheckBox').checked = true;
+        $('#password').val(localStorage.getItem('password'));
+        $('#remrberMeCheckBox').prop("checked", true);
     }
-    $('#login').onclick = function() {
-        localStorage.setItem('account', $('#account').value);
-        if ($('#remrberMeCheckBox').checked) {
-            localStorage.setItem('password', $('#password').value);
+    $('#remrberMeCheckBox').click (function () {
+        localStorage.setItem('account', $('#account').val());
+        if (document.getElementById('remrberMeCheckBox').checked) {
+            localStorage.setItem('password', $('#password').val());
         } else {
             localStorage.removeItem('password');
         }
-    }
+      })
+
+    $("form[id='login_form']").submit(function(e) {
+        e.preventDefault();
+        var formData = new FormData(document.getElementById('login_form'));
+        BaseLib.Post("/login",formData).then(
+            (res)=>{
+                BaseLib.ResponseCheck(res).then(()=>{
+                    console.log(res);
+                    if(res.status =="success"){
+                        window.location=BaseLib.base_Url+'/lobby';
+                    }
+                })
+            },
+            (err)=>{
+                console.log(err);
+            })
+    })
+  
+
 </script>
 <?= $this->endSection() ?>

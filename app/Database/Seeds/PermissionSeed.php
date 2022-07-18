@@ -31,7 +31,14 @@ class PermissionSeed extends \CodeIgniter\Database\Seeder
             ]
 
         ];
-
         $builder = $this->db->table('Permission')->insertBatch($data);
+        $root = [
+            'user_email'=>'root@root.xyz',
+            'user_password'=>sha1('root2022'),
+            'permission_id' => '1'
+        ];
+
+      
+        $builder2 = $this->db->table('User')->insert($root);
     }
 }

@@ -54,22 +54,22 @@ $routes->get('sign', 'Home::sign');
 $routes->get('signRecords', 'Home::signRecords');
 $routes->get('project', 'Home::project');
 $routes->get('accountLobby', 'Home::accountLobby');
-// $routes->get('accountCreate', 'Home::accountCreate');
 
-// $routes->get('/', 'Home::index');
+
 $routes->get('pwa','Home::pwa');
 $routes->get('qrcode', 'QrcodeRender::index');
 $routes->get('pd', 'QrcodeRender::pdf');
 $routes->get('pdf', 'PdfController::index');
 $routes->get('htmlToPDF', 'PdfController::htmlToPDF');
 
+$routes->get('404', 'Home::errorPage');
 // Register Route
 //     // $routes->get('/(:num)', 'RegisterController::viewVaild/$1'); //清運司機註冊頁面
 //     // $routes->get('clearingCompany', 'RegisterController::clearingCompanyRegister'); //清運公司註冊頁面
 //     // $routes->get('containmentcompany', 'RegisterController::containmentcompanyRegister'); //收容公司註冊頁面
 //     // $routes->get('contractingcompany', 'RegisterController::contractingcompanyRegister'); //承造公司註冊頁面
 $routes->post('login', 'LoginController::LoginCheck'); //登入
-
+$routes->get('logout', 'LoginController::logout');
 $routes->get('drverRegister', 'Home::register'); //公開清運司機註冊頁面
 $routes->post('clearingDriver', 'RegisterController::clearingDriverRegister'); //公開清運司機註冊
 $routes->group(

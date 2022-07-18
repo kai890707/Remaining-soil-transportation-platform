@@ -13,15 +13,26 @@ class Home extends BaseController
         $this->userModel = new UserModel();
         $this->clearingCompanyModel = new ClearingCompanyModel();
     }
-
+ 
 
     public function index()
     {
+        if (session()->get("user_email")) {
+            return redirect()->to(base_url('/lobby'));
+        }
         $data = [
             "title"=> $this->title
         ];
         return view('home',$data);
     }
+    public function errorPage()
+    {
+        $data = [
+            "title"=> $this->title . '- 查無頁面'
+        ];
+        return view('404',$data);
+    }
+
     public function register()
     {
         $company = $this->clearingCompanyModel->getCompanyName();
