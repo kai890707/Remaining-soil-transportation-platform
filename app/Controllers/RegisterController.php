@@ -15,7 +15,7 @@ use App\Models\ContractingCompanyModel;
  */
 
 class RegisterController extends BaseController
-{   
+{
     protected $userModel;
     protected $clearingCompanyModel;
     protected $clearingDriverModel;
@@ -27,12 +27,12 @@ class RegisterController extends BaseController
     {
         $this->userModel = new UserModel();
         $this->clearingCompanyModel = new ClearingCompanyModel();
-        $this->clearingDriverModel = new ClearingDriverModel(); 
+        $this->clearingDriverModel = new ClearingDriverModel();
         $this->containmentCompanyModel = new ContainmentCompanyModel();
         $this->contractingCompanyModel = new ContractingCompanyModel();
         $this->db = db_connect();
     }
-    
+
     /**
      * register index
      *
@@ -78,40 +78,34 @@ class RegisterController extends BaseController
         $driverLicensePlate = $this->request->getPostGet('driver_licensePlate');
         $driverPhone = $this->request->getPostGet('driver_phone');
         $driverBloodType = $this->request->getPostGet('driver_bloodType');
-        $clearingCompanyUniformNumbers = $this->request->getPostGet('clearingCompany_uniformNumbers');
+        $clerringCompanyId = $this->request->getPostGet('clearingCompanyId');
 
         if($this->userModel->where('user_email',$email)->first()){
             $response=[
                 'status' => 'fail',
                 'message' => '此Email已存在'
             ];
-        }else if(!$this->clearingCompanyModel->where('clearingCompany_uniformNumbers',$clearingCompanyUniformNumbers)->first()){
-            $response=[
-                'status' => 'fail',
-                'message' => '公司統編不存在'
-            ];
         }else{
-            $findClearCompanyId = $this->clearingCompanyModel->where('clearingCompany_uniformNumbers',$clearingCompanyUniformNumbers)->first();
             $data = [
                 'user_email' => $email,
                 'user_password' => $password,
-                'user_permission' => $this::$permissionIdByClearingDriver,
+                'permission_id' => $this::$permissionIdByClearingDriver,
             ];
             $insertUser = $this->userModel->insert($data);
             if($insertUser){
-                $getUserId = $insertUser->getInsertID();
+                $getUserId = $insertUser;
                 $driverData=[
                     'clearingDriver_name' => $driverName,
                     'clearingDriver_identityCard' => $driverIdentityCard,
                     'clearingDriver_licensePlate' => $driverLicensePlate,
                     'clearingDriver_phone' => $driverPhone,
                     'clearingDriver_bloodType' => $driverBloodType,
-                    'clearingCompany_id ' => $findClearCompanyId['clearingCompany_id'],
+                    'clearingCompany_id' => $clerringCompanyId,
                     'user_id' => $getUserId,
                     'permission_id' => $this::$permissionIdByClearingDriver,
                 ];
 
-                if($this->clearingDriverModel->save($driverData)){
+                if($this->clearingDriverModel->insert($driverData)){
                     $response=[
                         'status' => 'success',
                         'message' => '註冊成功'
@@ -123,8 +117,8 @@ class RegisterController extends BaseController
                     ];
                 }
             }
-            return $this->response->setJSON($response);
         }
+        return $this->response->setJSON($response);
     }
 
     /**
@@ -142,7 +136,6 @@ class RegisterController extends BaseController
         $clearingCompanyIdentityCard = $this->request->getPostGet('clearingCompany_identityCard');
         $clearingCompanyPhone = $this->request->getPostGet('clearingCompany_phone');
         $clearingCompanyAddress = $this->request->getPostGet('clearingCompany_address');
-
 
         if($this->userModel->where('user_email',$email)->first()){
             $response=[
@@ -171,7 +164,7 @@ class RegisterController extends BaseController
                 'clearingCompany_principalName' => $clearingCompanyPrincipalName,
                 'clearingCompany_identityCard' => $clearingCompanyIdentityCard,
                 'clearingCompany_phone' => $clearingCompanyPhone,
-                'clearingCompany_address ' => $clearingCompanyAddress,
+                'clearingCompany_address' => $clearingCompanyAddress,
                 'user_id' => $getUserId,
                 'permission_id' => $this::$permissionIdByClearingCompany,
             ];
@@ -187,7 +180,7 @@ class RegisterController extends BaseController
                     'message' => '註冊失敗'
                 ];
             }
-            
+
 
         }
         return $this->response->setJSON($response);
@@ -208,7 +201,7 @@ class RegisterController extends BaseController
         $containmentCompanyPrincipalPhone = $this->request->getPostGet('containmentCompany_principalPhone');
         $containmentCompanyPlaceAddress = $this->request->getPostGet('containmentCompany_placeAddress');
         $containmentCompanyAddress = $this->request->getPostGet('containmentCompany_address');
-        
+
         if($this->userModel->where('user_email',$email)->first()){
             $response=[
                 'status' => 'fail',
@@ -223,12 +216,12 @@ class RegisterController extends BaseController
             $data = [
                 'user_email' => $email,
                 'user_password' => $password,
-                'user_permission' => $this::$permissionIdByContainmentCompany,
+                'permission_id' => $this::$permissionIdByContainmentCompany,
             ];
 
             $insertUser = $this->userModel->insert($data);
             if($insertUser){
-                $getUserId = $insertUser->getInsertID();
+                $getUserId = $insertUser;
             }
 
             $companyData=[
@@ -237,12 +230,12 @@ class RegisterController extends BaseController
                 'containmentCompany_principalName' => $containmentCompanyPrincipalName,
                 'containmentCompany_principalPhone' => $containmentCompanyPrincipalPhone,
                 'containmentCompany_placeAddress' => $containmentCompanyPlaceAddress,
-                'containmentCompany_address ' => $containmentCompanyAddress,
+                'containmentCompany_address' => $containmentCompanyAddress,
                 'user_id' => $getUserId,
                 'permission_id' => $this::$permissionIdByContainmentCompany,
             ];
 
-            if($this->clearingCompanyModel->save($companyData)){
+            if($this->containmentCompanyModel->insert($companyData)){
                 $response=[
                     'status' => 'success',
                     'message' => '註冊成功'
@@ -274,8 +267,8 @@ class RegisterController extends BaseController
         $contractingContractWatcherName = $this->request->getPostGet('contracting_contractWatcherName');
         $contractingContractWatcherPhone = $this->request->getPostGet('contracting_contractWatcherPhone');
         $contractingCompanyAddress = $this->request->getPostGet('contracting_companyAddress');
-        
-           
+
+
 
         if($this->userModel->where('user_email',$email)->first()){
             $response=[
@@ -299,7 +292,7 @@ class RegisterController extends BaseController
             if($insertUser){
                 $getUserId = $insertUser;
             }
-      
+
             $companyData=[
                 'contracting_companyName' => $contractingCompanyName,
                 'contracting_uniformNumbers' => $contractingUniformNumbers,
@@ -327,6 +320,6 @@ class RegisterController extends BaseController
 
         return $this->response->setJSON($response);
     }
-   
+
 
 }

@@ -68,21 +68,26 @@ $routes->get('htmlToPDF', 'PdfController::htmlToPDF');
 //     // $routes->get('clearingCompany', 'RegisterController::clearingCompanyRegister'); //清運公司註冊頁面
 //     // $routes->get('containmentcompany', 'RegisterController::containmentcompanyRegister'); //收容公司註冊頁面
 //     // $routes->get('contractingcompany', 'RegisterController::contractingcompanyRegister'); //承造公司註冊頁面
-
+$routes->post('login', 'LoginController::LoginCheck'); //登入
 $routes->group(
     'register',
     [
         'namespace' => 'App\Controllers',
+
     ],
     function (\CodeIgniter\Router\RouteCollection $routes) {
-        $routes->get('/', 'RegisterController::index'); 
-        $routes->get('(:num)', 'RegisterController::viewVaild/$1'); 
+        $routes->get('/', 'RegisterController::index');
+        $routes->get('(:num)', 'RegisterController::viewVaild/$1');
         $routes->post('clearingDriver', 'RegisterController::clearingDriverRegister'); //清運司機註冊
         $routes->post('clearingCompany', 'RegisterController::clearingCompanyRegister'); //清運公司註冊
         $routes->post('containmentcompany', 'RegisterController::containmentcompanyRegister'); //收容公司註冊
         $routes->post('contractingcompany', 'RegisterController::contractingcompanyRegister'); //承造公司註冊
     }
 );
+
+
+
+
 
 /*
  * --------------------------------------------------------------------
