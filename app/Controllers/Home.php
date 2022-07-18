@@ -1,10 +1,20 @@
 <?php
 
 namespace App\Controllers;
-
+use App\Models\ClearingCompanyModel;
+use App\Models\UserModel;
 class Home extends BaseController
 {
     public $title = '營建剩餘土石方憑證系統';
+    protected $clearingCompanyModel;
+    protected $userModel;
+    public function __construct()
+    {
+        $this->userModel = new UserModel();
+        $this->clearingCompanyModel = new ClearingCompanyModel();
+    }
+
+
     public function index()
     {
         $data = [
@@ -14,10 +24,68 @@ class Home extends BaseController
     }
     public function register()
     {
+        $company = $this->clearingCompanyModel->getCompanyName();
         $data = [
-            "title" => $this->title.' - 司機註冊'
+            "title" => $this->title.' - 司機註冊',
+            "company"=>$company
         ];
         return view('register', $data); 
+    }
+    /**
+     * 清運司機註冊
+     *
+     * @return json
+     */
+    public function clearingDriverRegister()
+    {
+        $email = $this->request->getPostGet('user_email');
+        $password = sha1($this->request->getPostGet('user_password'));
+        $driverName = $this->request->getPostGet('driver_name');
+        $driverIdentityCard = $this->request->getPostGet('driver_identityCard');
+        $driverLicensePlate = $this->request->getPostGet('driver_licensePlate');
+        $driverPhone = $this->request->getPostGet('driver_phone');
+        $driverBloodType = $this->request->getPostGet('driver_bloodType');
+        $clerringCompanyId = $this->request->getPostGet('clearingCompanyId');
+
+        if($this->userModel->where('user_email',$email)->first()){
+            $response=[
+                'status' => 'fail',
+                'message' => '此Email已存在'
+            ];
+        }else{
+            $data = [
+                'user_email' => $email,
+                'user_password' => $password,
+                'permission_id' => $this::$permissionIdByClearingDriver,
+            ];
+            $insertUser = $this->userModel->insert($data);
+            if($insertUser){
+                $getUserId = $insertUser;
+                $driverData=[
+                    'clearingDriver_name' => $driverName,
+                    'clearingDriver_identityCard' => $driverIdentityCard,
+                    'clearingDriver_licensePlate' => $driverLicensePlate,
+                    'clearingDriver_phone' => $driverPhone,
+                    'clearingDriver_bloodType' => $driverBloodType,
+                    'clearingCompany_id' => $clerringCompanyId,
+                    'user_id' => $getUserId,
+                    'permission_id' => $this::$permissionIdByClearingDriver,
+                ];
+
+                if($this->clearingDriverModel->insert($driverData)){
+                    $response=[
+                        'status' => 'success',
+                        'message' => '註冊成功'
+                    ];
+                }else{
+                    $response=[
+                        'status' => 'fail',
+                        'message' => '註冊失敗'
+                    ];
+                }
+            }
+        }
+        return $this->response->setJSON($response);
     }
 
     public function lobby()
@@ -96,6 +164,15 @@ class Home extends BaseController
             "title" => $this->title . ' - 超級帳號(子身分註冊)'
         ];
         return view('user_root/accountCreate', $data);
+    }
+    /**
+     * 公開路由司機註冊
+     *
+     * @return void
+    */     
+    public function registerByDriver()
+    {
+        # code...
     }
     public function pwa()
     {

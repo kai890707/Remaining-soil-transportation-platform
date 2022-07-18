@@ -39,6 +39,53 @@
         <input type="text" class="form-control" id="containmentCompany_address" name="containmentCompany_address">
     </div>
     <div class="d-grid gap-2">
-    <button class="btn btn-primary" type="button">註冊</button>
+    <button class="btn btn-primary" type="submit">註冊</button>
     </div>
 </form>
+
+<script>
+    $("form[id='shelter_register_form']").submit(function(e) {
+        e.preventDefault();
+        var formData = new FormData(document.getElementById('shelter_register_form'));
+        if (checkRegister(formData)) return;
+        BaseLib.Post("/register/containmentcompany",formData).then(
+            (res)=>{
+                BaseLib.ResponseCheck(res).then(()=>{
+                    if(res.status =="success"){
+                        window.location=BaseLib.base_Url
+                    }
+                })
+            },
+            (err)=>{
+                console.log(err);
+            })
+    })
+    function checkRegister(formData) {
+        if(formData.get('user_password')!== formData.get('re_user_password')){
+            Swal.fire(
+                '輸入錯誤!',
+                '二次輸入的密碼不符合!',
+                'info'
+            )
+            return true;
+        }
+        if(formData.get('user_password').length<=6){
+            Swal.fire(
+                '提醒!',
+                '密碼必須大於6個英文字!',
+                'info'
+            )
+            return true;
+        }
+        if(isNaN(formData.get('containmentCompany_principalPhone'))){
+            Swal.fire(
+                '提醒!',
+                '電話必須使用數字!',
+                'info'
+            )
+            return true;
+        }
+        return false;
+    }
+
+</script>

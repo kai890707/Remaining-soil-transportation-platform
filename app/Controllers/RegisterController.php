@@ -47,6 +47,8 @@ class RegisterController extends BaseController
         return view('user_root/accountCreate', $data);
     }
 
+
+
     /**
      * 註冊頁面判斷
      *
@@ -56,10 +58,20 @@ class RegisterController extends BaseController
     public function viewVaild($permissionId=null)
     {
         if($permissionId == null){ $permissionId = 6;}
-        $data = [
-            "title" => "營建剩餘土石方憑證系統 - 身分註冊",
-            "key"   => $permissionId
-        ];
+        if($permissionId == 4){
+            $company = $this->clearingCompanyModel->getCompanyName();
+            $data = [
+                "title" => "營建剩餘土石方憑證系統 - 身分註冊",
+                "key"   => $permissionId,
+                "company"=>$company
+            ];
+        }else{
+            $data = [
+                "title" => "營建剩餘土石方憑證系統 - 身分註冊",
+                "key"   => $permissionId
+            ];
+        }
+        
         return view('user_root/accountCreate', $data);
 
     }

@@ -36,7 +36,7 @@
                 </div>
                 <div class="d-grid gap-2">
                     <button type="button" class="btn btn-primary btn-lg" id="login">登入</button>
-                    <a type="button" class="btn btn-secondary btn-lg" href="<?php echo base_url('register') ?>">清運司機註冊</a>
+                    <a type="button" class="btn btn-secondary btn-lg" href="<?php echo base_url('drverRegister') ?>">清運司機註冊</a>
                 </div>
 
             </form>

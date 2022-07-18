@@ -18,4 +18,9 @@ class ClearingCompanyModel extends Model{
         'created_at',
         'updated_date',
     ];
+
+    public function getCompanyName()
+    {
+       return $this->select('clearingCompany_id,clearingCompany_name')->find();
+    }
 }

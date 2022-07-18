@@ -30,7 +30,7 @@
                 <?php   break;
                         case '4':
                 ?>
-                            <?=$this->include('registerMain_component/drive')?>
+                            <?=$this->include('registerMain_component/driver')?>
                 <?php   break;
                         case '5':
                 ?>

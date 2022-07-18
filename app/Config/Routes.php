@@ -40,7 +40,7 @@ $routes->set404Override();
 //view
 
 $routes->get('/','Home::index');
-// $routes->get('register', 'Home::register');
+
 
 
 //測試
@@ -69,11 +69,12 @@ $routes->get('htmlToPDF', 'PdfController::htmlToPDF');
 //     // $routes->get('containmentcompany', 'RegisterController::containmentcompanyRegister'); //收容公司註冊頁面
 //     // $routes->get('contractingcompany', 'RegisterController::contractingcompanyRegister'); //承造公司註冊頁面
 $routes->post('login', 'LoginController::LoginCheck'); //登入
+$routes->get('drverRegister', 'Home::register'); //公開清運司機註冊頁面
+$routes->post('clearingDriver', 'RegisterController::clearingDriverRegister'); //公開清運司機註冊
 $routes->group(
     'register',
     [
         'namespace' => 'App\Controllers',
-
     ],
     function (\CodeIgniter\Router\RouteCollection $routes) {
         $routes->get('/', 'RegisterController::index');

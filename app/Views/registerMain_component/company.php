@@ -51,7 +51,7 @@
             (res)=>{
                 BaseLib.ResponseCheck(res).then(()=>{
                     if(res.status =="success"){
-                        // window.location=BaseLib.base_Url
+                        window.location=BaseLib.base_Url
                     }
                 })
             },
