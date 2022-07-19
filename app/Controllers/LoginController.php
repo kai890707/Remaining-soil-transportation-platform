@@ -35,6 +35,8 @@ class LoginController extends BaseController
 
     public function LoginCheck()
     {
+
+
         $data = $this->request->getVar();
         $email = $this->request->getPostGet('user_email');
         $password = sha1($this->request->getPostGet('user_password'));
@@ -59,7 +61,6 @@ class LoginController extends BaseController
     public function LoginAndSetSession($user_id,$user_email,$permission_id)
     {
 
-        
         $response=[
             'status' => 'success',
             'message' => '成功',
@@ -111,6 +112,9 @@ class LoginController extends BaseController
                 'message' => '登入失敗'
             ];
         }
+
+
+
 
         return $this->response->setJSON($response);
 

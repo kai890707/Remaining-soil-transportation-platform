@@ -12,6 +12,8 @@ use chillerlan\QRCode\QROptions;
 use TCPDF;
 class QrcodeRender extends BaseController
 {
+
+
     public function index()
     {
 
@@ -57,7 +59,7 @@ class QrcodeRender extends BaseController
         header('Content-type: image/png');
 
         return (new QRCode($options))->render($data);
-        // return '<img src="' . (new QRCode())->render($data) . '" alt="QR Code" />'; 
+        // return '<img src="' . (new QRCode())->render($data) . '" alt="QR Code" />';
         // var_dump((new QRCode())->render($data));
     }
 
@@ -115,9 +117,12 @@ EOD;
 
         // ---------------------------------------------------------
  $this->response->setHeader("Content-Type", "application/pdf");
-   
+
         //Close and output PDF document
         $pdf->Output('test1020.pdf', 'I');
-       
+
     }
+
+
+
 }

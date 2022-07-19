@@ -66,4 +66,25 @@ abstract class BaseController extends Controller
     static $permissionIdByContainmentCompany = "5" ;
     static $permissionIdByGovernment = "6" ;
 
+
+    protected function getImageUrl($fileName)
+    {
+        return base_url('/assets/images').DIRECTORY_SEPARATOR . $fileName;
+    }
+
+    protected function getImagePath($fileName)
+    {
+        return  PUBLIC_PATH . DIRECTORY_SEPARATOR . 'assets'. DIRECTORY_SEPARATOR .'images' . DIRECTORY_SEPARATOR . $fileName;
+    }
+
+    protected function qrcodeUpload($base64)
+    {
+        $fileName =md5(uniqid()).'.jpg';
+        $qrCodeBase64 =base64_decode($base64);
+        $qrCodePath = $this->getImagePath($fileName);
+        if(file_put_contents($qrCodePath,$qrCodeBase64) === false)
+            return false;
+        return $fileName;
+    }
+
 }

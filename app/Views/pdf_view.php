@@ -22,23 +22,23 @@
         table{
             max-width: 2480px;
             border-collapse: collapse;
-            width:100%;     
-            overflow: hidden; 
+            width:100%;
+            overflow: hidden;
              word-wrap: break-word;
         }
        td,th{
             width: 25%;
-      
+
             border: 1px solid #000;
             text-align: left;
             padding:auto;
             padding-left: 5px;
-          
+
         }
         .sign{
            height:50px !important;
         }
-  
+
 </style>
 </head>
 
@@ -63,7 +63,7 @@
             <td rowspan="2">Centro comercial Moctezuma</td>
             <td>工程餘土流向管制編號</td>
             <td>Mexico</td>
-            
+
         </tr>
         <tr>
             <td>建造號碼</td>
@@ -109,7 +109,7 @@
         </tr>
         <tr>
             <td>剩餘土石載運數量</td>
-            <td> 
+            <td>
                 <span style="padding-left:30px;">立方公尺或</span>
                  <span style="padding-left:30px;">公噸</span>
              </td>
@@ -122,7 +122,7 @@
             <td>合法收容處理場所剩餘土石方流向</td>
             <td>Italy</td>
         </tr>
-        
+
     </table>
     <table width="100%" style="table-layout:fixed">
         <tr>
@@ -131,7 +131,7 @@
             <td width="20%">駕駛人簽名</td>
             <td width="20%">合法收容處理場所簽名</td>
             <td rowspan="2" width="20%">
-                <!-- <?php 
+                <!-- <?php
                     $path = 'assets/images/fakeQR.jpg';
                     $type = pathinfo($path, PATHINFO_EXTENSION);
                     $data = file_get_contents($path);
@@ -157,7 +157,7 @@
         </tr>
     </table>
     </div>
-    
+
 
 </body>
 
