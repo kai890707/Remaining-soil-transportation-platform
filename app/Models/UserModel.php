@@ -13,4 +13,6 @@ class UserModel extends Model{
         'created_at',
         'updated_date',
     ];
+
+ 
 }
