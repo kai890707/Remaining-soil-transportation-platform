@@ -23,4 +23,10 @@ class ClearingCompanyModel extends Model{
     {
        return $this->select('clearingCompany_id,clearingCompany_name')->find();
     }
+
+    public function getCompanyData()
+    {
+
+        return $this->where('clearingCompany_id',session()->get('clearingCompany_id'))->first();
+    }
 }

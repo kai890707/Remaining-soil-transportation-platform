@@ -18,4 +18,9 @@ class ContainmentCompanyModel extends Model{
         'created_at',
         'updated_date',
     ];
+    public function getCompanyData()
+    {
+
+        return $this->where('containmentCompany_id',session()->get('containmentCompany_id'))->first();
+    }
 }

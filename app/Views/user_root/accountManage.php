@@ -17,6 +17,9 @@
 <div class="container">
     <div class="row mt-4 p-0  ">
          <div class=" col-11 bg-light shadow p-3 m-1  mx-auto ">
+            <div class="d-grid gap-2 d-md-block mb-4">
+                <button class="btn btn-secondary" type="button" onclick="history.back()">回上頁</button>
+            </div>
             <table class="table table-striped fs-5">
                 <thead>
                     <tr>

@@ -83,6 +83,10 @@ $routes->group(
         $routes->post('contractingcompany', 'RegisterController::contractingcompanyRegister'); //承造公司註冊
     }
 );
+
+/**
+ * Root 路由
+ */
 $routes->group(
     'root',
     [
@@ -94,9 +98,67 @@ $routes->group(
        $routes->get('accountManage', 'RootController::accountManage');
     }
 );
+/**
+ * 承造廠商路由
+ */
+$routes->group(
+    'contract',
+    [
+        'namespace' => 'App\Controllers',
+        'filter' => 'contract'
+    ],
+    function (\CodeIgniter\Router\RouteCollection $routes) {
+        $routes->get('companyInfoView', 'ContractController::companyInfoView');
+        $routes->get('personalView', 'ContractController::personalView');
+        $routes->post('personalUpdate', 'ContractController::personalUpdate');
+    }
+);
+/**
+ * 清運公司路由
+ */
+$routes->group(
+    'clearingCompany',
+    [
+        'namespace' => 'App\Controllers',
+        'filter' => 'company'
+    ],
+    function (\CodeIgniter\Router\RouteCollection $routes) {
+        $routes->get('companyInfoView', 'ClearingCompanyController::companyInfoView');
+        $routes->get('personalView', 'ClearingCompanyController::personalView');
+        $routes->post('personalUpdate', 'ClearingCompanyController::personalUpdate');
+    }
+);
+/**
+ * 清運司機路由
+ */
+$routes->group(
+    'clearingDriver',
+    [
+        'namespace' => 'App\Controllers',
+        'filter' => 'driver'
+    ],
+    function (\CodeIgniter\Router\RouteCollection $routes) {
+        $routes->get('companyInfoView', 'DriverController::companyInfoView');
+        $routes->get('personalView', 'DriverController::personalView');
+        $routes->post('personalUpdate', 'DriverController::personalUpdate');
+    }
+);
 
-
-
+/**
+ * 收容場所路由
+ */
+$routes->group(
+    'containment',
+    [
+        'namespace' => 'App\Controllers',
+        'filter' => 'shelter'
+    ],
+    function (\CodeIgniter\Router\RouteCollection $routes) {
+        $routes->get('companyInfoView', 'ContainmentController::companyInfoView');
+        $routes->get('personalView', 'ContainmentController::personalView');
+        $routes->post('personalUpdate', 'ContainmentController::personalUpdate');
+    }
+);
 
 
 

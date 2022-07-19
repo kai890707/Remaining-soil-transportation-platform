@@ -1,32 +1,28 @@
 <div class="mb-3">
     <label for="company_name" class="form-label">公司名稱</label>
-    <input type="text" class="form-control" id="company_name" name="company_name">
+    <input type="text" class="form-control" id="company_name" name="clearingCompany_name" value="<?php echo $info['clearingCompany_name']?>" disabled>
 </div>
 <div class="mb-3">
     <label for="company_number" class="form-label">公司統編</label>
-    <input type="text" class="form-control" id="company_number" name="company_number">
+    <input type="text" class="form-control" id="company_number" name="clearingCompany_uniformNumbers"  value="<?php echo $info['clearingCompany_uniformNumbers']?>" disabled>
 </div>
 <div class="mb-3">
-    <label for="boss_name" class="form-label">承造人姓名</label>
-    <input type="text" class="form-control" id="boss_name" name="boss_name">
+    <label for="boss_name" class="form-label">負責人姓名</label>
+    <input type="text" class="form-control" id="boss_name" name="clearingCompany_principalName"  value="<?php echo $info['clearingCompany_principalName']?>">
 </div>
 <div class="mb-3">
-    <label for="boss_phone" class="form-label">承造人電話</label>
-    <input type="text" class="form-control" id="boss_phone" name="boss_phone">
+    <label for="id_number" class="form-label">身分證號碼</label>
+    <input type="text" class="form-control" id="id_number" name="clearingCompany_identityCard"  value="<?php echo $info['clearingCompany_identityCard']?>">
 </div>
 <div class="mb-3">
-    <label for="watcher_name" class="form-label">監造人姓名</label>
-    <input type="text" class="form-control" id="watcher_name" name="watcher_name">
+    <label for="phone" class="form-label">聯絡電話</label>
+    <input type="text" class="form-control" id="phone" name="clearingCompany_phone"  value="<?php echo $info['clearingCompany_phone']?>">
 </div>
 <div class="mb-3">
-    <label for="watcher_phone" class="form-label">監造人電話</label>
-    <input type="text" class="form-control" id="watcher_phone" name="watcher_phone">
-</div>
-<div class="mb-3">
-    <label for="company_address" class="form-label">公司地址</label>
-    <input type="text" class="form-control" id="company_address" name="company_address">
+    <label for="company_address" class="form-label">清運公司地址</label>
+    <input type="text" class="form-control" id="company_address" name="clearingCompany_address"  value="<?php echo $info['clearingCompany_address']?>">
 </div>
 <div class="d-grid gap-2 d-md-block">
-    <button class="btn btn-danger" type="button">保存</button>
-    <button class="btn btn-secondary" type="button">取消</button>
+    <button class="btn btn-danger" type="submit">保存</button>
+    <button class="btn btn-secondary" type="button" onclick="history.back()">回上頁</button>
 </div>

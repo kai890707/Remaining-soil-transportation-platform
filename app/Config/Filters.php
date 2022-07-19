@@ -25,6 +25,11 @@ class Filters extends BaseConfig
         'secureheaders' => SecureHeaders::class,
         'login' => \App\Filters\LoginFitler::class,
         'root'=> \App\Filters\RootFilter::class,
+        'company'=> \App\Filters\CompanyFilter::class,
+        'contract'=> \App\Filters\ContractFilter::class,
+        'driver'=> \App\Filters\DriverFilter::class,
+        'government'=> \App\Filters\GovernmentFilter::class,
+        'shelter'=> \App\Filters\ShelterFilter::class,
     ];
 
     /**

@@ -19,4 +19,9 @@ class ContractingCompanyModel extends Model{
         'created_at',
         'updated_date',
     ];
+    public function getCompanyData()
+    {
+
+        return $this->where('contracting_id',session()->get('contracting_id'))->first();
+    }
 }

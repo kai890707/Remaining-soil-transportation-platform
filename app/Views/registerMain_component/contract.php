@@ -4,7 +4,7 @@
 <form id="contract_register_form">
     <div class="mb-3">
         <label for="user_email" class="form-label">使用者帳號</label>
-        <input type="text" class="form-control" id="user_email" name="user_email" required>
+        <input type="email" class="form-control" id="user_email" name="user_email" required>
     </div>
     <div class="mb-3">
         <label for="user_password" class="form-label">使用者密碼 <span class="text-danger">*密碼長度需大於6個字</span></label>

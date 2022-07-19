@@ -16,8 +16,8 @@ class RootController extends Controller
     }
     public function accountLobby()
     {
-         $data = [
-            "title" => $this->title . ' - 超級帳號(子身分註冊)'
+        $data = [
+            "title" => $this->title . ' - 超級帳號'
         ];
         return view('user_root/accountLobby', $data);
     }
@@ -39,7 +39,7 @@ class RootController extends Controller
                             ->paginate(10),
             'pager' => $this->userModel->pager,
         ];
-        echo view('user_root/accountManage', $data);
+        return view('user_root/accountManage', $data);
     }
        
        

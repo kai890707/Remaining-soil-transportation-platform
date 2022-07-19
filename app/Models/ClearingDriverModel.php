@@ -18,4 +18,9 @@ class ClearingDriverModel extends Model{
         'created_at',
         'updated_date',
     ];
+    public function getDriverData()
+    {
+
+        return $this->where('clearingDriver_id',session()->get('clearingDriver_id'))->first();
+    }
 }
