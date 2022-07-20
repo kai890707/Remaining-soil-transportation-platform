@@ -13,7 +13,11 @@ class Home extends BaseController
         $this->userModel = new UserModel();
         $this->clearingCompanyModel = new ClearingCompanyModel();
     }
- 
+    
+    public function qrtest()
+    {
+        
+    }
 
     public function index()
     {

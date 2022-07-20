@@ -55,8 +55,7 @@ $routes->get('signRecords', 'Home::signRecords');
 $routes->get('project', 'Home::project');
 $routes->get('pwa','Home::pwa');
 $routes->get('qrcode', 'QrcodeRender::index');
-$routes->get('pd', 'QrcodeRender::pdf');
-$routes->get('pdf', 'PdfController::index');
+
 $routes->get('htmlToPDF', 'PdfController::htmlToPDF');
 //
 
@@ -65,7 +64,7 @@ $routes->get('logout', 'LoginController::logout');
 $routes->get('drverRegister', 'Home::register'); //公開清運司機註冊頁面
 $routes->post('clearingDriver', 'RegisterController::clearingDriverRegister'); //公開清運司機註冊
 $routes->get('404', 'Home::errorPage'); //404頁面
-
+$routes->get('base', 'Home::qrtest'); //404頁面
 
 
 $routes->group(
