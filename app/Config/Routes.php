@@ -55,6 +55,7 @@ $routes->get('signRecords', 'Home::signRecords');
 $routes->get('project', 'Home::project');
 $routes->get('pwa','Home::pwa');
 $routes->get('qrcode', 'QrcodeRender::index');
+$routes->get('baseTest', 'QrcodeRender::baseTest');
 
 $routes->get('htmlToPDF', 'PdfController::htmlToPDF');
 //
