@@ -20,6 +20,17 @@
 </div>
 <div class="container">
     <div class="row mt-4 p-0  ">
+         <div class=" col-11 bg-light shadow p-4 m-1  mx-auto shadow rounded">
+            <div class="row text-break d-flex align-items-center justify-content-center">
+                <div class="col-5 border-end ">
+                    <p class="m-0 text-center">新增聯單</p>
+                </div>
+                <div class="col-7 border-end text-center">
+                    <button type="button" class="btn btn-outline-success"   onclick="location.href='<?php echo base_url('contract/documentCreate').'/'.$projectInfo['engineering_id']?>'">新增聯單</button> 
+                </div>
+                
+            </div>
+        </div>
         <div class=" col-11 bg-light shadow p-4 m-1  mx-auto shadow rounded">
             <div class="row text-break">
                 <div class="col-5 border-end ">
@@ -42,20 +53,21 @@
                     <p class="m-0 text-center">完成進場收容</p>
                 </div>
                 <div class="col-7 border-end">
-                    <p class="m-0 text-center">12345646</p>
+                    <p class="m-0 text-center"><?php echo $countArray["Shelter"]?></p>
                 </div>
             </div>
         </div>
+       
         <div class=" col-11 bg-light shadow p-4 m-1  mx-auto shadow rounded">
             <div class="row text-break d-flex align-items-center justify-content-center">
                 <div class="col-4 border-end ">
                     <p class="m-0 text-center">未使用聯單</p>
                 </div>
                 <div class="col-4 border-end ">
-                    <p class="m-0 text-center">186151616163</p>
+                    <p class="m-0 text-center"><?php echo $countArray["Create"]?></p>
                 </div>
                 <div class="col-4  text-center">
-                    <button class="btn btn-outline-success ">查看</button>
+                    <button class="btn btn-outline-success " onclick="location.href='<?php echo base_url('document').'/'.$projectInfo['engineering_id'].'/1'?>'">查看</button>
                 </div>
             </div>
         </div>
@@ -65,10 +77,10 @@
                     <p class="m-0 text-center">承造已使用</p>
                 </div>
                 <div class="col-4 border-end ">
-                    <p class="m-0 text-center">1861516516</p>
+                    <p class="m-0 text-center"><?php echo $countArray["Contract"]?></p>
                 </div>
                 <div class="col-4  text-center">
-                    <button class="btn btn-outline-success">查看</button>
+                    <button class="btn btn-outline-success" onclick="location.href='<?php echo base_url('document').'/'.$projectInfo['engineering_id'].'/2'?>'">查看</button>
                 </div>
             </div>
         </div>
@@ -78,10 +90,10 @@
                     <p class="m-0 text-center">清運已使用</p>
                 </div>
                 <div class="col-4 border-end">
-                    <p class="m-0 text-center">1861516516</p>
+                    <p class="m-0 text-center"><?php echo $countArray["Driver"]?></p>
                 </div>
                 <div class="col-4  text-center">
-                    <button class="btn btn-outline-success">查看</button>
+                    <button class="btn btn-outline-success" onclick="location.href='<?php echo base_url('document').'/'.$projectInfo['engineering_id'].'/3'?>'">查看</button>
                 </div>
             </div>
         </div>

@@ -10,8 +10,8 @@
     <div class="container">
         <div class="row">
             <div class="col-12 mx-auto p-4">
-                <h1 class="display-4 fw-bold text-white text-shadow">工程流向編號清單</h1>
-                <p class="lead fw-bold text-white text-shadow p-0 m-0">Document List</p>
+                <h1 class="display-4 fw-bold text-white text-shadow"><?= esc($subTitle)?></h1>
+                <p class="lead fw-bold text-white text-shadow p-0 m-0"><?= esc($enSubTitle)?></p>
             </div>
         </div>
 
@@ -20,59 +20,32 @@
 </div>
 <div class="container">
     <div class="row mt-4 p-0  ">
+       
         <div class=" col-11 bg-light shadow p-4 m-1  mx-auto shadow rounded">
+        
+                <button class="btn btn-primary" onclick="history.back()">回上頁</button>
             
-        </div>
-        <div class=" col-11 bg-light shadow p-4 m-1  mx-auto shadow rounded">
-            <div class="row text-break d-flex align-items-center justify-content-center">
-                <div class="col-4 border-end ">
-                    <p class="m-0 text-center">未使用聯單</p>
-                </div>
-                <div class="col-4 border-end ">
-                    <p class="m-0 text-center">186151616163</p>
-                </div>
-                <div class="col-4  text-center">
-                    <button class="btn btn-outline-success ">查看</button>
-                </div>
-            </div>
-        </div>
-        <div class=" col-11 bg-light shadow p-4 m-1  mx-auto shadow rounded">
-            <div class="row text-break d-flex align-items-center justify-content-center">
-                <div class="col-4 border-end ">
-                    <p class="m-0 text-center">承造已使用</p>
-                </div>
-                <div class="col-4 border-end ">
-                    <p class="m-0 text-center">1861516516</p>
-                </div>
-                <div class="col-4  text-center">
-                    <button class="btn btn-outline-success">查看</button>
-                </div>
-            </div>
-        </div>
-        <div class=" col-11 bg-light shadow p-4 m-1  mx-auto shadow rounded">
-            <div class="row text-break d-flex align-items-center justify-content-center">
-                <div class="col-4 border-end ">
-                    <p class="m-0 text-center">清運已使用</p>
-                </div>
-                <div class="col-4 border-end">
-                    <p class="m-0 text-center">1861516516</p>
-                </div>
-                <div class="col-4  text-center">
-                    <button class="btn btn-outline-success">查看</button>
-                </div>
-            </div>
-        </div>
-        <div class=" col-11 bg-light shadow p-4 m-1  mx-auto shadow rounded">
-            <div class="row text-break d-flex align-items-center justify-content-center">
-                <div class="col-4 border-end">
-                    <p class="m-0 text-center">聯單總數量</p>
-                </div>
-                <div class="col-4 border-end">
-                    <p class="m-0 text-center">1861516516</p>
-                </div>
-                <div class="col-4  text-center">
-                    <button class="btn btn-outline-success">查看</button>
-                </div>
+             <table class="table table-striped fs-5">
+                <thead>
+                    <tr>
+                        <th scope="col">聯單編號</th>
+                        <th scope="col">使用狀態</th>
+                        <th scope="col">操作</th>
+
+                    </tr>
+                </thead>
+                <tbody style="word-break: break-all;">
+                <?php foreach ($info as $i) {?>     
+                    <tr>
+                        <td><?php echo $i['pdf_fileNumber']?></td>
+                        <td><?php echo $i['status_remark']?></td>
+                        <td><button type="button" class="btn btn-outline-primary"  onclick="location.href='<?php echo base_url('document/showDocumentQrcode').'/'.$i['pdf_id']?>'" >查看</button></td>
+                    </tr> 
+                <?php }?>
+                </tbody>
+            </table>
+            <div class="d-flex justify-content-center align-items-center">
+                    <?= $pager->links() ?>  
             </div>
         </div>
 

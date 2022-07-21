@@ -10,7 +10,7 @@ class PdfDocumentModel extends Model{
         'pdf_fileNumber',
         'pdf_effectiveDate',
         'pdf_buildingName',
-        'pdf_constructtNumber',
+        'pdf_constructNumber',
         'pdf_buildingAddress',
         'pdf_starterName',
         'pdf_starterPhone',

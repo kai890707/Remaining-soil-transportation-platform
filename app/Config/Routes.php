@@ -123,7 +123,8 @@ $routes->group(
         $routes->get('projectCreate', 'EngineeringController::projectCreateView');
         $routes->post('projectCreate', 'EngineeringController::projectCreate');
         //聯單新增 view & post
-        $routes->get('documentCreate', 'ContractController::documentCreateView');
+        $routes->get('documentCreate/(:num)', 'ContractController::documentCreateView/$1');
+        $routes->post('insertEngineeringData', 'PdfController::insertEngineeringData');
 
     }
 );
@@ -198,8 +199,9 @@ $routes->group(
         'filter' => 'login'
     ],
     function (\CodeIgniter\Router\RouteCollection $routes) {
-        $routes->get('(:num)', 'DocumentController::index/$1',["filter" => "login"]); //聯單列表
-        $routes->get('(:num)/(:num)', 'DocumentController::useStatus/$1/$2',["filter" => "login"]); //聯單列表
+        $routes->get('(:num)', 'DocumentController::index/$1'); //聯單列表
+        $routes->get('(:num)/(:num)', 'DocumentController::useStatus/$1/$2'); //聯單列表
+        $routes->get('showDocumentQrcode/(:num)', 'DocumentController::showDocumentQrcode/$1'); //聯單列表
     }
 );
 

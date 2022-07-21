@@ -104,17 +104,18 @@ class ContractController extends Controller
         return $this->response->setJSON($response);
     }
     
-
     /**
      * [VIEW] 聯單新增
      *
+     * @param [INT] $project_id(工程ID)
      * @return view
      */
-    public function documentCreateView()
+    public function documentCreateView($project_id)
     {
         
         $data = [
-            "title" => $this->title . ' - 個人資訊',
+            "title" => $this->title . ' - 聯單新增',
+            "engineering_id" => $project_id
         ];
         
         return view('user_contract/documentCreate', $data);
