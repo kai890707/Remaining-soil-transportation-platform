@@ -23,6 +23,11 @@ class EngineeringManagement extends Migration
                 'constraint' => 255,
                 'comment' => '工程流向編號'
             ],
+            'contractCompany_id' =>[
+                'type' => 'INT',
+                'constraint' => 11,
+                'comment' => '承造公司外來鍵'
+            ],
             'created_at datetime default current_timestamp',
             'updated_date datetime default current_timestamp on update current_timestamp',
         ]);

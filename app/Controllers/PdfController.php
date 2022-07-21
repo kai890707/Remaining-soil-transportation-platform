@@ -6,6 +6,8 @@ use CodeIgniter\Controller;
 use App\Models\ContractingCompanyModel;
 use App\Models\EngineeringManagementModel;
 use App\Models\PdfDocumentModel;
+use App\Models\PermissionModel;
+
 
 class PdfController extends Controller
 {
@@ -13,6 +15,8 @@ class PdfController extends Controller
     protected $contractingCompanyModel;
     protected $engineeringManagementModel;
     protected $pdfDocumentModel;
+    protected $permissionModel;
+
     public function __construct()
     {
         $this->db = db_connect();
@@ -20,6 +24,7 @@ class PdfController extends Controller
         $this->contractingCompanyModel = new ContractingCompanyModel();
         $this->engineeringManagementModel = new EngineeringManagementModel();
         $this->pdfDocumentModel = new PdfDocumentModel();
+        $this->permissionModel = new PermissionModel();
     }
 
 
@@ -48,17 +53,32 @@ class PdfController extends Controller
         }
     }
 
-    public function insertEngineering()
+    public function insertEngineeringData()
     {
-        $engineeringName = $this->request->getPostGet('engineering_name'); //工程名稱
-        $engineerinNumber = $this->request->getPostGet('engineering_number'); //工程流向編號
-        $engineeringdocumentNumber = $this->request->getPostGet('engineering_documentNumber');
-        $documentEfficientDate = date('Y-m-d',strtotime('+10year'));
-        $buildingName = $this->request->getPostGet('building_name');
-        $buildingNumber = $this->request->getPostGet('building_number');
-        $buildingAddress = $this->request->getPostGet('building_address');
-        $starterName = $this->request->getPostGet('starter_name');
-        $starterPhone = $this->request->getPostGet('starter_phone');
+
+
+        $engineering_id = $this->request->getPostGet('engineering_id');
+        $engineeringData = $this->engineeringManagementModel->where('engineering_id', $engineering_id)->first();
+
+        if($engineeringData){
+            $check = $this->db->table('PdfDocument')->where('engineering_id ', $engineering_id)->countAllResults();
+            $documentNumber = date('Y').$engineeringData['engineering_projectNumber']."TCP";
+            $documentEfficientDate = date('Y-m-d',strtotime('+10year')).$check;//文件有效日期
+            $buildingName = $this->request->getPostGet('building_name');
+            $buildingNumber = $this->request->getPostGet('building_number');
+            $buildingAddress = $this->request->getPostGet('building_address');
+            $starterName = $this->request->getPostGet('starter_name');
+            $starterPhone = $this->request->getPostGet('starter_phone');
+
+
+        }
+
+
+
+
+
+
+
         $userid =  $this->session->get('user_id');
         $transportationRoute = $this->request->getPostGet('transportation_route');//運輸路線
         $contracting_id = $this->contractingCompanyModel->where('user_id',$userid)->first();

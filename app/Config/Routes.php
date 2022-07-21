@@ -60,6 +60,8 @@ $routes->get('base', 'Home::qrtest'); //404頁面
 $routes->get('htmlToPDF', 'PdfController::htmlToPDF');
 
 
+$routes->get('insertEngineeringData', 'PdfController::insertEngineeringData');
+
 //公開路由
 $routes->get('/','Home::index');
 $routes->post('login', 'LoginController::LoginCheck'); //登入
@@ -112,15 +114,15 @@ $routes->group(
     ],
     function (\CodeIgniter\Router\RouteCollection $routes) {
 
-        
+
         $routes->get('companyInfoView', 'ContractController::companyInfoView');
         $routes->get('personalView', 'ContractController::personalView');
         $routes->post('personalUpdate', 'ContractController::personalUpdate');
 
 
         //工程新增
-        $routes->get('projectCreate', 'EngineeringController::createView'); 
-        $routes->post('projectCreate', 'EngineeringController::create'); 
+        $routes->get('projectCreate', 'EngineeringController::createView');
+        $routes->post('projectCreate', 'EngineeringController::create');
     }
 );
 /**

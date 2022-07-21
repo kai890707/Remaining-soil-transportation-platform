@@ -9,6 +9,7 @@ class EngineeringManagementModel extends Model{
         'engineering_id',
         'engineering_name',
         'engineering_projectNumber',
+        'contractCompany_id',
         'created_at',
         'updated_date',
     ];

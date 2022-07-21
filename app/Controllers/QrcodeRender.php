@@ -9,10 +9,11 @@ use App\Controllers\BaseController;
 
 use chillerlan\QRCode\QRCode;
 use chillerlan\QRCode\QROptions;
+
 use TCPDF;
 class QrcodeRender extends BaseController
 {
-  
+
 
 
     public function index()
@@ -80,12 +81,12 @@ class QrcodeRender extends BaseController
         $fileName = uniqid();
         // $_SERVER['DOCUMENT_ROOT'] 指到專案目錄底下的public
         //php不接受由http或https來源的存取，故需指到專案絕對路徑
-       
+
         file_put_contents(
             $_SERVER['DOCUMENT_ROOT'].'/assets/qrcode/'.$fileName.'.png',
             base64_decode(
                 str_replace('data:image/png;base64,', '', $q)
-            ) 
+            )
         );
 
         echo '<img src="'.base_url("/assets/qrcode/".$fileName.".png").'" alt="QR Code" />';
