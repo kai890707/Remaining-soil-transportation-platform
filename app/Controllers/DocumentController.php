@@ -5,6 +5,7 @@ namespace App\Controllers;
 use CodeIgniter\Controller;
 use App\Models\PdfDocumentModel;
 use App\Models\EngineeringManagementModel;
+use App\Controllers\QrcodeRender;
 
 class DocumentController extends Controller
 {
@@ -123,23 +124,27 @@ class DocumentController extends Controller
     }
 
     /**
-     * [VIEW] 顯示該工程QRCODE頁面
+     * [VIEW] 顯示該工作流向清單QRCODE頁面
      *
-     * @param [INT] $id (工程ID)
+     * @param [INT] $id (pdf ID)
      * @return view
      */
-    public function showDocumentQrcode($id)
+    public function showDocumentQrcode($pdf_id)
     {
+
+        $qrcodeClass = new QrcodeRender();
+        $qrcodeImgHtml = $qrcodeClass->generateQrcode($pdf_id);
 
         $projectInfo = $this->pdfDocumentModel
                             ->select('EngineeringManagement.engineering_name,EngineeringManagement.engineering_projectNumber,PdfDocument.pdf_fileNumber')
                             ->join('EngineeringManagement','EngineeringManagement.engineering_id = PdfDocument.engineering_id')
-                            ->where('PdfDocument.pdf_id',$id)
+                            ->where('PdfDocument.pdf_id',$pdf_id)
                             ->first();
 
         $data = [
             "title" => $this->title . ' - 聯單QRCODE',
-            "projectInfo" => $projectInfo
+            "projectInfo" => $projectInfo,
+            "qrcodeImgHtml" => $qrcodeImgHtml
         ];
         
         return view('document/showDocumentQrcode',$data);

@@ -56,7 +56,10 @@
         </div>
 
         <div class=" col-11 bg-light shadow p-4 m-1  mx-auto shadow rounded">
-            <div class="row" style="height:40vh">
+            <div class="row" >
+                <div class="col-12 p-4 d-flex justify-content-center align-items-center">
+                    <?php echo $qrcodeImgHtml?>
+                </div>
                
             </div>
         </div>

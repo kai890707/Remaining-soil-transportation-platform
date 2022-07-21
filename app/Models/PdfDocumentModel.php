@@ -34,4 +34,9 @@ class PdfDocumentModel extends Model{
         'created_at',
         'updated_date',
     ];
+
+    public function getPdfData($pdf_id)
+    {
+       return $this->where('pdf_id',$pdf_id)->first();
+    }
 }

@@ -29,4 +29,12 @@ class ClearingCompanyModel extends Model{
 
         return $this->where('clearingCompany_id',session()->get('clearingCompany_id'))->first();
     }
+
+    public function getDataJoinPdf($company_id)
+    {
+        return $this->select('ClearingCompany.*')
+                    ->join('PdfDocument','PdfDocument.pdf_clearingCompanyId = ClearingCompany.clearingCompany_id')
+                    ->where('ClearingCompany.clearingCompany_id',$company_id)
+                    ->first();
+    }
 }

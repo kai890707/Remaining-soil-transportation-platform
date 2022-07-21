@@ -23,4 +23,12 @@ class ContainmentCompanyModel extends Model{
 
         return $this->where('containmentCompany_id',session()->get('containmentCompany_id'))->first();
     }
+
+    public function getDataJoinPdf($containment_id)
+    {
+        return $this->select('ContainmentCompany.*')
+                    ->join('PdfDocument','PdfDocument.pdf_containmentCompanyId = ContainmentCompany.containmentCompany_id')
+                    ->where('ContainmentCompany.containmentCompany_id',$containment_id)
+                    ->first();
+    }
 }

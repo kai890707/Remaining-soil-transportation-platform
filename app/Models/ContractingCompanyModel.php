@@ -24,4 +24,12 @@ class ContractingCompanyModel extends Model{
 
         return $this->where('contracting_id',session()->get('contracting_id'))->first();
     }
+
+    public function getDataJoinPdf($contracting_id)
+    {
+        return $this->select('ContractingCompany.*')
+                    ->join('PdfDocument','PdfDocument.pdf_contractingCompanyId = ContractingCompany.contracting_id')
+                    ->where('ContractingCompany.contracting_id',$contracting_id)
+                    ->first();
+    }
 }

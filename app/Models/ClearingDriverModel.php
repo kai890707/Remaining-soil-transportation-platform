@@ -18,9 +18,18 @@ class ClearingDriverModel extends Model{
         'created_at',
         'updated_date',
     ];
+    
     public function getDriverData()
     {
 
         return $this->where('clearingDriver_id',session()->get('clearingDriver_id'))->first();
+    }
+
+    public function getDataJoinPdf($driver_id)
+    {
+        return $this->select('ClearingDriver.*')
+                    ->join('PdfDocument','PdfDocument.pdf_clearingDriverId = ClearingDriver.clearingDriver_id')
+                    ->where('ClearingDriver.clearingDriver_id',$driver_id)
+                    ->first();
     }
 }

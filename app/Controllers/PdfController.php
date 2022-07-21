@@ -5,6 +5,9 @@ namespace App\Controllers;
 use CodeIgniter\Controller;
 use App\Models\ContractingCompanyModel;
 use App\Models\EngineeringManagementModel;
+use App\Models\ClearingDriverModel;
+use App\Models\ClearingCompanyModel;
+use App\Models\ContainmentCompanyModel;
 use App\Models\PdfDocumentModel;
 use App\Models\PermissionModel;
 
@@ -15,6 +18,9 @@ class PdfController extends BaseController
     protected $contractingCompanyModel;
     protected $engineeringManagementModel;
     protected $pdfDocumentModel;
+    protected $clearingDriverModel;
+    protected $clearingCompanyModel;
+    protected $containmentCompanyModel;
     protected $permissionModel;
 
     public function __construct()
@@ -25,6 +31,10 @@ class PdfController extends BaseController
         $this->engineeringManagementModel = new EngineeringManagementModel();
         $this->pdfDocumentModel = new PdfDocumentModel();
         $this->permissionModel = new PermissionModel();
+        $this->clearingDriverModel = new  ClearingDriverModel();
+        $this->clearingCompanyModel = new  ClearingCompanyModel();
+        $this->containmentCompanyModel = new  ContainmentCompanyModel();
+
     }
 
 
@@ -32,6 +42,144 @@ class PdfController extends BaseController
     {
         return view('pdf_view');
     }
+
+    public function showPdf($pdf_id)
+    {
+        
+        /**
+         * [ARRAY]PDF欄位資料
+         * 
+         */
+        $RealDataField = [
+            "fileNumber"=>"",                       //文件序號 pdf
+            "effectiveDate"=>"",                    //文件有效日期 pdf
+            "buildingName"=>"",                     //建築物或拆除名稱 pdf
+            "projectNumber"=>"",                    //工程餘土流向管制編號 engeer
+            "constructNumber"=>"",                  //建造號碼 pdf
+            "buildingAddress"=>"",                  //建築物地點 pdf
+            "starterName"=>"",                      //起造人姓名 pdf
+            "starterPhone"=>"",                     //起造人電話 pdf
+            "contractUserName"=>"",                 //承造人姓名 contract
+            "contractUserPhone"=>"",                //承造人電話 contract
+            "contractWatcherName"=>"",              //監造人姓名 contract
+            "contractWatcherPhone"=>"",             //監造人電話 contract
+            "clearingDriverName"=>"",               //駕駛人姓名 driver
+            "clearingDriverIdentityCard"=>"",       //駕駛人身分證字號 driver
+            "clearingDriverLicensePlate"=>"",       //駕駛人車輛、船舶牌號 driver
+            "clearingCompanyName"=>"",              //清運單位名稱 clear
+            "clearingCompanyPrincipalName"=>"",     //清運單位負責人 clear
+            "clearingCompanyPhone"=>"",             //清運單位電話 clear
+            "transportationRoute"=>"",              //運送路線 pdf
+            "shippingQuantity"=>"",                 //剩餘土石載運數量 pdf
+            "shippingContents"=>"",                 //載運內容(土質) pdf
+            "containmentCompanyName"=>"",           //合法收容處理場所名稱 containment
+            "containmentCompanyPrincipalName"=>"",  //合法收容處理場所負責人 containment
+            "containmentCompanyPrincipalPhone"=>"", //合法收容處理場所負責人電話 containment
+            "containmentPlaceEearthFlowNumer"=>"",  //合法收容處理場所剩餘土石方流向 pdf
+            "certifiedDocumentsIssuingUnit"=>"",    //證明文件核發單位 pdf
+            "contractingSign"=>"",                  //承造公司簽名 pdf
+            "contractingSignDate"=>"",              //承造公司簽名時間 pdf
+            "driverSign"=>"",                       //駕駛簽名 pdf
+            "driverSignDate"=>"",                   //駕駛簽名時間 pdf
+            "containmentPlaceSign"=>"",             //收容場所簽名 pdf
+            "containmentPlaceSignDate"=>"",         //收容場所簽名時間 pdf
+        ];
+
+        /**
+         * 以PDF ID 搜尋 Pdf資料表資料
+         */
+        $pdfDataFromPdfModel = $this->pdfDocumentModel->getPdfData($pdf_id);
+
+        //存在該pdf資料則填入RealDataField
+        if($pdfDataFromPdfModel){
+            $RealDataField['fileNumber']=$pdfDataFromPdfModel['pdf_fileNumber'];
+            $RealDataField['effectiveDate']=$pdfDataFromPdfModel['pdf_effectiveDate'];
+            $RealDataField['buildingName']=$pdfDataFromPdfModel['pdf_buildingName'];
+            $RealDataField['constructNumber']=$pdfDataFromPdfModel['pdf_constructNumber'];
+            $RealDataField['buildingAddress']=$pdfDataFromPdfModel['pdf_buildingAddress'];
+            $RealDataField['starterName']=$pdfDataFromPdfModel['pdf_starterName'];
+            $RealDataField['starterPhone']=$pdfDataFromPdfModel['pdf_starterPhone'];
+            $RealDataField['transportationRoute']=$pdfDataFromPdfModel['pdf_transportationRoute'];
+            $RealDataField['shippingQuantity']=$pdfDataFromPdfModel['pdf_shippingQuantity'];
+            $RealDataField['shippingContents']=$pdfDataFromPdfModel['pdf_shippingContents'];
+            $RealDataField['containmentPlaceEearthFlowNumer']=$pdfDataFromPdfModel['pdf_containmentPlaceEearthFlowNumer'];
+            $RealDataField['pdf_certifiedDocumentsIssuingUnit']=$pdfDataFromPdfModel['pdf_certifiedDocumentsIssuingUnit'];
+            $RealDataField['contractingSign']=$pdfDataFromPdfModel['pdf_contractingSign'];
+            $RealDataField['contractingSignDate']=$pdfDataFromPdfModel['pdf_contractingSignDate'];
+            $RealDataField['driverSign']=$pdfDataFromPdfModel['pdf_driverSign'];
+            $RealDataField['driverSignDate']=$pdfDataFromPdfModel['pdf_driverSignDate'];
+            $RealDataField['containmentPlaceSign']=$pdfDataFromPdfModel['pdf_containmentPlaceSign'];
+            $RealDataField['containmentPlaceSignDate']=$pdfDataFromPdfModel['pdf_containmentPlaceSignDate'];
+        }
+        /**
+         * 以PDF ID 搜尋 工程資料表資料
+         */
+        $pdfDataFromEngeeringModel = $this->engineeringManagementModel->getDataJoinPdf($pdfDataFromPdfModel['engineering_id']);
+
+        if($pdfDataFromEngeeringModel){
+            $RealDataField['projectNumber']=$pdfDataFromEngeeringModel['engineering_projectNumber'];
+        }
+
+        /**
+         * 以PDF ID 搜尋 承造廠商資料表資料
+         */
+        $pdfDataFromContractModel = $this->contractingCompanyModel->getDataJoinPdf($pdfDataFromPdfModel['pdf_contractingCompanyId']);
+
+        if($pdfDataFromContractModel){
+            $RealDataField['contractUserName']=$pdfDataFromContractModel['contracting_contractUserName'];
+            $RealDataField['contractUserPhone']=$pdfDataFromContractModel['contracting_contractUserPhone'];
+            $RealDataField['contractWatcherName']=$pdfDataFromContractModel['contracting_contractWatcherName'];
+            $RealDataField['contractWatcherPhone']=$pdfDataFromContractModel['contracting_contractWatcherPhone'];
+        }
+                            
+        /**
+         * 以PDF ID 搜尋 清運司機資料表資料
+         */
+        $pdfDataFromDriverModel = $this->clearingDriverModel->getDataJoinPdf($pdfDataFromPdfModel['pdf_clearingDriverId']);
+        
+        if($pdfDataFromDriverModel){
+            $RealDataField['clearingDriverName']=$pdfDataFromDriverModel['clearingDriver_name'];
+            $RealDataField['clearingDriverIdentityCard']=$pdfDataFromDriverModel['clearingDriver_identityCard'];
+            $RealDataField['clearingDriverLicensePlate']=$pdfDataFromDriverModel['clearingDriver_licensePlate'];
+        }
+
+        /**
+         * 以PDF ID 搜尋 清運公司資料表資料
+         */
+        $pdfDataFromCompanyModel = $this->clearingCompanyModel->getDataJoinPdf($pdfDataFromPdfModel['pdf_clearingCompanyId']);
+        
+        if($pdfDataFromCompanyModel){
+            $RealDataField['clearingCompanyName']=$pdfDataFromCompanyModel['clearingCompany_name'];
+            $RealDataField['clearingCompanyPrincipalName']=$pdfDataFromCompanyModel['clearingCompany_principalName'];
+            $RealDataField['clearingCompanyPhone']=$pdfDataFromCompanyModel['clearingCompany_phone'];
+        }   
+
+        /**
+         * 以PDF ID 搜尋 收容場所資料表資料
+         */
+        $pdfDataFromContainmentModel = $this->containmentCompanyModel->getDataJoinPdf($pdfDataFromPdfModel['pdf_containmentCompanyId']);
+        
+        if($pdfDataFromContainmentModel){
+            $RealDataField['containmentCompanyName']=$pdfDataFromContainmentModel['containmentCompany_name'];
+            $RealDataField['containmentCompanyPrincipalName']=$pdfDataFromContainmentModel['containmentCompany_principalName'];
+            $RealDataField['containmentCompanyPrincipalPhone']=$pdfDataFromContainmentModel['containmentCompany_principalPhone'];
+        }                                  
+        
+
+
+        try {
+            $dompdf = new \Dompdf\Dompdf();
+            $dompdf->set_option('isRemoteEnabled', TRUE);
+            $dompdf->loadHtml(view('pdf_view',$RealDataField));
+            $dompdf->setPaper('A4', 'letter');
+            $dompdf->render();
+            $dompdf->stream('newfile',array('Attachment'=>0));
+
+        } catch (\Exception $e) {
+                print_r($e);
+        }
+    }
+
     public function htmlToPDF($data)
     {
         try {

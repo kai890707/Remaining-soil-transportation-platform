@@ -13,4 +13,12 @@ class EngineeringManagementModel extends Model{
         'created_at',
         'updated_date',
     ];
+
+    public function getDataJoinPdf($engineering_id)
+    {
+        return $this->select('EngineeringManagement.*')
+                    ->join('PdfDocument','PdfDocument.engineering_id = EngineeringManagement.engineering_id')
+                    ->where('EngineeringManagement.engineering_id',$engineering_id)
+                    ->first();
+    }
 }

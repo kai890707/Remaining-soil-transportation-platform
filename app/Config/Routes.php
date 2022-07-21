@@ -59,7 +59,7 @@ $routes->get('baseTest', 'QrcodeRender::baseTest');
 $routes->get('base', 'Home::qrtest'); //404頁面
 $routes->get('htmlToPDF', 'PdfController::htmlToPDF');
 
-
+$routes->get('pdfview', 'PdfController::index');
 $routes->post('insertEngineeringData', 'PdfController::insertEngineeringData');
 
 //公開路由
@@ -199,11 +199,26 @@ $routes->group(
         'filter' => 'login'
     ],
     function (\CodeIgniter\Router\RouteCollection $routes) {
-        $routes->get('(:num)', 'DocumentController::index/$1'); //聯單列表
-        $routes->get('(:num)/(:num)', 'DocumentController::useStatus/$1/$2'); //聯單列表
-        $routes->get('showDocumentQrcode/(:num)', 'DocumentController::showDocumentQrcode/$1'); //聯單列表
+        $routes->get('(:num)', 'DocumentController::index/$1'); //工程流向編號清單列表 參數:工程ID
+        $routes->get('(:num)/(:num)', 'DocumentController::useStatus/$1/$2'); //工程流向編號清單使用狀態 參數:工程ID、PDF狀態
+        $routes->get('showDocumentQrcode/(:num)', 'DocumentController::showDocumentQrcode/$1'); //qrcode頁面
     }
 );
+
+/**
+ * 聯單路由
+ */
+$routes->group(
+    'pdf',
+    [
+        'namespace' => 'App\Controllers',
+        'filter' => 'login'
+    ],
+    function (\CodeIgniter\Router\RouteCollection $routes) {
+        $routes->get('showPdf/(:num)', 'PdfController::showPdf/$1'); //pdf頁面 參數:pdf id
+    }
+);
+
 
 
 /*
