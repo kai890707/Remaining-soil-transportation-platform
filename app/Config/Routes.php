@@ -215,10 +215,26 @@ $routes->group(
         'filter' => 'login'
     ],
     function (\CodeIgniter\Router\RouteCollection $routes) {
-        $routes->get('showPdf/(:num)', 'PdfController::showPdf/$1'); //pdf頁面 參數:pdf id
+        $routes->post('uploadSign', 'PdfController::uploadSign'); //post 簽名
+        $routes->get('validSign/(:num)', 'PdfController::validSign/$1'); //pdf頁面 參數:pdf id
+        
     }
 );
 
+/**
+ * 簽名路由
+ */
+$routes->group(
+    'sign',
+    [
+        'namespace' => 'App\Controllers',
+        'filter' => 'login'
+    ],
+    function (\CodeIgniter\Router\RouteCollection $routes) {
+        
+        
+    }
+);
 
 
 /*

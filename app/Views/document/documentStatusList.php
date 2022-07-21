@@ -39,7 +39,7 @@
                     <tr>
                         <td><?php echo $i['pdf_fileNumber']?></td>
                         <td><?php echo $i['status_remark']?></td>
-                        <td><button type="button" class="btn btn-outline-primary"  onclick="location.href='<?php echo base_url('document/showDocumentQrcode').'/'.$i['pdf_id']?>'" >查看</button></td>
+                        <td><button type="button" class="btn btn-outline-primary"  onclick="location.href='<?php echo base_url('pdf/validSign').'/'.$i['pdf_id']?>'" >查看</button></td>
                     </tr> 
                 <?php }?>
                 </tbody>

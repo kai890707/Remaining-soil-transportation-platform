@@ -22,6 +22,7 @@ class PdfController extends BaseController
     protected $clearingCompanyModel;
     protected $containmentCompanyModel;
     protected $permissionModel;
+    public $title = '營建剩餘土石方憑證系統';
 
     public function __construct()
     {
@@ -43,6 +44,77 @@ class PdfController extends BaseController
         return view('pdf_view');
     }
 
+    /**
+     * Qrcode掃描第一關
+     * 取得權限，判斷使用者是否為該文件簽名
+     *
+     * @param [INT] $pdf_id 
+     * @return void
+     */
+    public function validSign($pdf_id)
+    {
+        $permission_id = $this->session->get('permission_id');
+        switch ($permission_id) {
+            case $this::$permissionIdByContractingCompany:
+                return $this->RedirectToContractSign($pdf_id);
+                break;
+            case $this::$permissionIdByClearingCompany:
+                return $this->RedirectToCompanySign($pdf_id);
+                break;
+            case $this::$permissionIdByClearingDriver:
+                return $this->RedirectToDriverSign($pdf_id);
+                break;
+            case $this::$permissionIdByContainmentCompany:
+                return $this->RedirectToContainmentSign($pdf_id);
+                break;
+            default:
+                return $this->showPdf($pdf_id);
+                break;
+        }
+    
+    }
+
+    /**
+     * 承造廠商PDF導向
+     * 判斷承造廠商是否針對該PDF簽名
+     * 是，則產出QRCODE 及 SHOW PDF
+     *
+     * @param [INT] $pdf_id
+     * @return void
+     */
+    public function RedirectToContractSign($pdf_id)
+    {
+        $permissionName = $this->permissionModel
+                               ->select('permission_name')
+                               ->where('permission_id',$this->session->get('permission_id'))
+                               ->first();
+
+        $pdfDataFromPdfModel = $this->pdfDocumentModel->getPdfData($pdf_id);
+        $contractSign = $pdfDataFromPdfModel['pdf_contractingSign'];
+
+        if($contractSign == ""){
+
+            $data = [
+                "title" => $this->title . ' - 承造簽名',
+                "pdf_id" =>$pdf_id,
+                "pdfInfo" => $pdfDataFromPdfModel,
+                'permissionName'=>$permissionName['permission_name']
+            ];
+
+            return view('sign/contractSign',$data);
+        }else{
+           return $this->showPdf($pdf_id);
+        }
+    }
+
+
+    /**
+     * 產出PDF
+     * 依PDF ID 找尋相關資料並彙整 最終產出PDF
+     *
+     * @param [INT] $pdf_id
+     * @return void
+     */
     public function showPdf($pdf_id)
     {
         
@@ -178,6 +250,54 @@ class PdfController extends BaseController
         } catch (\Exception $e) {
                 print_r($e);
         }
+    }
+
+    public function uploadSign()
+    {
+        $signBase64 = $this->request->getPostGet('sign');
+        $pdf_id = $this->request->getPostGet('pdf_id');
+        $permission_id = $this->session->get('permission_id');
+
+        $fileName = $pdf_id.uniqid().'.png';
+        $signTime = date("Y:m:d H:i");; 
+        file_put_contents(
+            $_SERVER['DOCUMENT_ROOT'].'/assets/sign/'.$fileName,
+            base64_decode(
+                str_replace('data:image/png;base64,', '', $signBase64)
+            )
+        );
+       
+
+        if($permission_id == $this::$permissionIdByContractingCompany){
+            $updateData = [
+                "pdf_contractingSign"=>$fileName,
+                "pdf_contractingSignDate"=>$signTime,
+                "status_id"=>$this::$pdfStatus_contractFinish
+            ];
+            $r =  $this->pdfDocumentModel->update($pdf_id,$updateData);
+            if($r){
+                $response=[
+                    'status' => 'success',
+                    'message' => '資料存入成功'
+                ];
+            }else{
+                $response=[
+                    'status' => 'success',
+                    'message' => '資料存入成功'
+                ];
+            }
+        }else if($permission_id == $this::$permissionIdByClearingCompany){
+
+        }else if($permission_id == $this::$permissionIdByClearingDriver){
+
+        }else if($permission_id == $this::$permissionIdByContainmentCompany){
+
+        }else if($permission_id == $this::$permissionIdByGovernment){
+
+        }
+        
+   
+        return $this->response->setJSON($response);
     }
 
     public function htmlToPDF($data)
