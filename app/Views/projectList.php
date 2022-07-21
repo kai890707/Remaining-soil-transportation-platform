@@ -19,7 +19,7 @@
     <div class="row mt-4 p-0  ">
         <div class=" col-11 bg-light shadow p-3 m-1  mx-auto ">
             <div class="w-100 d-flex justify-content-end align-items-center mb-2">
-               <button type="button" class="btn btn-outline-success"   onclick="location.href='<?php echo base_url('contract/projectCreate')?>'">申請聯單</button> 
+               <button type="button" class="btn btn-outline-success"   onclick="location.href='<?php echo base_url('contract/projectCreate')?>'">新增工程</button> 
             </div>
             <table class="table table-striped fs-5">
                 <thead>

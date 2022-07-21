@@ -18,17 +18,39 @@
 <div class="container">
     <div class="row mt-4 p-0  ">
         <div class=" col-11 bg-light shadow p-4 m-1  mx-auto shadow">
-            <form id="create_project_form">
+            <form id="create_document_form">
                 <div class="mb-3">
-                    <label for="engineering_name" class="form-label">工程名稱</label>
-                    <input type="text" class="form-control" id="engineering_name" name="engineering_name" >
+                    <input type="text" class="form-control" id="engineering_id" name="engineering_id" value="<?php echo $engineering_id?>" hidden>
+                </div>  
+                <div class="mb-3">
+                    <input type="text" class="form-control" id="contractCompany_id" name="contractCompany_id" value="<?php echo session()->get('contracting_id')?>" hidden>
+                </div>  
+                <div class="mb-3">
+                    <label for="building_name" class="form-label">建物名稱</label>
+                    <input type="text" class="form-control" id="building_name" name="building_name" >
                 </div>
                 <div class="mb-3">
-                    <label for="engineering_projectNumber" class="form-label">工程流向編號</label>
-                    <input type="text" class="form-control" id="engineering_projectNumber" name="engineering_projectNumber" >
+                    <label for="building_number" class="form-label">建造編號</label>
+                    <input type="text" class="form-control" id="building_number" name="building_number" >
+                </div>
+                <div class="mb-3">
+                    <label for="building_address" class="form-label">建物地址</label>
+                    <input type="text" class="form-control" id="building_address" name="building_address" >
+                </div>
+                <div class="mb-3">
+                    <label for="starter_name" class="form-label">起造人姓名</label>
+                    <input type="text" class="form-control" id="starter_name" name="starter_name" >
+                </div>
+                <div class="mb-3">
+                    <label for="starter_phone" class="form-label">起造人電話</label>
+                    <input type="text" class="form-control" id="starter_phone" name="starter_phone" >
+                </div>
+                <div class="mb-3">
+                    <label for="transportation_route" class="form-label">運輸路線</label>
+                    <input type="text" class="form-control" id="transportation_route" name="transportation_route" >
                 </div>
                 <div class="d-grid gap-2 d-md-block">
-                    <button class="btn btn-danger" type="submit">建立工程</button>
+                    <button class="btn btn-danger" type="submit">建立聯單</button>
                 </div>
             </form>
         </div>
@@ -41,15 +63,15 @@
 <?= $this->section('customJs') ?>
 <script>
     
-    $("form[id='create_project_form']").submit(function(e) {
+    $("form[id='create_document_form']").submit(function(e) {
         e.preventDefault();
-        var formData = new FormData(document.getElementById('create_project_form'));
-        BaseLib.Post("/contract/projectCreate",formData).then(
+        var formData = new FormData(document.getElementById('create_document_form'));
+        BaseLib.Post("/contract/insertEngineeringData",formData).then(
         (res)=>{
             BaseLib.ResponseCheck(res).then(()=>{
                 console.log(res);
                 if(res.status =="success"){
-                    window.location=BaseLib.base_Url+'/projectList';
+                    // window.location=BaseLib.base_Url+'/projectList';
                 }
             })
         },
