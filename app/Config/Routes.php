@@ -48,7 +48,7 @@ $routes->get('lobby', 'Home::lobby', ["filter" => "login"]);
 $routes->get('personal', 'Home::personal');
 // $routes->get('projectList', 'Home::projectList');
 $routes->get('documentUse', 'Home::documentUse');
-$routes->get('documentList', 'Home::documentList');
+// $routes->get('documentList', 'Home::documentList');
 $routes->get('qrscan', 'Home::qrscan');
 $routes->get('sign', 'Home::sign');
 $routes->get('signRecords', 'Home::signRecords');
@@ -69,10 +69,13 @@ $routes->get('logout', 'LoginController::logout'); //登出
 $routes->get('drverRegister', 'Home::register'); //公開清運司機註冊頁面
 $routes->post('clearingDriver', 'RegisterController::clearingDriverRegister'); //公開清運司機註冊
 $routes->get('404', 'Home::errorPage'); //404頁面
-$routes->get('projectList', 'EngineeringController::index',["filter" => "login"]); //工程列表
 
 
 
+
+/**
+ * 註冊路由
+ */
 $routes->group(
     'register',
     [
@@ -113,16 +116,15 @@ $routes->group(
         'filter' => 'contract'
     ],
     function (\CodeIgniter\Router\RouteCollection $routes) {
-
-
         $routes->get('companyInfoView', 'ContractController::companyInfoView');
         $routes->get('personalView', 'ContractController::personalView');
         $routes->post('personalUpdate', 'ContractController::personalUpdate');
+        //工程新增 view & post
+        $routes->get('projectCreate', 'EngineeringController::projectCreateView'); 
+        $routes->post('projectCreate', 'EngineeringController::projectCreate'); 
+        //聯單新增 view & post
+        $routes->get('documentCreate', 'ContractController::documentCreateView'); 
 
-
-        //工程新增
-        $routes->get('projectCreate', 'EngineeringController::createView');
-        $routes->post('projectCreate', 'EngineeringController::create');
     }
 );
 /**
@@ -172,6 +174,33 @@ $routes->group(
     }
 );
 
+/**
+ * 工程路由
+ */
+$routes->group(
+    'project',
+    [
+        'namespace' => 'App\Controllers',
+        'filter' => 'login'
+    ],
+    function (\CodeIgniter\Router\RouteCollection $routes) {
+       $routes->get('projectList', 'EngineeringController::index',["filter" => "login"]); //工程列表view
+    }
+);
+
+/**
+ * 聯單路由
+ */
+$routes->group(
+    'document',
+    [
+        'namespace' => 'App\Controllers',
+        'filter' => 'login'
+    ],
+    function (\CodeIgniter\Router\RouteCollection $routes) {
+        $routes->get('(:num)', 'DocumentController::index/$1',["filter" => "login"]); //聯單列表
+    }
+);
 
 
 /*

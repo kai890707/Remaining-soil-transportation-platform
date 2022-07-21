@@ -30,7 +30,7 @@ class EngineeringController extends Controller
      *
      * @return view
      */
-    public function createView()
+    public function projectCreateView()
     {
         $data = [
             "title" => $this->title . ' - 工程新增',
@@ -44,7 +44,7 @@ class EngineeringController extends Controller
      *
      * @return json
      */
-    public function create()
+    public function projectCreate()
     {
         $engineering_name =  $this->request->getPostGet('engineering_name');
         $engineering_projectNumber = $this->request->getPostGet('engineering_projectNumber');

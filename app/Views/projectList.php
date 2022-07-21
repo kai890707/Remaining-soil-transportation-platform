@@ -35,7 +35,7 @@
                     <tr>
                         <td><?php echo $proj['engineering_name']?></td>
                         <td><?php echo $proj['engineering_projectNumber']?></td>
-                        <td><button type="button" class="btn btn-outline-primary">查看</button></td>
+                        <td><button type="button" class="btn btn-outline-primary" onclick="location.href='<?php echo base_url('document').'/'.$proj['engineering_id']?>'">查看</button></td>
                     </tr> 
                 <?php }?>
                    

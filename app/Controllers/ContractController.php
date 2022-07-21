@@ -103,5 +103,20 @@ class ContractController extends Controller
         
         return $this->response->setJSON($response);
     }
-       
+    
+
+    /**
+     * [VIEW] 聯單新增
+     *
+     * @return view
+     */
+    public function documentCreateView()
+    {
+        
+        $data = [
+            "title" => $this->title . ' - 個人資訊',
+        ];
+        
+        return view('user_contract/documentCreate', $data);
+    }
 }
