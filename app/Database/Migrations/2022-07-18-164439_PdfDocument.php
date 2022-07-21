@@ -124,6 +124,11 @@ class PdfDocument extends Migration
                 'null' => true,
                 'comment' => '收容場所簽名日期'
             ],
+            'pdf_status' =>[
+                'type' => 'VARCHAR',
+                'constraint' => 10,
+                'comment' => '文件狀態'
+            ],
             'engineering_id'=>[
                 'type' =>'INT',
                 'constraint'=>11,
