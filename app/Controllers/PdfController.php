@@ -9,7 +9,7 @@ use App\Models\PdfDocumentModel;
 use App\Models\PermissionModel;
 
 
-class PdfController extends Controller
+class PdfController extends BaseController
 {
     protected $session;
     protected $contractingCompanyModel;
@@ -56,77 +56,56 @@ class PdfController extends Controller
     public function insertEngineeringData()
     {
 
-
         $engineering_id = $this->request->getPostGet('engineering_id');
         $engineeringData = $this->engineeringManagementModel->where('engineering_id', $engineering_id)->first();
 
         if($engineeringData){
             $check = $this->db->table('PdfDocument')->where('engineering_id ', $engineering_id)->countAllResults();
-            $documentNumber = date('Y').$engineeringData['engineering_projectNumber']."TCP";
-            $documentEfficientDate = date('Y-m-d',strtotime('+10year')).$check;//文件有效日期
-            $buildingName = $this->request->getPostGet('building_name');
-            $buildingNumber = $this->request->getPostGet('building_number');
-            $buildingAddress = $this->request->getPostGet('building_address');
-            $starterName = $this->request->getPostGet('starter_name');
-            $starterPhone = $this->request->getPostGet('starter_phone');
+            $check = $check+1;
+            $documentNumber = date('Y').$engineeringData['engineering_projectNumber']."TCP".$check;
+            $documentEfficientDate = date('Y-m-d',strtotime('+10year'));//文件有效日期
+            $buildingName = $this->request->getPostGet('building_name');//建物名稱
+            $buildingNumber = $this->request->getPostGet('building_number');//建造編號
+            $buildingAddress = $this->request->getPostGet('building_address');//建物地址
+            $starterName = $this->request->getPostGet('starter_name');//起造人姓名
+            $starterPhone = $this->request->getPostGet('starter_phone');//起造人電話
+            $contracting_id = $engineeringData['contractCompany_id'];//承造廠商外來鍵
+            $transportationRoute = $this->request->getPostGet('transportation_route');//運輸路線
 
+            $status_id = $this::$pdfStatus_createFinish; //pdf狀態
 
-        }
-
-
-
-
-
-
-
-        $userid =  $this->session->get('user_id');
-        $transportationRoute = $this->request->getPostGet('transportation_route');//運輸路線
-        $contracting_id = $this->contractingCompanyModel->where('user_id',$userid)->first();
-        if($contracting_id){
-            $data=[
-                'engineering_name' => $engineeringName,
-                'engineering_projectNumber' => $engineerinNumber,
+            $data = [
+                'pdf_fileNumber' => $documentNumber,
+                'pdf_effectiveDate' => $documentEfficientDate,
+                'pdf_buildingName' => $buildingName,
+                'pdf_constructNumber' => $buildingNumber,
+                'pdf_buildingAddress' => $buildingAddress,
+                'pdf_starterName' => $starterName,
+                'pdf_starterPhone' => $starterPhone,
+                'pdf_contractingCompanyId' => $contracting_id,
+                'status_id' => $status_id,
+                'engineering_id' => $engineering_id,
             ];
-            $insertEngineeringData = $this->engineeringManagementModel->insert($data);
 
-            if($insertEngineeringData){
-                $fileNumber = date('Y').$engineerinNumber."TCP".$insertEngineeringData;
-                $data=[
-                    'pdf_fileNumber' => $fileNumber,
-                    'pdf_effectiveDate' => $documentEfficientDate,
-                    'pdf_buildingName' => $buildingName,
-                    'pdf_constructtNumber' => $buildingNumber,
-                    'pdf_buildingAddress' => $buildingAddress,
-                    'pdf_starterName' => $starterName,
-                    'pdf_starterPhone' => $starterPhone,
-                    'pdf_transportationRoute' => $transportationRoute,
+
+            $result = $this->pdfDocumentModel->insert($data);
+            if($result){
+                $response=[
+                    'status' => 'success',
+                    'message' => '資料存入成功'
                 ];
-                $insertPdfData = $this->pdfDocumentModel->insert($data);
-                if($insertPdfData){
-                    $response=[
-                        'status' => 'success',
-                        'message' => '建立成功'
-                    ];
-                }else{
-                    $response=[
-                        'status' => 'fail',
-                        'message' => '建立失敗'
-                    ];
-                }
-
             }else{
                 $response=[
                     'status' => 'fail',
-                    'message' => '建立失敗'
+                    'message' => '資料存入失敗'
                 ];
             }
         }else{
             $response=[
                 'status' => 'fail',
-                'message' => '建立失敗'
+                'message' => '資料存入失敗'
             ];
         }
-
         return $this->response->setJSON($response);
     }
 

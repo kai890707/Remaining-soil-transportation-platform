@@ -71,7 +71,7 @@ class RegisterController extends BaseController
                 "key"   => $permissionId
             ];
         }
-        
+
         return view('user_root/accountCreate', $data);
 
     }

@@ -60,7 +60,7 @@ $routes->get('base', 'Home::qrtest'); //404頁面
 $routes->get('htmlToPDF', 'PdfController::htmlToPDF');
 
 
-$routes->get('insertEngineeringData', 'PdfController::insertEngineeringData');
+$routes->post('insertEngineeringData', 'PdfController::insertEngineeringData');
 
 //公開路由
 $routes->get('/','Home::index');
@@ -120,10 +120,10 @@ $routes->group(
         $routes->get('personalView', 'ContractController::personalView');
         $routes->post('personalUpdate', 'ContractController::personalUpdate');
         //工程新增 view & post
-        $routes->get('projectCreate', 'EngineeringController::projectCreateView'); 
-        $routes->post('projectCreate', 'EngineeringController::projectCreate'); 
+        $routes->get('projectCreate', 'EngineeringController::projectCreateView');
+        $routes->post('projectCreate', 'EngineeringController::projectCreate');
         //聯單新增 view & post
-        $routes->get('documentCreate', 'ContractController::documentCreateView'); 
+        $routes->get('documentCreate', 'ContractController::documentCreateView');
 
     }
 );

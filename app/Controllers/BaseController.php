@@ -66,6 +66,11 @@ abstract class BaseController extends Controller
     static $permissionIdByContainmentCompany = "5" ;
     static $permissionIdByGovernment = "6" ;
 
+    static $pdfStatus_createFinish = "1";
+    static $pdfStatus_contractFinsh = "2";
+    static $pdfStatus_driverFinsh = "3";
+    static $pdfStatus_containmentFinsh = "4";
+    static $pdfStatus_signFinsh = "5";
 
     protected function getImageUrl($fileName)
     {
