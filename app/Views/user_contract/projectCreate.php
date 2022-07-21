@@ -49,7 +49,7 @@
             BaseLib.ResponseCheck(res).then(()=>{
                 console.log(res);
                 if(res.status =="success"){
-                    window.location=BaseLib.base_Url+'/projectList';
+                    window.location=BaseLib.base_Url+'/project/projectList';
                 }
             })
         },

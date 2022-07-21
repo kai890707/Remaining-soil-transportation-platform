@@ -199,6 +199,7 @@ $routes->group(
     ],
     function (\CodeIgniter\Router\RouteCollection $routes) {
         $routes->get('(:num)', 'DocumentController::index/$1',["filter" => "login"]); //聯單列表
+        $routes->get('(:num)/(:num)', 'DocumentController::useStatus/$1/$2',["filter" => "login"]); //聯單列表
     }
 );
 

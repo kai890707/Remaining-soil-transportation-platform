@@ -1,4 +1,4 @@
-<!-- 工程聯單 -->
+<!-- 各使用狀態聯單 -->
 <?= $this->extend('layout_blade/documentList_layout') ?>
 <?= $this->section('customCss') ?>
 
@@ -21,30 +21,7 @@
 <div class="container">
     <div class="row mt-4 p-0  ">
         <div class=" col-11 bg-light shadow p-4 m-1  mx-auto shadow rounded">
-            <div class="row text-break">
-                <div class="col-5 border-end ">
-                    <p class="m-0 text-center">工程流向編號</p>
-                </div>
-                <div class="col-7">
-                    <p class="m-0 text-center"><?php echo $projectInfo['engineering_name']?></p>
-                </div>
-            </div>
-            <div class="row text-break">
-                <div class="col-5 border-end ">
-                    <p class="m-0 text-center">工程名稱</p>
-                </div>
-                <div class="col-7">
-                    <p class="m-0 text-center"><?php echo $projectInfo['engineering_projectNumber']?></p>
-                </div>
-            </div>
-            <div class="row text-break">
-                <div class="col-5 border-end ">
-                    <p class="m-0 text-center">完成進場收容</p>
-                </div>
-                <div class="col-7 border-end">
-                    <p class="m-0 text-center">12345646</p>
-                </div>
-            </div>
+            
         </div>
         <div class=" col-11 bg-light shadow p-4 m-1  mx-auto shadow rounded">
             <div class="row text-break d-flex align-items-center justify-content-center">

@@ -29,6 +29,7 @@ class PdfDocumentModel extends Model{
         'pdf_contractingSignDate',
         'pdf_driverSignDate',
         'pdf_containmentPlaceSignDate',
+        'status_id',
         'engineering_id',
         'created_at',
         'updated_date',

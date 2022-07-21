@@ -124,7 +124,7 @@ class PdfDocument extends Migration
                 'null' => true,
                 'comment' => '收容場所簽名日期'
             ],
-            'pdf_status' =>[
+            'status_id' =>[
                 'type' => 'VARCHAR',
                 'constraint' => 10,
                 'comment' => '文件狀態外來鍵'

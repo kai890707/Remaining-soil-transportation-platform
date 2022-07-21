@@ -48,10 +48,12 @@ class EngineeringController extends Controller
     {
         $engineering_name =  $this->request->getPostGet('engineering_name');
         $engineering_projectNumber = $this->request->getPostGet('engineering_projectNumber');
+        $contracting_id = session()->get('contracting_id');
 
         $data = [
             "engineering_name"=>$engineering_name,
-            "engineering_projectNumber" => $engineering_projectNumber
+            "engineering_projectNumber" => $engineering_projectNumber,
+            "contractCompany_id" => $contracting_id
         ];
 
         $r = $this->engineeringManagementModel->insert($data);
