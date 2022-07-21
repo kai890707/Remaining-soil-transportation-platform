@@ -39,14 +39,14 @@ $routes->set404Override();
 
 //view
 
-$routes->get('/','Home::index');
 
 
 
-//測試
+
+//測試路由
 $routes->get('lobby', 'Home::lobby', ["filter" => "login"]);
 $routes->get('personal', 'Home::personal');
-$routes->get('projectList', 'Home::projectList');
+// $routes->get('projectList', 'Home::projectList');
 $routes->get('documentUse', 'Home::documentUse');
 $routes->get('documentList', 'Home::documentList');
 $routes->get('qrscan', 'Home::qrscan');
@@ -56,16 +56,19 @@ $routes->get('project', 'Home::project');
 $routes->get('pwa','Home::pwa');
 $routes->get('qrcode', 'QrcodeRender::index');
 $routes->get('baseTest', 'QrcodeRender::baseTest');
-
+$routes->get('base', 'Home::qrtest'); //404頁面
 $routes->get('htmlToPDF', 'PdfController::htmlToPDF');
-//
 
+
+//公開路由
+$routes->get('/','Home::index');
 $routes->post('login', 'LoginController::LoginCheck'); //登入
-$routes->get('logout', 'LoginController::logout');
+$routes->get('logout', 'LoginController::logout'); //登出
 $routes->get('drverRegister', 'Home::register'); //公開清運司機註冊頁面
 $routes->post('clearingDriver', 'RegisterController::clearingDriverRegister'); //公開清運司機註冊
 $routes->get('404', 'Home::errorPage'); //404頁面
-$routes->get('base', 'Home::qrtest'); //404頁面
+$routes->get('projectList', 'EngineeringController::index',["filter" => "login"]); //工程列表
+
 
 
 $routes->group(
@@ -108,9 +111,16 @@ $routes->group(
         'filter' => 'contract'
     ],
     function (\CodeIgniter\Router\RouteCollection $routes) {
+
+        
         $routes->get('companyInfoView', 'ContractController::companyInfoView');
         $routes->get('personalView', 'ContractController::personalView');
         $routes->post('personalUpdate', 'ContractController::personalUpdate');
+
+
+        //工程新增
+        $routes->get('projectCreate', 'EngineeringController::createView'); 
+        $routes->post('projectCreate', 'EngineeringController::create'); 
     }
 );
 /**
