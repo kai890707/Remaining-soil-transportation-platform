@@ -79,7 +79,7 @@ abstract class BaseController extends Controller
 
     protected function getImagePath($fileName)
     {
-        return  PUBLIC_PATH . DIRECTORY_SEPARATOR . 'assets'. DIRECTORY_SEPARATOR .'images' . DIRECTORY_SEPARATOR . $fileName;
+        return  FCPATH . DIRECTORY_SEPARATOR . 'assets'. DIRECTORY_SEPARATOR .'images' . DIRECTORY_SEPARATOR . $fileName;
     }
 
     protected function qrcodeUpload($base64)
@@ -91,5 +91,6 @@ abstract class BaseController extends Controller
             return false;
         return $fileName;
     }
+
 
 }

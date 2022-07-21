@@ -32,7 +32,7 @@ class PdfController extends BaseController
     {
         return view('pdf_view');
     }
-    public function htmlToPDF()
+    public function htmlToPDF($data)
     {
         try {
         // $path_to_image = "assets/images/pic1.jpg";
@@ -55,7 +55,6 @@ class PdfController extends BaseController
 
     public function insertEngineeringData()
     {
-
         $engineering_id = $this->request->getPostGet('engineering_id');
         $engineeringData = $this->engineeringManagementModel->where('engineering_id', $engineering_id)->first();
 
@@ -110,9 +109,104 @@ class PdfController extends BaseController
     }
 
 
-    public function addEngineeringPdf()
+    public function pdfStatusJudge()
     {
+        $pdf_id = $this->request->getPostGet('pdf_id');
+        $permission_id = $this->session->get('permission_id');
+        $judgePdfStatus = $this->$pdfDocumentModel->where('pdf_id',$pdf_id)->first();
+        if($permission_id == $this::$permissionIdByClearingDriver){
+            if($judgePdfStatus && $judgePdfStatus['status_id'] == $this::$pdfStatus_contractFinsh ){ //駕駛判斷
+                $result = $this->driverInsertPdfData(); //新增駕駛資訊至pdf
+                if($result){
+                    $data = [
+                        'status_id' => $this::$pdfStatus_driverFinsh,
+                    ];
+                    $updatePdfStatus = $this->$pdfDocumentModel->update($pdf_id,$data);
+                    if($updatePdfStatus){
+                        $response=[
+                            'status' => 'success',
+                            'message' => '簽名完成'
+                        ];
+                    }else{
+                        $response=[
+                            'status' => 'fail',
+                            'message' => '簽名失敗'
+                        ];
+                    }
+                }
+            }else{
+                $response=[
+                    'status' => 'fail',
+                    'message' => '承造商尚未簽名'
+                ];
+            }
+        }else if($permission_id == $this::$permissionIdByContainmentCompany){ //收容判斷
+            if($judgePdfStatus && $judgePdfStatus['status_id'] == $this::$pdfStatus_driverFinsh ){
+                $result = $this->containmentCompanyInserPdfData(); //新增駕駛資訊至pdf
+                if($result){
+                    $data = [
+                        'status_id' => $this::$pdfStatus_containmentFinsh,
+                    ];
+                    $updatePdfStatus = $this->$pdfDocumentModel->update($pdf_id,$data);
+                    if($updatePdfStatus){
+                        $response=[
+                            'status' => 'success',
+                            'message' => '簽名完成'
+                        ];
+                    }else{
+                        $response=[
+                            'status' => 'fail',
+                            'message' => '簽名失敗'
+                        ];
+                    }
+                }
+            }else{
+                $response=[
+                    'status' => 'fail',
+                    'message' => '駕駛尚未簽名'
+                ];
+            }
+        }else if($permission_id == $this::$permissionIdByContractingCompany){ //承造判斷
+            if($judgePdfStatus && $judgePdfStatus['status_id'] == $this::$pdfStatus_createFinish){
+                return $this->getPdfData($judgePdfStatus);
+            }
+        }
 
+
+
+    }
+
+    public function driverInsertPdfData($user_id)
+    {
+         return 'success';
+    }
+
+    public function containmentCompanyInserPdfData()
+    {
+        return 'success';
+    }
+
+    public function getPdfData($pdfData)
+    {
+        $data = [
+            'pdf_fileNumber' => $pdfData['pdf_fileNumber'],
+            'pdf_effectiveDate' => $pdfData['pdf_effectiveDate'],
+            'pdf_buildingName' => $pdfData['pdf_buildingName'],
+
+        ];
+        $this->htmlToPDF($data);
+    }
+
+    public function signFileDecodeBase64($base64)
+    {
+        $fileName = uniqid();
+        file_put_contents(
+            $_SERVER['DOCUMENT_ROOT'].'/assets/qrcode/'.$fileName.'.png',
+            base64_decode(
+                str_replace('data:image/png;base64,', '', $base64)
+            )
+        );
+        echo '<img src="'.base_url("/assets/qrcode/".$fileName.".png").'" alt="QR Code" />';
     }
 
 }
