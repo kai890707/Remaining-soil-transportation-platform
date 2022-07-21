@@ -127,7 +127,7 @@ class PdfDocument extends Migration
             'pdf_status' =>[
                 'type' => 'VARCHAR',
                 'constraint' => 10,
-                'comment' => '文件狀態'
+                'comment' => '文件狀態外來鍵'
             ],
             'engineering_id'=>[
                 'type' =>'INT',
