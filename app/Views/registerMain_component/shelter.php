@@ -16,27 +16,27 @@
     </div>
     <div class="mb-3">
         <label for="containmentCompany_name" class="form-label">公司名稱</label>
-        <input type="text" class="form-control" id="containmentCompany_name" name="containmentCompany_name">
+        <input type="text" class="form-control" id="containmentCompany_name" name="containmentCompany_name"required>
     </div>
     <div class="mb-3">
         <label for="containmentCompany_uniformNumbers" class="form-label">公司統編</label>
-        <input type="text" class="form-control" id="containmentCompany_uniformNumbers" name="containmentCompany_uniformNumbers">
+        <input type="text" class="form-control" id="containmentCompany_uniformNumbers" name="containmentCompany_uniformNumbers"required>
     </div>
     <div class="mb-3">
         <label for="containmentCompany_principalName" class="form-label">負責人姓名</label>
-        <input type="text" class="form-control" id="containmentCompany_principalName" name="containmentCompany_principalName">
+        <input type="text" class="form-control" id="containmentCompany_principalName" name="containmentCompany_principalName"required>
     </div>
     <div class="mb-3">
         <label for="containmentCompany_principalPhone" class="form-label">負責人電話</label>
-        <input type="text" class="form-control" id="containmentCompany_principalPhone" name="containmentCompany_principalPhone">
+        <input type="text" class="form-control" id="containmentCompany_principalPhone" name="containmentCompany_principalPhone"required>
     </div>
     <div class="mb-3">
         <label for="containmentCompany_placeAddress" class="form-label">收容場所地址</label>
-        <input type="text" class="form-control" id="containmentCompany_placeAddress" name="containmentCompany_placeAddress">
+        <input type="text" class="form-control" id="containmentCompany_placeAddress" name="containmentCompany_placeAddress"required>
     </div>
     <div class="mb-3">
         <label for="containmentCompany_address" class="form-label">收容公司地址</label>
-        <input type="text" class="form-control" id="containmentCompany_address" name="containmentCompany_address">
+        <input type="text" class="form-control" id="containmentCompany_address" name="containmentCompany_address"required>
     </div>
     <div class="d-grid gap-2">
     <button class="btn btn-primary" type="submit">註冊</button>

@@ -16,31 +16,31 @@
     </div>
     <div class="mb-3">
         <label for="contracting_companyName" class="form-label">公司名稱</label>
-        <input type="text" class="form-control" id="contracting_companyName" name="contracting_companyName" >
+        <input type="text" class="form-control" id="contracting_companyName" name="contracting_companyName"required >
     </div>
     <div class="mb-3">
         <label for="contracting_uniformNumbers" class="form-label">公司統編</label>
-        <input type="text" class="form-control" id="contracting_uniformNumbers" name="contracting_uniformNumbers" >
+        <input type="text" class="form-control" id="contracting_uniformNumbers" name="contracting_uniformNumbers" required>
     </div>
     <div class="mb-3">
         <label for="contracting_contractUserName" class="form-label">承造人姓名</label>
-        <input type="text" class="form-control" id="contracting_contractUserName" name="contracting_contractUserName" >
+        <input type="text" class="form-control" id="contracting_contractUserName" name="contracting_contractUserName" required>
     </div>
     <div class="mb-3">
         <label for="contracting_contractUserPhone" class="form-label">承造人電話</label>
-        <input type="text" class="form-control" id="contracting_contractUserPhone" name="contracting_contractUserPhone">
+        <input type="text" class="form-control" id="contracting_contractUserPhone" name="contracting_contractUserPhone"required>
     </div>
     <div class="mb-3">
         <label for="contracting_contractWatcherName" class="form-label">監造人姓名</label>
-        <input type="text" class="form-control" id="contracting_contractWatcherName" name="contracting_contractWatcherName">
+        <input type="text" class="form-control" id="contracting_contractWatcherName" name="contracting_contractWatcherName"required>
     </div>
     <div class="mb-3">
         <label for="contracting_contractWatcherPhone" class="form-label">監造人電話</label>
-        <input type="text" class="form-control" id="contracting_contractWatcherPhone" name="contracting_contractWatcherPhone" >
+        <input type="text" class="form-control" id="contracting_contractWatcherPhone" name="contracting_contractWatcherPhone" required>
     </div>
     <div class="mb-3">
         <label for="contracting_companyAddress" class="form-label">公司地址</label>
-        <input type="text" class="form-control" id="contracting_companyAddress" name="contracting_companyAddress" >
+        <input type="text" class="form-control" id="contracting_companyAddress" name="contracting_companyAddress" required>
     </div>
     <div class="d-grid gap-2">
         <button class="btn btn-primary" type="submit">註冊</button>

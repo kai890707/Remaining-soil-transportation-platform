@@ -28,6 +28,8 @@ class PdfDocumentModel extends Model{
         'pdf_containmentPlaceSign',
         'pdf_contractingSignDate',
         'pdf_driverSignDate',
+        'pdf_carFront',
+        'pdf_carBody',
         'pdf_containmentPlaceSignDate',
         'status_id',
         'engineering_id',

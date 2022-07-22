@@ -35,6 +35,7 @@
                     </tr>
                 </thead>
                 <tbody style="word-break: break-all;">
+
                 <?php foreach ($info as $i) {?>     
                     <tr>
                         <td><?php echo $i['pdf_fileNumber']?></td>

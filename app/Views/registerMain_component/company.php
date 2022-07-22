@@ -16,27 +16,27 @@
     </div>
     <div class="mb-3">
         <label for="clearingCompany_name" class="form-label">公司名稱</label>
-        <input type="text" class="form-control" id="clearingCompany_name" name="clearingCompany_name">
+        <input type="text" class="form-control" id="clearingCompany_name" name="clearingCompany_name" required>
     </div>
     <div class="mb-3">
         <label for="clearingCompany_uniformNumbers" class="form-label">公司統編</label>
-        <input type="text" class="form-control" id="clearingCompany_uniformNumbers" name="clearingCompany_uniformNumbers">
+        <input type="text" class="form-control" id="clearingCompany_uniformNumbers" name="clearingCompany_uniformNumbers"required>
     </div>
     <div class="mb-3">
         <label for="clearingCompany_principalName" class="form-label">負責人姓名</label>
-        <input type="text" class="form-control" id="clearingCompany_principalName" name="clearingCompany_principalName">
+        <input type="text" class="form-control" id="clearingCompany_principalName" name="clearingCompany_principalName"required>
     </div>
     <div class="mb-3">
         <label for="clearingCompany_identityCard" class="form-label">身分證號碼</label>
-        <input type="text" class="form-control" id="clearingCompany_identityCard" name="clearingCompany_identityCard">
+        <input type="text" class="form-control" id="clearingCompany_identityCard" name="clearingCompany_identityCard"required>
     </div>
     <div class="mb-3">
         <label for="clearingCompany_phone" class="form-label">聯絡電話</label>
-        <input type="text" class="form-control" id="clearingCompany_phone" name="clearingCompany_phone">
+        <input type="text" class="form-control" id="clearingCompany_phone" name="clearingCompany_phone"required>
     </div>
     <div class="mb-3">
         <label for="clearingCompany_address" class="form-label">清運公司地址</label>
-        <input type="text" class="form-control" id="clearingCompany_address" name="clearingCompany_address">
+        <input type="text" class="form-control" id="clearingCompany_address" name="clearingCompany_address"required>
     </div>
     <div class="d-grid gap-2">
     <button class="btn btn-primary" type="submit">註冊</button>

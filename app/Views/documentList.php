@@ -20,17 +20,19 @@
 </div>
 <div class="container">
     <div class="row mt-4 p-0  ">
-         <div class=" col-11 bg-light shadow p-4 m-1  mx-auto shadow rounded">
-            <div class="row text-break d-flex align-items-center justify-content-center">
-                <div class="col-5 border-end ">
-                    <p class="m-0 text-center">新增聯單</p>
+        <?php if(session()->get('permission_id') == 2){?>
+            <div class=" col-11 bg-light shadow p-4 m-1  mx-auto shadow rounded">
+                <div class="row text-break d-flex align-items-center justify-content-center">
+                    <div class="col-5 border-end ">
+                        <p class="m-0 text-center">新增聯單</p>
+                    </div>
+                    <div class="col-7 border-end text-center">
+                        <button type="button" class="btn btn-outline-success"   onclick="location.href='<?php echo base_url('contract/documentCreate').'/'.$projectInfo['engineering_id']?>'">新增聯單</button> 
+                    </div>
+                    
                 </div>
-                <div class="col-7 border-end text-center">
-                    <button type="button" class="btn btn-outline-success"   onclick="location.href='<?php echo base_url('contract/documentCreate').'/'.$projectInfo['engineering_id']?>'">新增聯單</button> 
-                </div>
-                
             </div>
-        </div>
+        <?php }?>
         <div class=" col-11 bg-light shadow p-4 m-1  mx-auto shadow rounded">
             <div class="row text-break">
                 <div class="col-5 border-end ">

@@ -101,7 +101,7 @@ class QrcodeRender extends BaseController
      */
     public function generateQrcode($pdf_id)
     {
-        $url = base_url('pdf/showPdf'.'/'.$pdf_id);
+        $url = base_url('pdf/validSign'.'/'.$pdf_id);
         $options = new QROptions([
             'version'      => 10,
             'outputType'   => QRCode::OUTPUT_IMAGE_PNG,

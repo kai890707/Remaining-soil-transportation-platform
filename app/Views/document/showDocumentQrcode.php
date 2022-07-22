@@ -54,7 +54,18 @@
                 </div>
             </div>
         </div>
-
+        <div class=" col-11 bg-light shadow p-4 m-1  mx-auto shadow rounded">
+            <div class="row">
+                <div class="col-4 border-end d-flex align-items-center justify-content-center">
+                    <p class="m-0 fs-6">該聯單檔案</p>
+                </div>
+                <div class="col-8 border-end d-flex align-items-center justify-content-center">
+                    <p class="m-0 fs-6">
+                        <button class="btn btn-outline-success"  onclick="location.href='<?php echo base_url('pdf/showPdf').'/'.$projectInfo['pdf_id']?>'" >查看</button>
+                    </p>
+                </div>
+            </div>
+        </div>
         <div class=" col-11 bg-light shadow p-4 m-1  mx-auto shadow rounded">
             <div class="row" >
                 <div class="col-12 p-4 d-flex justify-content-center align-items-center">

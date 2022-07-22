@@ -61,6 +61,13 @@
                 <div class="col-6">
                     <p><?php echo $pdfInfo['pdf_buildingAddress']?></p>
                 </div>
+                <div class="col-6 border-end ">
+                    <p>該聯單檔案</p>
+                </div>
+                <div class="col-6">
+                    <p><button class="btn btn-outline-success"  onclick="location.href='<?php echo base_url('pdf/showPdf').'/'.$pdfInfo['pdf_id']?>'" >查看</button></p>
+                </div>
+                
             </div>
         </div>
         <div class=" col-11 bg-light shadow p-4 m-1  mx-auto shadow rounded">

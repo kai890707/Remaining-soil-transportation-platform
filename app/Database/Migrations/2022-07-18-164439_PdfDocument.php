@@ -134,6 +134,16 @@ class PdfDocument extends Migration
                 'constraint'=>11,
                 'comment' => '工程管理外來鍵'
             ],
+            'pdf_carFront'=>[
+                'type' => 'VARCHAR',
+                'constraint' => 100,
+                'comment' => '車頭圖片'
+            ],
+            'pdf_carBody'=>[
+                'type' => 'VARCHAR',
+                'constraint' => 100,
+                'comment' => '車斗圖片'
+            ],
 
             'created_at datetime default current_timestamp',
             'updated_date datetime default current_timestamp on update current_timestamp',

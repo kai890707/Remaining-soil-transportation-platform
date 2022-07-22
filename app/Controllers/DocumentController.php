@@ -136,7 +136,7 @@ class DocumentController extends Controller
         $qrcodeImgHtml = $qrcodeClass->generateQrcode($pdf_id);
 
         $projectInfo = $this->pdfDocumentModel
-                            ->select('EngineeringManagement.engineering_name,EngineeringManagement.engineering_projectNumber,PdfDocument.pdf_fileNumber')
+                            ->select('EngineeringManagement.engineering_name,EngineeringManagement.engineering_projectNumber,PdfDocument.*')
                             ->join('EngineeringManagement','EngineeringManagement.engineering_id = PdfDocument.engineering_id')
                             ->where('PdfDocument.pdf_id',$pdf_id)
                             ->first();

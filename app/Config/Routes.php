@@ -215,8 +215,10 @@ $routes->group(
         'filter' => 'login'
     ],
     function (\CodeIgniter\Router\RouteCollection $routes) {
-        $routes->post('uploadSign', 'PdfController::uploadSign'); //post 簽名
+        $routes->post('uploadSign', 'PdfController::uploadSign'); //post 簽名 
+        // $routes->post('uploadContainmentSign', 'PdfController::uploadContainmentSign'); //收容 post 簽名
         $routes->get('validSign/(:num)', 'PdfController::validSign/$1'); //pdf頁面 參數:pdf id
+        $routes->get('showPdf/(:num)', 'PdfController::showPdf/$1'); //pdf頁面 參數:pdf id
         
     }
 );

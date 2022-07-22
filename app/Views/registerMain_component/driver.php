@@ -16,7 +16,7 @@
     </div>
     <div class="mb-3"> 
         <label for="clearingCompanyId" class="form-label">公司名稱</label>
-        <select class="form-select" aria-label="Default select example" name="clearingCompanyId">
+        <select class="form-select" aria-label="Default select example" name="clearingCompanyId" required>
             <option selected value="0">請選擇公司</option>
             <?php 
                 foreach ($company as $key) {
@@ -30,23 +30,23 @@
    
     <div class="mb-3">
         <label for="driver_name" class="form-label">駕駛姓名</label>
-        <input type="text" class="form-control" id="driver_name" name="driver_name">
+        <input type="text" class="form-control" id="driver_name" name="driver_name"required >
     </div>
     <div class="mb-3">
         <label for="driver_identityCard" class="form-label">駕駛身分證號碼</label>
-        <input type="text" class="form-control" id="driver_identityCard" name="driver_identityCard">
+        <input type="text" class="form-control" id="driver_identityCard" name="driver_identityCard"required>
     </div>
     <div class="mb-3">
         <label for="driver_licensePlate" class="form-label">車牌</label>
-        <input type="text" class="form-control" id="driver_licensePlate" name="driver_licensePlate">
+        <input type="text" class="form-control" id="driver_licensePlate" name="driver_licensePlate"required>
     </div>
     <div class="mb-3">
         <label for="driver_phone" class="form-label">聯絡電話</label>
-        <input type="text" class="form-control" id="driver_phone" name="driver_phone">
+        <input type="text" class="form-control" id="driver_phone" name="driver_phone"required>
     </div>
     <div class="mb-3"> 
         <label for="driver_bloodType" class="form-label">血型</label>
-        <select class="form-select" aria-label="Default select example" name="driver_bloodType">
+        <select class="form-select" aria-label="Default select example" name="driver_bloodType"required>
             <option selected value="0">請選擇血型</option>
             <option value="O">O型</option>
             <option value="A">A型</option>

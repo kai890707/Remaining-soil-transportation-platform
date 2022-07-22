@@ -18,9 +18,11 @@
 <div class="container">
     <div class="row mt-4 p-0  ">
         <div class=" col-11 bg-light shadow p-3 m-1  mx-auto ">
+            <?php if(session()->get('permission_id') == "1"){?>
             <div class="w-100 d-flex justify-content-end align-items-center mb-2">
                <button type="button" class="btn btn-outline-success"   onclick="location.href='<?php echo base_url('contract/projectCreate')?>'">新增工程</button> 
             </div>
+            <?php }?>
             <table class="table table-striped fs-5">
                 <thead>
                     <tr>
