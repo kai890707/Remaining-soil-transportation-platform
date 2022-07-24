@@ -140,10 +140,10 @@ class Home extends BaseController
     }
     public function qrscan()
     {
-        // $data = [
-        //     "title" => $this->title . ' - 聯單使用(司機)'
-        // ];
-        return view('qrscan');
+        $data = [
+            "title" => $this->title . ' - 聯單掃描'
+        ];
+        return view('qrscan',$data);
     }
     public function sign()
     {
@@ -167,15 +167,6 @@ class Home extends BaseController
         return view('project', $data);
     }
 
-    /**
-     * 公開路由司機註冊
-     *
-     * @return void
-    */     
-    public function registerByDriver()
-    {
-        # code...
-    }
     public function pwa()
     {
         return view('pwa');

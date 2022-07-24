@@ -105,10 +105,10 @@
                     <p class="m-0 text-center">聯單總數量</p>
                 </div>
                 <div class="col-4 border-end">
-                    <p class="m-0 text-center">1861516516</p>
+                    <p class="m-0 text-center"><?php echo $countArray["All"]?></p>
                 </div>
                 <div class="col-4  text-center">
-                    <button class="btn btn-outline-success">查看</button>
+                    <button class="btn btn-outline-success" onclick="location.href='<?php echo base_url('document').'/'.$projectInfo['engineering_id'].'/4'?>'">查看</button>
                 </div>
             </div>
         </div>

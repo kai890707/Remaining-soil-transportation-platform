@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use CodeIgniter\Controller;
 use App\Controllers\DocumentController;
+use App\Controllers\QrcodeRender;
 use App\Models\ContractingCompanyModel;
 use App\Models\EngineeringManagementModel;
 use App\Models\ClearingDriverModel;
@@ -24,6 +25,7 @@ class PdfController extends BaseController
     protected $clearingCompanyModel;
     protected $containmentCompanyModel;
     protected $permissionModel;
+    protected $qrcodeRender;
     public $title = '營建剩餘土石方憑證系統';
 
     public function __construct()
@@ -38,6 +40,7 @@ class PdfController extends BaseController
         $this->clearingCompanyModel = new  ClearingCompanyModel();
         $this->containmentCompanyModel = new  ContainmentCompanyModel();
         $this->documentController = new DocumentController();
+        $this->qrcodeRender = new QrcodeRender();
 
     }
 
@@ -56,7 +59,12 @@ class PdfController extends BaseController
      */
     public function validSign($pdf_id)
     {
-        $permission_id = $this->session->get('permission_id');
+        if($this->session->get('permission_id')){
+            $permission_id = $this->session->get('permission_id');
+        }else{
+            $permission_id = 99999;
+        }
+       
         switch ($permission_id) {
             case $this::$permissionIdByContractingCompany:
                 return $this->RedirectToContractSign($pdf_id);
@@ -69,6 +77,9 @@ class PdfController extends BaseController
                 break;
             case $this::$permissionIdByContainmentCompany:
                 return $this->RedirectToContainmentSign($pdf_id);
+                break;
+            case $this::$permissionIdByGovernment:
+                return $this->RedirectToGovernmentSign($pdf_id);
                 break;
             default:
                 return $this->showPdf($pdf_id);
@@ -94,6 +105,8 @@ class PdfController extends BaseController
 
         $pdfDataFromPdfModel = $this->pdfDocumentModel->getPdfData($pdf_id);
         $contractSign = $pdfDataFromPdfModel['pdf_contractingSign'];
+        $driverSign = $pdfDataFromPdfModel['pdf_driverSign'];
+        $containmentSign = $pdfDataFromPdfModel['pdf_containmentPlaceSign'];
 
         if($contractSign == ""){
             $data = [
@@ -103,13 +116,15 @@ class PdfController extends BaseController
                 'permissionName'=>$permissionName['permission_name']
             ];
             return view('sign/sign',$data);
+        }else if($contractSign!=="" && $driverSign!=="" &&$containmentSign!==""){
+            return $this->showPdf($pdf_id);
         }else{
             return $this->documentController->showDocumentQrcode($pdf_id);
         }
     }
     /**
      * 清運司機PDF導向
-     * 判斷承造廠商是否針對該PDF簽名
+     * 判斷司機是否針對該PDF簽名
      * 是，則產出QRCODE 及 SHOW PDF
      *
      * @param [INT] $pdf_id
@@ -123,9 +138,14 @@ class PdfController extends BaseController
                                ->first();
 
         $pdfDataFromPdfModel = $this->pdfDocumentModel->getPdfData($pdf_id);
+        $contractSign = $pdfDataFromPdfModel['pdf_contractingSign'];
+        $contractSign = $pdfDataFromPdfModel['pdf_contractingSign'];
         $driverSign = $pdfDataFromPdfModel['pdf_driverSign'];
+        $containmentSign = $pdfDataFromPdfModel['pdf_containmentPlaceSign'];
 
-        if($driverSign == ""){
+        if($contractSign == ""){
+            return $this->documentController->showDocumentQrcode($pdf_id);
+        }else if($contractSign !=="" && $driverSign == ""){
             $data = [
                 "title" => $this->title . ' - 司機簽名',
                 "pdf_id" =>$pdf_id,
@@ -133,6 +153,8 @@ class PdfController extends BaseController
                 'permissionName'=>$permissionName['permission_name']
             ];
             return view('sign/sign',$data);
+        }else if($contractSign!=="" && $driverSign!=="" && $containmentSign!==""){
+            return $this->showPdf($pdf_id);
         }else{
             return $this->documentController->showDocumentQrcode($pdf_id);
         }
@@ -140,7 +162,7 @@ class PdfController extends BaseController
 
     /**
      * 清運司機PDF導向
-     * 判斷承造廠商是否針對該PDF簽名
+     * 判斷收容是否針對該PDF簽名
      * 是，則產出QRCODE 及 SHOW PDF
      *
      * @param [INT] $pdf_id
@@ -154,8 +176,16 @@ class PdfController extends BaseController
                                ->first();
 
         $pdfDataFromPdfModel = $this->pdfDocumentModel->getPdfData($pdf_id);
+        $contractSign = $pdfDataFromPdfModel['pdf_contractingSign'];
+        $driverSign = $pdfDataFromPdfModel['pdf_driverSign'];
         $containmentSign = $pdfDataFromPdfModel['pdf_containmentPlaceSign'];
-        if($containmentSign == ""){
+
+        if($contractSign == "" && $driverSign == ""){
+
+            return $this->documentController->showDocumentQrcode($pdf_id);
+
+        }else if($contractSign !== "" && $driverSign !== "" && $containmentSign == ""){
+
             $data = [
                 "title" => $this->title . ' - 收容場所簽名',
                 "pdf_id" =>$pdf_id,
@@ -163,9 +193,37 @@ class PdfController extends BaseController
                 'permissionName'=>$permissionName['permission_name']
             ];
             return view('sign/containmentSign',$data);
+
+        }else if($contractSign!=="" && $driverSign!=="" &&$containmentSign!==""){
+
+            return $this->showPdf($pdf_id);
+
         }else{
             return $this->documentController->showDocumentQrcode($pdf_id);
         }
+    }
+
+
+    /**
+     * 清運公司PDF導向
+     *
+     * @param [INT] $pdf_id
+     * @return void
+     */
+    public function RedirectToCompanySign($pdf_id)
+    {
+        return $this->showPdf($pdf_id);
+    }
+
+    /**
+     * 政府單位PDF導向
+     *
+     * @param [INT] $pdf_id
+     * @return void
+     */
+    public function RedirectToGovernmentSign($pdf_id)
+    {
+        return $this->showPdf($pdf_id);
     }
 
 
@@ -218,6 +276,7 @@ class PdfController extends BaseController
             "containmentPlaceSignDate"=>"",         //收容場所簽名時間 pdf
             "carFront"=>"",                         //車頭照片 pdf
             "carBody"=>"",                          //車斗照片 pdf
+            "docQrcode"=>"",                        //該PDF QRCODE 由Qrcode Render Controller 呼叫傳入
         ];
 
         /**
@@ -249,9 +308,12 @@ class PdfController extends BaseController
             $RealDataField['driverSignDate'] = $this->dateTimeFormat($pdfDataFromPdfModel['pdf_driverSignDate']);
              //圖片路徑轉為圖檔
             $RealDataField['containmentPlaceSign'] = $this->signFileEncodeBase64($pdfDataFromPdfModel['pdf_containmentPlaceSign']);
-            //日期切割
+             //日期切割
+            $RealDataField['containmentPlaceSignDate'] = $this->dateTimeFormat($pdfDataFromPdfModel['pdf_containmentPlaceSignDate']);
+
             $RealDataField['carFront'] = $pdfDataFromPdfModel['pdf_carFront'];
             $RealDataField['carBody']=$pdfDataFromPdfModel['pdf_carBody'];
+            $RealDataField['docQrcode']= $this->qrcodeRender->generateQrcode($pdf_id);
         }
         /**
          * 以PDF ID 搜尋 工程資料表資料
@@ -324,12 +386,19 @@ class PdfController extends BaseController
         }
     }
 
+    /**
+     * 上傳簽名檔及根據該簽名用戶update PDF資料
+     * 
+     *
+     * @return void
+     */
     public function uploadSign()
     {
         $signBase64 = $this->request->getPostGet('sign');
         $pdf_id = $this->request->getPostGet('pdf_id');
         $permission_id = $this->session->get('permission_id');
 
+        //簽名上傳
         $fileName = $pdf_id.uniqid().'.png';
         $signTime = date("Y:m:d H:i");; 
         file_put_contents(
@@ -339,7 +408,6 @@ class PdfController extends BaseController
             )
         );
        
-
         if($permission_id == $this::$permissionIdByContractingCompany){
             $updateData = [
                 "pdf_contractingSign"=>$fileName,
@@ -359,7 +427,10 @@ class PdfController extends BaseController
                 ];
             }
         }else if($permission_id == $this::$permissionIdByClearingCompany){
-           
+           $response=[
+                'status' => 'fail',
+                'message' => '您無簽署權限'
+            ];
         }else if($permission_id == $this::$permissionIdByClearingDriver){
 
             $getClearingCompanyIdByDriver = $this->clearingDriverModel
@@ -388,20 +459,10 @@ class PdfController extends BaseController
             }
         }else if($permission_id == $this::$permissionIdByContainmentCompany){
             
-
             $pdf_id = $this->request->getPostGet('pdf_id');
-
-            // $carFront = $this->request->getFile('carFront');
-            // $carFrontTemp = explode(".", $carFront->getName()); //副檔名
-            // $carFrontImageName = 'carFront'.$pdf_id.round(microtime(true)) . '.' . end($carFrontTemp);
-            // $carFront->move('assets/car/',$carFrontImageName);
-
-            // $carBody = $this->request->getFile('carBody');
-            // $carBodyTemp = explode(".", $carBody->getName()); //副檔名
-            // $carBodyImageName = 'carBody'.$pdf_id.round(microtime(true)) . '.' . end($carBodyTemp);
-            // $carBody->move('assets/car/',$carBodyImageName);
-
+            $containmentPlaceEearthFlowNumer = $this->request->getPostGet('containmentPlaceEearthFlowNumer');
             $carFrontBase64 = $this->request->getPostGet('carFront');
+
             $carFrontBase64FileName = 'carFront'.$pdf_id.uniqid().'.png';
             file_put_contents(
                 $_SERVER['DOCUMENT_ROOT'].'/assets/car/'.$carFrontBase64FileName,
@@ -409,8 +470,9 @@ class PdfController extends BaseController
                     str_replace('data:image/png;base64,', '', $carFrontBase64)
                 )
             );
+
             $carBodyBase64 = $this->request->getPostGet('carBody');
-            $carBodyBase64FileName = 'carFront'.$pdf_id.uniqid().'.png';
+            $carBodyBase64FileName = 'carBody'.$pdf_id.uniqid().'.png';
             file_put_contents(
                 $_SERVER['DOCUMENT_ROOT'].'/assets/car/'.$carBodyBase64FileName,
                 base64_decode(
@@ -424,14 +486,14 @@ class PdfController extends BaseController
             $updateData = [
                 "pdf_containmentPlaceSign"=>$fileName,
                 "pdf_containmentPlaceSignDate"=>$signTime,
-                "status_id"=>$this::$pdfStatus_containmentFinish,
+                // "status_id"=>$this::$pdfStatus_containmentFinish,
+                "status_id"=>$this::$pdfStatus_signFinish,
                 "pdf_containmentCompanyId"=>$this->session->get('containmentCompany_id'),
                 "pdf_shippingQuantity"=>$shippingQuantity,
                 "pdf_shippingContents"=>$shippingContents,
-                // "pdf_carFront"=>$carFrontImageName,
-                // "pdf_carBody"=>$carBodyImageName
                 "pdf_carFront"=>$carFrontBase64FileName,
-                "pdf_carBody"=>$carBodyBase64FileName
+                "pdf_carBody"=>$carBodyBase64FileName,
+                "pdf_containmentPlaceEearthFlowNumer"=>$containmentPlaceEearthFlowNumer
             ];
 
             $r =  $this->pdfDocumentModel->update($pdf_id,$updateData);
@@ -448,32 +510,21 @@ class PdfController extends BaseController
                 ];
             }
 
-
         }else if($permission_id == $this::$permissionIdByGovernment){
-
+            $response=[
+                'status' => 'fail',
+                'message' => '您無簽署權限'
+            ];
         }
         
-   
         return $this->response->setJSON($response);
     }
 
-    public function htmlToPDF($data)
-    {
-        try {
-            $dompdf = new \Dompdf\Dompdf();
-            $dompdf->set_option('isRemoteEnabled', TRUE);
-            $dompdf->loadHtml(view('pdf_view'));
-            // $dompdf->loadHtml($html);
-            $dompdf->setPaper('A4', 'letter');
-            $dompdf->render();
-            $dompdf->stream('newfile',array('Attachment'=>0));
-            // $dompdf->stream();
-
-        } catch (\Exception $e) {
-                print_r($e);
-        }
-    }
-
+    /**
+     * 新增工程
+     *
+     * @return json
+     */
     public function insertEngineeringData()
     {
         $engineering_id = $this->request->getPostGet('engineering_id');
@@ -531,94 +582,12 @@ class PdfController extends BaseController
     }
 
 
-    public function pdfStatusJudge()
-    {
-        $pdf_id = $this->request->getPostGet('pdf_id');
-        $permission_id = $this->session->get('permission_id');
-        $judgePdfStatus = $this->$pdfDocumentModel->where('pdf_id',$pdf_id)->first();
-        if($permission_id == $this::$permissionIdByClearingDriver){
-            if($judgePdfStatus && $judgePdfStatus['status_id'] == $this::$pdfStatus_contractFinsh ){ //駕駛判斷
-                $result = $this->driverInsertPdfData(); //新增駕駛資訊至pdf
-                if($result){
-                    $data = [
-                        'status_id' => $this::$pdfStatus_driverFinsh,
-                    ];
-                    $updatePdfStatus = $this->$pdfDocumentModel->update($pdf_id,$data);
-                    if($updatePdfStatus){
-                        $response=[
-                            'status' => 'success',
-                            'message' => '簽名完成'
-                        ];
-                    }else{
-                        $response=[
-                            'status' => 'fail',
-                            'message' => '簽名失敗'
-                        ];
-                    }
-                }
-            }else{
-                $response=[
-                    'status' => 'fail',
-                    'message' => '承造商尚未簽名'
-                ];
-            }
-        }else if($permission_id == $this::$permissionIdByContainmentCompany){ //收容判斷
-            if($judgePdfStatus && $judgePdfStatus['status_id'] == $this::$pdfStatus_driverFinsh ){
-                $result = $this->containmentCompanyInserPdfData(); //新增駕駛資訊至pdf
-                if($result){
-                    $data = [
-                        'status_id' => $this::$pdfStatus_containmentFinsh,
-                    ];
-                    $updatePdfStatus = $this->$pdfDocumentModel->update($pdf_id,$data);
-                    if($updatePdfStatus){
-                        $response=[
-                            'status' => 'success',
-                            'message' => '簽名完成'
-                        ];
-                    }else{
-                        $response=[
-                            'status' => 'fail',
-                            'message' => '簽名失敗'
-                        ];
-                    }
-                }
-            }else{
-                $response=[
-                    'status' => 'fail',
-                    'message' => '駕駛尚未簽名'
-                ];
-            }
-        }else if($permission_id == $this::$permissionIdByContractingCompany){ //承造判斷
-            if($judgePdfStatus && $judgePdfStatus['status_id'] == $this::$pdfStatus_createFinish){
-                return $this->getPdfData($judgePdfStatus);
-            }
-        }
-
-
-
-    }
-
-    public function driverInsertPdfData($user_id)
-    {
-         return 'success';
-    }
-
-    public function containmentCompanyInserPdfData()
-    {
-        return 'success';
-    }
-
-    public function getPdfData($pdfData)
-    {
-        $data = [
-            'pdf_fileNumber' => $pdfData['pdf_fileNumber'],
-            'pdf_effectiveDate' => $pdfData['pdf_effectiveDate'],
-            'pdf_buildingName' => $pdfData['pdf_buildingName'],
-
-        ];
-        $this->htmlToPDF($data);
-    }
-
+    /**
+     * Base64轉圖檔
+     *
+     * @param [type] $base64
+     * @return void
+     */
     public function signFileDecodeBase64($base64)
     {
         $fileName = uniqid();
@@ -628,7 +597,7 @@ class PdfController extends BaseController
                 str_replace('data:image/png;base64,', '', $base64)
             )
         );
-        echo '<img src="'.base_url("/assets/qrcode/".$fileName.".png").'" alt="QR Code" />';
+        return '<img src="'.base_url("/assets/qrcode/".$fileName.".png").'" alt="QR Code" />';
     }
 
 
@@ -670,8 +639,7 @@ class PdfController extends BaseController
             $spaceSplit = explode(" ",$dateTime);
             $ymdSplit = explode("-",$spaceSplit[0]);
             $hsSplit = explode(":",$spaceSplit[1]);
-            $str = $ymdSplit[0]."年".$ymdSplit[1]."月".$ymdSplit[2]."日".$hsSplit[0]."時".$hsSplit[1]."分";
-            
+            $str = $ymdSplit[0]."年".$ymdSplit[1]."月".$ymdSplit[2]."日".$hsSplit[0]."時".$hsSplit[1]."分";   
         }
         return $str; 
     }

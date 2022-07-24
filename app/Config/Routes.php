@@ -45,11 +45,13 @@ $routes->set404Override();
 
 //測試路由
 $routes->get('lobby', 'Home::lobby', ["filter" => "login"]);
+$routes->get('qrscan', 'Home::qrscan', ["filter" => "login"]);
+
 $routes->get('personal', 'Home::personal');
 // $routes->get('projectList', 'Home::projectList');
 $routes->get('documentUse', 'Home::documentUse');
 // $routes->get('documentList', 'Home::documentList');
-$routes->get('qrscan', 'Home::qrscan');
+
 $routes->get('sign', 'Home::sign');
 $routes->get('signRecords', 'Home::signRecords');
 $routes->get('project', 'Home::project');
@@ -202,12 +204,15 @@ $routes->group(
         $routes->get('(:num)', 'DocumentController::index/$1'); //工程流向編號清單列表 參數:工程ID
         $routes->get('(:num)/(:num)', 'DocumentController::useStatus/$1/$2'); //工程流向編號清單使用狀態 參數:工程ID、PDF狀態
         $routes->get('showDocumentQrcode/(:num)', 'DocumentController::showDocumentQrcode/$1'); //qrcode頁面
+        $routes->get('done', 'DocumentController::done'); //工程流向編號清單列表 參數:工程ID
+        
     }
 );
 
 /**
  * 聯單路由
  */
+$routes->get('pdf/validSign/(:num)', 'PdfController::validSign/$1'); //pdf頁面 參數:pdf id
 $routes->group(
     'pdf',
     [
@@ -217,7 +222,6 @@ $routes->group(
     function (\CodeIgniter\Router\RouteCollection $routes) {
         $routes->post('uploadSign', 'PdfController::uploadSign'); //post 簽名 
         // $routes->post('uploadContainmentSign', 'PdfController::uploadContainmentSign'); //收容 post 簽名
-        $routes->get('validSign/(:num)', 'PdfController::validSign/$1'); //pdf頁面 參數:pdf id
         $routes->get('showPdf/(:num)', 'PdfController::showPdf/$1'); //pdf頁面 參數:pdf id
         
     }

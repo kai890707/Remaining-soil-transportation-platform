@@ -3,20 +3,23 @@
 namespace App\Controllers;
 
 use CodeIgniter\Controller;
+
 use App\Models\PdfDocumentModel;
 use App\Models\EngineeringManagementModel;
 use App\Controllers\QrcodeRender;
 
-class DocumentController extends Controller
+class DocumentController extends BaseController
 {
     public $title = '營建剩餘土石方憑證系統';
     protected $pdfDocumentModel;
     protected $engineeringManagementModel;
+    protected $pdfController;
     protected $db;
     public function __construct()
     {
         $this->pdfDocumentModel = new PdfDocumentModel();
         $this->engineeringManagementModel = new EngineeringManagementModel();
+       
         $this->db = db_connect();
     }
 
@@ -38,12 +41,16 @@ class DocumentController extends Controller
                                 ->get()
                                 ->getResultArray();
 
+        $allproject = $this->pdfDocumentModel
+                           ->countAll();
+
         $countArray = [
             "Create"=>0,
             "Contract"=>0,
             "Driver"=>0,
             "Shelter"=>0,
-            "Finish"=>0
+            "Finish"=>0,
+            "All"=>0,
         ];
         foreach ($projectStatus as $key) {
             if($key['status'] == 1){
@@ -58,6 +65,7 @@ class DocumentController extends Controller
                 $countArray["Finish"] = $key['count'];
             }
         }
+        $countArray["All"] = $allproject;
 
         $data = [
             "title" => $this->title . ' - 聯單',
@@ -81,37 +89,51 @@ class DocumentController extends Controller
         $subTitle = '';
         $enSubTitle = '';
         switch ($status_id) {
-            case '1':
+            case $this::$pdfStatus_createFinish:
                 $subTitle = "未使用聯單列表";
                 $enSubTitle= "Unused List";
                 break;
             
-            case '2':
+            case $this::$pdfStatus_contractFinish:
                 $subTitle = "承造已使用聯單列表";
                 $enSubTitle= "Contract Used List";
                 break;
-            case '3':
+            case $this::$pdfStatus_driverFinish:
                 $subTitle = "清運司機已使用聯單列表";
                 $enSubTitle= "Driver Used List";
                 break;
-            case '4':
-                $subTitle = "收容廠商已使用聯單列表";
-                $enSubTitle= "Shelter Used List";
+            case $this::$pdfStatus_containmentFinish:
+                $subTitle = "已完成聯單列表";
+                $enSubTitle= "Completed List";
+                // $subTitle = "收容廠商已使用聯單列表";
+                // $enSubTitle= "Shelter Used List";
                 break;
-            case '5':
+            case $this::$pdfStatus_signFinish:
                 $subTitle = "已完成聯單列表";
                 $enSubTitle= "Completed List";
                 break;
             default:
+                $subTitle = "已完成聯單列表";
+                $enSubTitle= "Completed List";
                 break;
         }
 
-        $projectInfo = $this->pdfDocumentModel
+
+        if($status_id == $this::$pdfStatus_containmentFinish){
+            $projectInfo = $this->pdfDocumentModel
+                            ->select('PdfDocument.*,PdfStatus.status_remark')
+                            ->join('PdfStatus','PdfStatus.status_id = PdfDocument.status_id')
+                            ->paginate(10);
+        }else{
+            $projectInfo = $this->pdfDocumentModel
                             ->select('PdfDocument.*,PdfStatus.status_remark')
                             ->join('PdfStatus','PdfStatus.status_id = PdfDocument.status_id')
                             ->where('PdfDocument.engineering_id',$project_id)
                             ->where('PdfDocument.status_id',$status_id)
                             ->paginate(10);
+        }
+        
+        
         $data = [
             "title" => $this->title . ' - '.$subTitle,
             "subTitle"=>$subTitle,
@@ -132,6 +154,10 @@ class DocumentController extends Controller
     public function showDocumentQrcode($pdf_id)
     {
 
+        $permission_id = session()->get('permission_id');
+
+     
+
         $qrcodeClass = new QrcodeRender();
         $qrcodeImgHtml = $qrcodeClass->generateQrcode($pdf_id);
 
@@ -149,6 +175,10 @@ class DocumentController extends Controller
         
         return view('document/showDocumentQrcode',$data);
     }
-       
+    
+ 
+
+   
+
        
 }
