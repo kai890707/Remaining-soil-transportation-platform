@@ -134,7 +134,7 @@
             </tr>
             <tr >
                 <td class="sign">
-                   
+                   <?php echo $organizeImg;?>
                 </td>
                 <td class="sign">
                     <?php echo $contractingSign;?>

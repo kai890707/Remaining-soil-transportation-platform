@@ -307,6 +307,7 @@ class PdfController extends BaseController
             "carFront"=>"",                         //車頭照片 pdf
             "carBody"=>"",                          //車斗照片 pdf
             "docQrcode"=>"",                        //該PDF QRCODE 由Qrcode Render Controller 呼叫傳入
+            "organizeImg"=>"",                      //公會證明
         ];
 
         /**
@@ -344,6 +345,8 @@ class PdfController extends BaseController
             $RealDataField['carFront'] = $pdfDataFromPdfModel['pdf_carFront'];
             $RealDataField['carBody']=$pdfDataFromPdfModel['pdf_carBody'];
             $RealDataField['docQrcode']= $this->qrcodeRender->generateQrcode($pdf_id);
+
+            $RealDataField['organizeImg']= $this->organizeFileEncodeBase64('organize.png');
         }
         /**
          * 以PDF ID 搜尋 工程資料表資料
@@ -647,12 +650,34 @@ class PdfController extends BaseController
             $image=file_get_contents($_SERVER['DOCUMENT_ROOT'].'/assets/sign/'.$image_path);
             $imagedata=base64_encode($image);
             // return 
-            $imgHtml='<img src="data:image/png;base64, '.$imagedata.'" style="max-width: 100%;height: auto;" alt="/assets/sign/'.$imagedata.'">';
+            $imgHtml='<img src="data:image/png;base64, '.$imagedata.'" style="max-width: 100%;height: auto;margin-right: auto!important;margin-left: auto!important;" alt="/assets/sign/'.$imagedata.'">';
             
         }
         return $imgHtml;
     }
 
+        /**
+     * 圖片轉base64
+     * 因DomPdf套件圖片問題只能用base64渲染圖片
+     *
+     * @param [type] $image_path
+     * @return void
+     */
+    public function organizeFileEncodeBase64($image_path)
+    {
+        $imgHtml = "";
+        if($image_path == ""){
+           $imgHtml = "";
+        }else{
+            $image=file_get_contents($_SERVER['DOCUMENT_ROOT'].'/assets/images/'.$image_path);
+            $imagedata=base64_encode($image);
+            // return 
+            $imgHtml='<img src="data:image/png;base64, '.$imagedata.'" style="max-width: 90%;height: auto;margin-right: auto!important;margin-left: auto!important;" alt="/assets/images/'.$imagedata.'">';
+            
+        }
+        return $imgHtml;
+    }
+    
     /**
      * 日期格式整理
      *
