@@ -55,7 +55,7 @@
                     <p class="m-0 text-center">完成進場收容</p>
                 </div>
                 <div class="col-7 border-end">
-                    <p class="m-0 text-center"><?php echo $countArray["Shelter"]?></p>
+                    <p class="m-0 text-center"><?php echo $countArray["Finish"]?></p>
                 </div>
             </div>
         </div>

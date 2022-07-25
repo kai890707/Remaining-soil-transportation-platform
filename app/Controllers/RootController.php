@@ -8,7 +8,7 @@ use App\Models\ClearingCompanyModel;
 use App\Models\ClearingDriverModel;
 use App\Models\ContainmentCompanyModel;
 use App\Models\ContractingCompanyModel;
-
+use App\Models\GovernmentModel;
 class RootController extends BaseController
 {
     public $title = '營建剩餘土石方憑證系統';
@@ -16,6 +16,7 @@ class RootController extends BaseController
     protected $clearingDriverModel;
     protected $containmentCompanyModel;
     protected $contractingCompanyModel;
+    protected $governmentModel;
     protected $userModel;
 
     public function __construct()
@@ -25,6 +26,7 @@ class RootController extends BaseController
         $this->clearingDriverModel = new ClearingDriverModel();
         $this->containmentCompanyModel = new ContainmentCompanyModel();
         $this->contractingCompanyModel = new ContractingCompanyModel();
+        $this->governmentModel = new GovernmentModel();
     }
 
     public function accountLobby()
@@ -101,7 +103,10 @@ class RootController extends BaseController
                              ->first();
                 break;
             case $this::$permissionIdByGovernment:
-                # code...
+                $info = $this->governmentModel
+                             ->where('Government.user_id',$getUser['user_id'])
+                             ->join('User','Government.user_id = User.user_id')
+                             ->first();
                 break;
             default:
                 break;
@@ -162,7 +167,8 @@ class RootController extends BaseController
             $response = $this->companyUpdate($user_id);
         }else if($permission_id == $this::$permissionIdByContainmentCompany){
             $response = $this->containmentUpdate($user_id);
-
+        }else if($permission_id == $this::$permissionIdByGovernment){
+            $response = $this->governmentUpdate($user_id);
         }
         return $this->response->setJSON($response);
     }
@@ -337,6 +343,48 @@ class RootController extends BaseController
 
         $result =  $this->containmentCompanyModel->update($containmentCompany_id,$companyData);  
         
+        if($result){
+            $response=[
+                    'status' => 'success',
+                    'message' => '資料更新成功'
+            ];
+        }else{
+            $response=[
+                'status' => 'fail',
+                'message' => '資料更新失敗'
+            ];
+        }
+        return $response;
+    }
+
+    /**
+     * [call] Root更新政府資料
+     *
+     * @param [type] $user_id
+     * @return void
+     */
+    public function governmentUpdate($user_id)
+    {
+        $government_name = $this->request->getPostGet('government_name');
+        $government_principalName = $this->request->getPostGet('government_principalName');
+        $government_principalPhone = $this->request->getPostGet('government_principalPhone');
+        $government_address = $this->request->getPostGet('government_address');
+
+         $governmentData=[
+                    'government_name' => $government_name,
+                    'government_principalName' => $government_principalName,
+                    'government_principalPhone' => $government_principalPhone,
+                    'government_address' => $government_address,
+        ];
+
+        $government_id = $this->userModel
+                               ->select('Government.government_id')
+                               ->where('User.user_id',$user_id)
+                               ->join('Government','User.user_id = Government.user_id')
+                               ->first();
+
+        $result =  $this->governmentModel->update($government_id,$governmentData);
+
         if($result){
             $response=[
                     'status' => 'success',

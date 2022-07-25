@@ -35,6 +35,10 @@
                         case '5':
                 ?>
                            <?=$this->include('registerMain_component/shelter') ?>
+                <?php   break;
+                        case '6':
+                ?>
+                           <?=$this->include('registerMain_component/government') ?>
                 <?php   break; 
                         default:
                 ?>

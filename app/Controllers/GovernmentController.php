@@ -54,7 +54,7 @@ class GovernmentController extends BaseController
             "info"  => $governmentData
         ];
 
-        // return view('user_contract/companyInformation', $data);
+        return view('user_government/governmentInfoView', $data);
     }
 
 
@@ -73,7 +73,7 @@ class GovernmentController extends BaseController
                     'government_address' => $government_address,
         ];
 
-        $government_id = $this->governmentModel
+        $government_id = $this->userModel
                                ->select('Government.government_id')
                                ->where('User.user_id',$this->session->get('user_id'))
                                ->join('Government','User.user_id = Government.user_id')
@@ -94,5 +94,22 @@ class GovernmentController extends BaseController
         }
 
         return $this->response->setJSON($response);
+    }
+
+    /**
+     * 政府單位個人資訊
+     *
+     * @return void
+     */
+    public function personalView()
+    {
+        $governmentData = $this->governmentModel->getGovernmentData();
+
+        $data = [
+            "title" => $this->title . ' - 個人資訊',
+            "info"  => $governmentData
+        ];
+        
+        return view('user_government/personal', $data);
     }
 }

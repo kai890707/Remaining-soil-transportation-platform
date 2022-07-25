@@ -51,6 +51,36 @@ class PdfController extends BaseController
     }
 
     /**
+     * [POST]以文件序號搜尋PDF
+     *
+     * @param [type] $pdf_fileNumber (文件序號)
+     * @return void
+     */
+    public function selectDocument()
+    {
+        $pdf_fileNumber = $this->request->getPostGet('pdf_fileNumber');
+        $pdf_id = $this->pdfDocumentModel
+                       ->select('pdf_id')
+                       ->where('pdf_fileNumber',$pdf_fileNumber)
+                       ->first();
+        if($pdf_id){
+            $response=[
+                'status' => 'success',
+                'message' => '搜尋成功!即將為您跳轉頁面',
+                'p_id'=>$pdf_id['pdf_id']
+
+            ];
+        }else{
+            $response=[
+                'status' => 'fail',
+                'message' => '搜尋失敗找不到您所搜尋的文件序號',
+            ];
+        }
+        return $this->response->setJSON($response);
+        
+    }
+
+    /**
      * Qrcode掃描第一關
      * 取得權限，判斷使用者是否為該文件簽名
      *

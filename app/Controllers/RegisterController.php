@@ -59,7 +59,7 @@ class RegisterController extends BaseController
      */
     public function viewVaild($permissionId=null)
     {
-        if($permissionId == null){ $permissionId = 6;}
+        if($permissionId == null){ $permissionId = 999;}
         if($permissionId == 4){
             $company = $this->clearingCompanyModel->getCompanyName();
             $data = [

@@ -48,13 +48,13 @@ $routes->get('lobby', 'Home::lobby', ["filter" => "login"]);
 $routes->get('qrscan', 'Home::qrscan', ["filter" => "login"]);
 $routes->get('changePassword', 'Home::changePassword', ["filter" => "login"]);
 $routes->post('changePassword', 'Home::updatePassword', ["filter" => "login"]);
-
+$routes->get('documentUse', 'Home::documentUse',["filter" => "login"]);
 
 
 //測試路由
 $routes->get('personal', 'Home::personal');
 // $routes->get('projectList', 'Home::projectList');
-$routes->get('documentUse', 'Home::documentUse');
+
 // $routes->get('documentList', 'Home::documentList');
 
 $routes->get('sign', 'Home::sign');
@@ -155,6 +155,9 @@ $routes->group(
         $routes->get('companyInfoView', 'ClearingCompanyController::companyInfoView');
         $routes->get('personalView', 'ClearingCompanyController::personalView');
         $routes->post('personalUpdate', 'ClearingCompanyController::personalUpdate');
+        $routes->get('carMembership', 'ClearingCompanyController::getDriverData');
+        $routes->get('getDriverInfo/(:num)', 'ClearingCompanyController::getDriverInfo/$1');
+        
     }
 );
 /**
@@ -205,6 +208,7 @@ $routes->group(
     function (\CodeIgniter\Router\RouteCollection $routes) {
         $routes->get('governmentInfoView', 'GovernmentController::governmentInfoView');
         $routes->post('governmentInfoUpdate', 'GovernmentController::governmentInfoUpdate');
+        $routes->get('personalView', 'GovernmentController::personalView');
     }
 );
 
@@ -257,7 +261,8 @@ $routes->group(
         $routes->post('uploadSign', 'PdfController::uploadSign'); //post 簽名
         // $routes->post('uploadContainmentSign', 'PdfController::uploadContainmentSign'); //收容 post 簽名
         $routes->get('showPdf/(:num)', 'PdfController::showPdf/$1'); //pdf頁面 參數:pdf id
-
+        $routes->post('selectDocument', 'PdfController::selectDocument'); //pdf頁面 參數:pdf id
+        
     }
 );
 

@@ -9,7 +9,7 @@
         <a class="nav-link" href="<?php echo base_url('containment/personalView')?>">個人資訊</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="<?php echo base_url('qrscan')?>">QR Code簽核</a>
+        <a class="nav-link" href="<?php echo base_url('documentUse')?>">聯單簽核</a>
     </li>
 </ul>
 <ul class="navbar-nav  mb-2 mb-lg-0">

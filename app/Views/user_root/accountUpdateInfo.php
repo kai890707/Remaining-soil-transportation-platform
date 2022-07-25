@@ -30,7 +30,7 @@
                 <?php }else if($permission_id == "5"){?>
                     <?= $this->include('user_root/accountInfoComponent/shelter');?>
                 <?php }else if($permission_id == "6"){?>
-                    <?= $this->include('user_root/accountInfoComponent/contract');?>
+                    <?= $this->include('user_root/accountInfoComponent/government');?>
                 <?php}else{?>
                 <?php }?>
             </form>

@@ -7,7 +7,7 @@ use App\Models\UserModel;
 use App\Models\ClearingCompanyModel;
 use App\Models\ClearingDriverModel;
 
-class ClearingCompanyController extends Controller
+class ClearingCompanyController extends BaseController
 {
     public $title = '營建剩餘土石方憑證系統';
     protected $userModel;
@@ -105,27 +105,46 @@ class ClearingCompanyController extends Controller
         return $this->response->setJSON($response);
     }
 
-
+    /**
+     * 車籍資訊頁面
+     *
+     * @return void
+     */
     public function getDriverData()
     {
-        $permission_id = $session->get('permission_id');
+        $permission_id = session()->get('permission_id');
         if($permission_id == $this::$permissionIdByClearingCompany){
-            $clearingCompanyData = $this->clearingCompanyModel->where('user_id',$session->get('user_id'))->first();
+            $clearingCompanyData = $this->clearingCompanyModel->where('user_id',session()->get('user_id'))->first();
             $clearingCompany_id = $clearingCompanyData['clearingCompany_id'];
 
             $driverData = $this->clearDriverModel->select('ClearingDriver.*')->where('clearingCompany_id',$clearingCompany_id)->paginate(10);
 
-            $subTitle = '駕駛資訊查詢';
-            $enSubTitle= "Driver List";
-
             $data = [
-                "title" => $this->title . ' - '.$subTitle,
-                "subTitle"=>$subTitle,
-                "enSubTitle"=>$enSubTitle,
-                "info"=>$driverData,
+                "title" => $this->title . ' - 車籍資訊',
+                "cars"=>$driverData,
                 "pager" => $this->clearDriverModel->pager,
             ];
-            // return view('document/documentStatusList',$data);
+            return view('user_company/driverAndCar',$data);
         }
+    }
+
+    /**
+     * 司機資訊
+     *
+     * @param [INT] $id (司機ID)
+     * @return void
+     */
+    public function getDriverInfo($id)
+    {
+        $driverData = $this->clearDriverModel
+                           ->where('clearingDriver_id',$id)
+                           ->join('ClearingCompany','ClearingCompany.clearingCompany_id = ClearingDriver.clearingCompany_id')
+                           ->first();
+        $data = [
+            "title" => $this->title . ' - 司機資訊',
+            "info"=>$driverData
+        ];
+
+        return view('user_company/driverInfo',$data);
     }
 }

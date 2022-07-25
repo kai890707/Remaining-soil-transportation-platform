@@ -49,6 +49,10 @@
                 case '5':
         ?>
                     <?= $this->include('lobbyMain_component/shelter')?>
+        <?php   break;
+                case '6':
+        ?>
+                    <?= $this->include('lobbyMain_component/government')?>
         <?php   break; 
                 default:
         ?>
