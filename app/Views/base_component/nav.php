@@ -28,7 +28,21 @@
             <?= $this->include('nav_component/government');?>
         <?php }else if(session()->has('user_email') && session()->get('permission_id') == "1"){?>
             <?= $this->include('nav_component/root');?>
+        <?php }else if(session()->has('user_email')){?>
+            <ul class="navbar-nav  mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link " href="<?php echo base_url('logout')?>">登出</a>
+                </li>
+            </ul>
         <?php }else{?>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="<?php echo base_url('/') ?>">一般登入</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?php echo base_url('drverRegister') ?>">清運司機註冊</a>
+                </li>
+            </ul>
         <?php }?>
     </div>
   </div>

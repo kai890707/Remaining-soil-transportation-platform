@@ -67,12 +67,16 @@ class ClearingCompanyController extends Controller
     public function personalUpdate()
     {
      
+        $clearingCompanyName = $this->request->getPostGet('clearingCompany_name');
+        $clearingCompanyUniformNumbers = $this->request->getPostGet('clearingCompany_uniformNumbers');
         $clearingCompanyPrincipalName = $this->request->getPostGet('clearingCompany_principalName');
         $clearingCompanyIdentityCard = $this->request->getPostGet('clearingCompany_identityCard');
         $clearingCompanyPhone = $this->request->getPostGet('clearingCompany_phone');
         $clearingCompanyAddress = $this->request->getPostGet('clearingCompany_address');
 
         $companyData=[
+                'clearingCompany_name'=>$clearingCompanyName,
+                'clearingCompany_uniformNumbers'=>$clearingCompanyUniformNumbers,
                 'clearingCompany_principalName' => $clearingCompanyPrincipalName,
                 'clearingCompany_identityCard' => $clearingCompanyIdentityCard,
                 'clearingCompany_phone' => $clearingCompanyPhone,
@@ -81,7 +85,7 @@ class ClearingCompanyController extends Controller
 
         $clearingCompany_id = $this->userModel
                                ->select('ClearingCompany.clearingCompany_id')
-                               ->where('User.user_id',$this->session->get('user_id'))
+                               ->where('User.user_id',session()->get('user_id'))
                                ->join('ClearingCompany','User.user_id = ClearingCompany.user_id')
                                ->first();
 

@@ -14,11 +14,6 @@ class Home extends BaseController
         $this->clearingCompanyModel = new ClearingCompanyModel();
     }
     
-    public function qrtest()
-    {
-        
-    }
-
     public function index()
     {
         if (session()->get("user_email")) {
@@ -109,6 +104,65 @@ class Home extends BaseController
             "title" => $this->title . ' - 大廳'
         ];
         return view('lobby', $data);
+    }
+
+    /**
+     * 修改密碼頁面
+     *
+     * @return void
+     */
+    public function changePassword()
+    {
+        $data = [
+            "title" => $this->title . ' - 修改密碼'
+        ];
+        return view('changePassword', $data);
+    }
+    /**
+     * [POST]修改密碼
+     *
+     * @return void
+     */
+    public function updatePassword()
+    {
+        $user_id = session()->get('user_id');
+        $oldPassword = $this->request->getPostGet('user_password');
+        $rePassword = $this->request->getPostGet('re_password');
+        $newPassword = $this->request->getPostGet('new_password');
+
+        if($rePassword !== $newPassword){
+            $response=[
+                'status' => 'fail',
+                'message' => '密碼重複輸入錯誤'
+            ];
+        }else{
+            $isUser = $this->userModel
+                           ->where('user_id',$user_id)
+                           ->where('user_password',sha1($oldPassword))
+                           ->first();
+            if($isUser){
+                $data = [
+                    'user_password'=>sha1($newPassword)
+                ];
+                if($this->userModel->update($user_id,$data)){
+                    $response=[
+                        'status' => 'success',
+                        'message' => '修改成功'
+                    ];
+                }else{
+                    $response=[
+                        'status' => 'fail',
+                        'message' => '修改失敗'
+                    ];
+                }
+            }else{
+                $response=[
+                    'status' => 'fail',
+                    'message' => '原密碼錯誤'
+                ];  
+            }
+        }
+         return $this->response->setJSON($response);
     }
     public function personal()
     {

@@ -67,6 +67,8 @@ class ContractController extends Controller
     public function personalUpdate()
     {
      
+         $contractingCompanyName = $this->request->getPostGet('contracting_companyName');
+        $contractingUniformNumbers = $this->request->getPostGet('contracting_uniformNumbers');
         $contractingContractUserName = $this->request->getPostGet('contracting_contractUserName');
         $contractingContractUserPhone = $this->request->getPostGet('contracting_contractUserPhone');
         $contractingContractWatcherName = $this->request->getPostGet('contracting_contractWatcherName');
@@ -74,6 +76,8 @@ class ContractController extends Controller
         $contractingCompanyAddress = $this->request->getPostGet('contracting_companyAddress');
 
         $companyData=[
+                'contracting_companyName'=> $contractingCompanyName,
+                'contracting_uniformNumbers'=>$contractingUniformNumbers,
                 'contracting_contractUserName' => $contractingContractUserName,
                 'contracting_contractUserPhone' => $contractingContractUserPhone,
                 'contracting_contractWatcherName' => $contractingContractWatcherName,
@@ -83,7 +87,7 @@ class ContractController extends Controller
 
         $contracting_id = $this->userModel
                                ->select('ContractingCompany.contracting_id')
-                               ->where('User.user_id',$this->session->get('user_id'))
+                               ->where('User.user_id',session()->get('user_id'))
                                ->join('ContractingCompany','User.user_id = ContractingCompany.user_id')
                                ->first();
 

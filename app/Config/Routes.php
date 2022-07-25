@@ -43,10 +43,15 @@ $routes->set404Override();
 
 
 
-//測試路由
+
 $routes->get('lobby', 'Home::lobby', ["filter" => "login"]);
 $routes->get('qrscan', 'Home::qrscan', ["filter" => "login"]);
+$routes->get('changePassword', 'Home::changePassword', ["filter" => "login"]);
+$routes->post('changePassword', 'Home::updatePassword', ["filter" => "login"]);
 
+
+
+//測試路由
 $routes->get('personal', 'Home::personal');
 // $routes->get('projectList', 'Home::projectList');
 $routes->get('documentUse', 'Home::documentUse');
@@ -106,6 +111,9 @@ $routes->group(
     function (\CodeIgniter\Router\RouteCollection $routes) {
        $routes->get('accountLobby', 'RootController::accountLobby');
        $routes->get('accountManage', 'RootController::accountManage');
+       $routes->get('updateUser/(:num)', 'RootController::updateUser/$1');
+       $routes->post('personalUpdate', 'RootController::personalUpdate');
+       
     }
 );
 /**
@@ -160,6 +168,9 @@ $routes->group(
         $routes->get('companyInfoView', 'DriverController::companyInfoView');
         $routes->get('personalView', 'DriverController::personalView');
         $routes->post('personalUpdate', 'DriverController::personalUpdate');
+
+        $routes->get('execution', 'DriverController::execution');
+        
     }
 );
 
@@ -206,8 +217,7 @@ $routes->group(
         $routes->get('(:num)', 'DocumentController::index/$1'); //工程流向編號清單列表 參數:工程ID
         $routes->get('(:num)/(:num)', 'DocumentController::useStatus/$1/$2'); //工程流向編號清單使用狀態 參數:工程ID、PDF狀態
         $routes->get('showDocumentQrcode/(:num)', 'DocumentController::showDocumentQrcode/$1'); //qrcode頁面
-        $routes->get('done', 'DocumentController::done'); //工程流向編號清單列表 參數:工程ID
-        $routes->get('documentTable/(:num)', 'DocumentController::documentTable/$1'); //工程流向編號清單列表 參數:工程ID
+        $routes->get('documentTable/(:num)', 'DocumentController::documentTable/$1'); //聯單table
         
         
     }

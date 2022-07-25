@@ -13,7 +13,7 @@ class CompanyFilter implements FilterInterface
         /**
          * 判斷是否存在user email這個session
          */
-        if (!session()->has("user_email")||session()->get("permission_id")!== "3" ||  session()->get("permission_name")!== "清運廠商(公司)" ) {
+        if (!session()->has("user_email")|| session()->get("permission_id")!== "3" ||  session()->get("permission_name")!== "清運廠商(公司)" ) {
             return redirect()->to(base_url('/'));
         }
     }
