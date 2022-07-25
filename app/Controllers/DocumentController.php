@@ -7,6 +7,8 @@ use CodeIgniter\Controller;
 use App\Models\PdfDocumentModel;
 use App\Models\EngineeringManagementModel;
 use App\Controllers\QrcodeRender;
+use App\Models\ClearingDriverModel;
+
 
 class DocumentController extends BaseController
 {
@@ -14,12 +16,13 @@ class DocumentController extends BaseController
     protected $pdfDocumentModel;
     protected $engineeringManagementModel;
     protected $pdfController;
+    protected $driverModel;
     protected $db;
     public function __construct()
     {
         $this->pdfDocumentModel = new PdfDocumentModel();
         $this->engineeringManagementModel = new EngineeringManagementModel();
-       
+        $this->driverModel = new ClearingDriverModel();
         $this->db = db_connect();
     }
 
@@ -176,8 +179,59 @@ class DocumentController extends BaseController
         return view('document/showDocumentQrcode',$data);
     }
     
- 
 
+    /**
+     * 工程結案區
+     * 顯示該公司所完成之聯單
+     * 
+     * @return view
+     */
+    public function documentComplete()
+    {
+        $contract_id = session()->get('contracting_id');
+        // print_r($contract_id);
+        $completeDoc = $this->pdfDocumentModel
+                            ->join('EngineeringManagement','EngineeringManagement.engineering_id = PdfDocument.engineering_id')
+                            ->where('PdfDocument.status_id',$this::$pdfStatus_signFinish)
+                            ->where('PdfDocument.pdf_contractingCompanyId',$contract_id)
+                            ->paginate(10);
+        $data = [
+            "title" => $this->title . ' - 工程結案區',
+            "projects"=>$completeDoc,
+            "pager" => $this->pdfDocumentModel->pager,
+        ];  
+        return view('user_contract/documentComplete', $data);
+    
+    }
+
+
+    /**
+     * 文件表格
+     *
+     * @param [INT] $id (pdf_id)
+     * @return void
+     */
+    public function documentTable($id)
+    {   
+        $completeDoc = $this->pdfDocumentModel
+                            ->join('EngineeringManagement','EngineeringManagement.engineering_id = PdfDocument.engineering_id')
+                            ->join('ClearingDriver','ClearingDriver.clearingDriver_id = PdfDocument.pdf_clearingDriverId')
+                            ->join('ContainmentCompany','ContainmentCompany.containmentCompany_id = PdfDocument.pdf_containmentCompanyId')
+                            ->join('ContractingCompany','ContractingCompany.contracting_id = PdfDocument.pdf_contractingCompanyId')
+                            ->where('PdfDocument.status_id',$this::$pdfStatus_signFinish)
+                            ->where('PdfDocument.pdf_id',$id)
+                            ->first();
+        $companyInfo = $this->driverModel
+                            ->join('ClearingCompany','ClearingCompany.clearingCompany_id = ClearingDriver.clearingDriver_id')
+                            ->where('ClearingCompany.clearingCompany_id',$completeDoc['clearingCompany_id'])
+                            ->first();
+        $completeDoc['clearingCompany_name'] = $companyInfo['clearingCompany_name'];
+        $data = [
+            "title" => $this->title . ' - 文件表格',
+            "projects"=>$completeDoc,
+        ];  
+        return view('document/documentTable', $data);
+    }
    
 
        

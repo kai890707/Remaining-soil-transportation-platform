@@ -324,22 +324,21 @@
             return new Promise((resolve, reject) => {
                 let img = new Image()
                 let cvs = document.createElement('canvas')
-                let file = imgfile.files[0] // 获取到文件对象
-                // console.log("f",file);
-                // 上传的图片大于400KB时才压缩
+                let file = imgfile.files[0]
+                // 上傳圖片大於100KB就壓縮
                 if (file && file.size / 1024 > 100) {
                     let reader = new FileReader()
-                    reader.readAsDataURL(file) // 转成 base64 编码
+                    reader.readAsDataURL(file) // 轉成base64
                         reader.onload = function (e) {
-                            let naturalBase64 = e.target.result // 获取 base64 编码，这是原图的
+                            let naturalBase64 = e.target.result // 原圖base64
                             img.src = naturalBase64
                             img.onload = function () {
-                            let ratio = img.naturalWidth / img.naturalHeight // 获取原图比例,为了等比压缩
-                            cvs.width = 400 // 设定canvas的宽度
-                            cvs.height = cvs.width / ratio // 根据原图片压缩比例计算canvas的高度
+                            let ratio = img.naturalWidth / img.naturalHeight // 以原圖長寬比取得壓縮比
+                            cvs.width = 400 // 設定canvas寬度
+                            cvs.height = cvs.width / ratio // 根據原圖寬度比例取得高度
                             let ctx = cvs.getContext('2d')
-                            ctx.drawImage(img, 0, 0, cvs.width, cvs.height) // 画在 canvas 上
-                            // 压缩后新图的 base64
+                            ctx.drawImage(img, 0, 0, cvs.width, cvs.height) // 渲染至canvas
+                            // 經壓縮後新圖
                             let zipBase64 = cvs.toDataURL("image/png")
                                 if (zipBase64) {
                                     let urlBase64 = zipBase64.split(',')[1]
@@ -348,22 +347,21 @@
                                 }
                             }
                         }
-                } else { // 上传的图片400KB以下，取原文件base64
+                } else { // 上傳圖片小於100KB以下，取原文件base64
                     console.log('非壓縮')
                     // let urlBase64 = imgfile.content.split(',')[1]
                     // resolve(urlBase64)
                     let reader = new FileReader();
-                    reader.readAsDataURL(file); // 转成 base64 编码
+                    reader.readAsDataURL(file); // 轉成base64
                     reader.onload = function (e) {
-                        let naturalBase64 = e.target.result // 获取 base64 编码，这是原图的
+                        let naturalBase64 = e.target.result 
                         img.src = naturalBase64
                         img.onload = function () {
-                            let ratio = img.naturalWidth / img.naturalHeight // 获取原图比例,为了等比压缩
-                            cvs.width = 400 // 设定canvas的宽度
-                            cvs.height = cvs.width / ratio // 根据原图片压缩比例计算canvas的高度
+                            let ratio = img.naturalWidth / img.naturalHeight 
+                            cvs.width = 400 
+                            cvs.height = cvs.width / ratio 
                             let ctx = cvs.getContext('2d')
-                            ctx.drawImage(img, 0, 0, cvs.width, cvs.height) // 画在 canvas 上
-                            // 压缩后新图的 base64
+                            ctx.drawImage(img, 0, 0, cvs.width, cvs.height) 
                             let zipBase64 = cvs.toDataURL("image/png")
                             resolve(zipBase64)
                         }

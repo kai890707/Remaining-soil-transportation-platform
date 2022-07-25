@@ -127,6 +127,8 @@ $routes->group(
         //聯單新增 view & post
         $routes->get('documentCreate/(:num)', 'ContractController::documentCreateView/$1');
         $routes->post('insertEngineeringData', 'PdfController::insertEngineeringData');
+        //工程結案區
+        $routes->get('documentComplete', 'DocumentController::documentComplete');
 
     }
 );
@@ -205,6 +207,8 @@ $routes->group(
         $routes->get('(:num)/(:num)', 'DocumentController::useStatus/$1/$2'); //工程流向編號清單使用狀態 參數:工程ID、PDF狀態
         $routes->get('showDocumentQrcode/(:num)', 'DocumentController::showDocumentQrcode/$1'); //qrcode頁面
         $routes->get('done', 'DocumentController::done'); //工程流向編號清單列表 參數:工程ID
+        $routes->get('documentTable/(:num)', 'DocumentController::documentTable/$1'); //工程流向編號清單列表 參數:工程ID
+        
         
     }
 );

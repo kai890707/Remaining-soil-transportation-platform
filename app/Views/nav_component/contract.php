@@ -1,23 +1,20 @@
-<?php $session = \Config\Services::session(); ?>
-<nav class="navbar navbar-expand-lg navbar-light bg-white">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="<?php echo base_url();?>">營建剩餘土石方憑證系統</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        登入
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <li><a class="dropdown-item" href="<?php echo base_url('/') ?>">一般登入</a></li>
-                        <li><a class="dropdown-item" href="<?php echo base_url('register') ?>">清運司機註冊</a></li>
-                    </ul>
-                </li>
 
-            </div>
-        </div>
-    </div>
-</nav>
+<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+    <li class="nav-item">
+        <a class="nav-link" href="<?php echo base_url('contract/companyInfoView')?>">公司資訊</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="<?php echo base_url('project/projectList')?>">聯單使用</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="<?php echo base_url('contract/personalView')?>">個人資訊</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="<?php echo base_url('contract/documentComplete')?>"">工程結案區</a>
+    </li>
+</ul>
+<ul class="navbar-nav  mb-2 mb-lg-0">
+    <li class="nav-item">
+        <a class="nav-link " href="<?php echo base_url('logout')?>">登出</a>
+    </li>
+</ul>
