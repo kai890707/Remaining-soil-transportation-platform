@@ -67,12 +67,16 @@ class ContainmentController extends Controller
     public function personalUpdate()
     {
      
+        $containmentCompanyName = $this->request->getPostGet('containmentCompany_name');
+        $containmentCompanyUniformNumbers = $this->request->getPostGet('containmentCompany_uniformNumbers');
         $containmentCompanyPrincipalName = $this->request->getPostGet('containmentCompany_principalName');
         $containmentCompanyPrincipalPhone = $this->request->getPostGet('containmentCompany_principalPhone');
         $containmentCompanyPlaceAddress = $this->request->getPostGet('containmentCompany_placeAddress');
         $containmentCompanyAddress = $this->request->getPostGet('containmentCompany_address');
 
          $companyData=[
+                'containmentCompany_name'=>$containmentCompanyName,
+                'containmentCompany_uniformNumbers'=>$containmentCompanyUniformNumbers,
                 'containmentCompany_principalName' => $containmentCompanyPrincipalName,
                 'containmentCompany_principalPhone' => $containmentCompanyPrincipalPhone,
                 'containmentCompany_placeAddress' => $containmentCompanyPlaceAddress,
@@ -81,7 +85,7 @@ class ContainmentController extends Controller
 
         $containmentCompany_id = $this->userModel
                                ->select('ContainmentCompany.containmentCompany_id')
-                               ->where('User.user_id',$this->session->get('user_id'))
+                               ->where('User.user_id',session()->get('user_id'))
                                ->join('ContainmentCompany','User.user_id = ContainmentCompany.user_id')
                                ->first();
 

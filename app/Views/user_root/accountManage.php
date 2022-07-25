@@ -34,7 +34,7 @@
                     <tr>
                             <td><?php echo $user['permission_name']?></td>
                             <td><?php echo $user['user_email']?></td>
-                            <td><button type="button" class="btn btn-outline-primary">查看</button></td>
+                            <td><button type="button" class="btn btn-outline-primary"  onclick="location.href='<?php echo base_url('root/updateUser').'/'.$user['user_id']?>'" >查看</button></td>
                         </tr>
                     <?php } ?>
                 </tbody>

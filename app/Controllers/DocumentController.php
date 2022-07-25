@@ -3,20 +3,26 @@
 namespace App\Controllers;
 
 use CodeIgniter\Controller;
+
 use App\Models\PdfDocumentModel;
 use App\Models\EngineeringManagementModel;
 use App\Controllers\QrcodeRender;
+use App\Models\ClearingDriverModel;
 
-class DocumentController extends Controller
+
+class DocumentController extends BaseController
 {
     public $title = '營建剩餘土石方憑證系統';
     protected $pdfDocumentModel;
     protected $engineeringManagementModel;
+    protected $pdfController;
+    protected $driverModel;
     protected $db;
     public function __construct()
     {
         $this->pdfDocumentModel = new PdfDocumentModel();
         $this->engineeringManagementModel = new EngineeringManagementModel();
+        $this->driverModel = new ClearingDriverModel();
         $this->db = db_connect();
     }
 
@@ -38,12 +44,16 @@ class DocumentController extends Controller
                                 ->get()
                                 ->getResultArray();
 
+        $allproject = $this->pdfDocumentModel
+                           ->countAll();
+
         $countArray = [
             "Create"=>0,
             "Contract"=>0,
             "Driver"=>0,
             "Shelter"=>0,
-            "Finish"=>0
+            "Finish"=>0,
+            "All"=>0,
         ];
         foreach ($projectStatus as $key) {
             if($key['status'] == 1){
@@ -58,6 +68,7 @@ class DocumentController extends Controller
                 $countArray["Finish"] = $key['count'];
             }
         }
+        $countArray["All"] = $allproject;
 
         $data = [
             "title" => $this->title . ' - 聯單',
@@ -81,37 +92,51 @@ class DocumentController extends Controller
         $subTitle = '';
         $enSubTitle = '';
         switch ($status_id) {
-            case '1':
+            case $this::$pdfStatus_createFinish:
                 $subTitle = "未使用聯單列表";
                 $enSubTitle= "Unused List";
                 break;
 
-            case '2':
+            case $this::$pdfStatus_contractFinish:
                 $subTitle = "承造已使用聯單列表";
                 $enSubTitle= "Contract Used List";
                 break;
-            case '3':
+            case $this::$pdfStatus_driverFinish:
                 $subTitle = "清運司機已使用聯單列表";
                 $enSubTitle= "Driver Used List";
                 break;
-            case '4':
-                $subTitle = "收容廠商已使用聯單列表";
-                $enSubTitle= "Shelter Used List";
+            case $this::$pdfStatus_containmentFinish:
+                $subTitle = "已完成聯單列表";
+                $enSubTitle= "Completed List";
+                // $subTitle = "收容廠商已使用聯單列表";
+                // $enSubTitle= "Shelter Used List";
                 break;
-            case '5':
+            case $this::$pdfStatus_signFinish:
                 $subTitle = "已完成聯單列表";
                 $enSubTitle= "Completed List";
                 break;
             default:
+                $subTitle = "已完成聯單列表";
+                $enSubTitle= "Completed List";
                 break;
         }
 
-        $projectInfo = $this->pdfDocumentModel
+
+        if($status_id == $this::$pdfStatus_containmentFinish){
+            $projectInfo = $this->pdfDocumentModel
+                            ->select('PdfDocument.*,PdfStatus.status_remark')
+                            ->join('PdfStatus','PdfStatus.status_id = PdfDocument.status_id')
+                            ->paginate(10);
+        }else{
+            $projectInfo = $this->pdfDocumentModel
                             ->select('PdfDocument.*,PdfStatus.status_remark')
                             ->join('PdfStatus','PdfStatus.status_id = PdfDocument.status_id')
                             ->where('PdfDocument.engineering_id',$project_id)
                             ->where('PdfDocument.status_id',$status_id)
                             ->paginate(10);
+        }
+
+
         $data = [
             "title" => $this->title . ' - '.$subTitle,
             "subTitle"=>$subTitle,
@@ -132,6 +157,10 @@ class DocumentController extends Controller
     public function showDocumentQrcode($pdf_id)
     {
 
+        $permission_id = session()->get('permission_id');
+
+
+
         $qrcodeClass = new QrcodeRender();
         $qrcodeImgHtml = $qrcodeClass->generateQrcode($pdf_id);
 
@@ -149,6 +178,61 @@ class DocumentController extends Controller
 
         return view('document/showDocumentQrcode',$data);
     }
+
+
+    /**
+     * 工程結案區
+     * 顯示該公司所完成之聯單
+     *
+     * @return view
+     */
+    public function documentComplete()
+    {
+        $contract_id = session()->get('contracting_id');
+        // print_r($contract_id);
+        $completeDoc = $this->pdfDocumentModel
+                            ->join('EngineeringManagement','EngineeringManagement.engineering_id = PdfDocument.engineering_id')
+                            ->where('PdfDocument.status_id',$this::$pdfStatus_signFinish)
+                            ->where('PdfDocument.pdf_contractingCompanyId',$contract_id)
+                            ->paginate(10);
+        $data = [
+            "title" => $this->title . ' - 工程結案區',
+            "projects"=>$completeDoc,
+            "pager" => $this->pdfDocumentModel->pager,
+        ];
+        return view('user_contract/documentComplete', $data);
+
+    }
+
+
+    /**
+     * 文件表格
+     *
+     * @param [INT] $id (pdf_id)
+     * @return void
+     */
+    public function documentTable($id)
+    {
+        $completeDoc = $this->pdfDocumentModel
+                            ->join('EngineeringManagement','EngineeringManagement.engineering_id = PdfDocument.engineering_id')
+                            ->join('ClearingDriver','ClearingDriver.clearingDriver_id = PdfDocument.pdf_clearingDriverId')
+                            ->join('ContainmentCompany','ContainmentCompany.containmentCompany_id = PdfDocument.pdf_containmentCompanyId')
+                            ->join('ContractingCompany','ContractingCompany.contracting_id = PdfDocument.pdf_contractingCompanyId')
+                            ->where('PdfDocument.status_id',$this::$pdfStatus_signFinish)
+                            ->where('PdfDocument.pdf_id',$id)
+                            ->first();
+        $companyInfo = $this->driverModel
+                            ->join('ClearingCompany','ClearingCompany.clearingCompany_id = ClearingDriver.clearingDriver_id')
+                            ->where('ClearingCompany.clearingCompany_id',$completeDoc['clearingCompany_id'])
+                            ->first();
+        $completeDoc['clearingCompany_name'] = $companyInfo['clearingCompany_name'];
+        $data = [
+            "title" => $this->title . ' - 文件表格',
+            "projects"=>$completeDoc,
+        ];
+        return view('document/documentTable', $data);
+    }
+
 
 
 }

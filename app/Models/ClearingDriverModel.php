@@ -22,7 +22,11 @@ class ClearingDriverModel extends Model{
     public function getDriverData()
     {
 
-        return $this->where('clearingDriver_id',session()->get('clearingDriver_id'))->first();
+        return $this->where('clearingDriver_id',session()
+                    ->get('clearingDriver_id'))
+                    ->join('ClearingCompany','ClearingCompany.clearingCompany_id = ClearingDriver.clearingCompany_id')
+                    ->first();
+   
     }
 
     public function getDataJoinPdf($driver_id)

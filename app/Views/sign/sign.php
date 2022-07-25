@@ -230,7 +230,9 @@
                 (res)=>{
                     BaseLib.ResponseCheck(res).then(()=>{
                         if(res.status =="success"){
-                            window.location=BaseLib.base_Url+'/lobby';
+                            window.location=BaseLib.base_Url+'/project/projectList';
+                            // history.back();
+                            // window.history.go(-2);
                         }
                     })
                 },

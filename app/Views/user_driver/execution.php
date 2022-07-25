@@ -1,4 +1,4 @@
-<!-- 聯單頁面 -->
+<!-- 執行中聯單 -->
 <?= $this->extend('layout_blade/projectList_layout') ?>
 <?= $this->section('main') ?>
 
@@ -27,7 +27,7 @@
                 <thead>
                     <tr>
                         <th scope="col">名稱</th>
-                        <th scope="col">流向編號</th>
+                        <th scope="col">文件編號</th>
                         <th scope="col">操作</th>
 
                     </tr>
@@ -36,8 +36,8 @@
                 <?php foreach ($projects as $proj) {?>     
                     <tr>
                         <td><?php echo $proj['engineering_name']?></td>
-                        <td><?php echo $proj['engineering_projectNumber']?></td>
-                        <td><button type="button" class="btn btn-outline-primary" onclick="location.href='<?php echo base_url('document').'/'.$proj['engineering_id']?>'">查看</button></td>
+                        <td><?php echo $proj['pdf_fileNumber']?></td>
+                        <td><button type="button" class="btn btn-outline-primary" onclick="location.href='<?php echo base_url('pdf/validSign').'/'.$proj['pdf_id']?>'">查看</button></td>
                     </tr> 
                 <?php }?>
                    

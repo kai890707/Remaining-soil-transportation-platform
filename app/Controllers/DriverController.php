@@ -5,17 +5,23 @@ namespace App\Controllers;
 use CodeIgniter\Controller;
 use App\Models\UserModel;
 use App\Models\ClearingDriverModel;
+use App\Models\PdfDocumentModel;
+use App\Models\EngineeringManagementModel;
 
 class DriverController extends Controller
 {
     public $title = '營建剩餘土石方憑證系統';
     protected $userModel;
     protected $clearingDriverModel;
+    protected $pdfDocumentModel;
+    protected $engineeringModel;
     protected $session;
     public function __construct()
     {
         $this->userModel = new UserModel();
         $this->clearingDriverModel = new ClearingDriverModel();
+        $this->pdfDocumentModel = new PdfDocumentModel();
+        $this->engineeringModel = new EngineeringManagementModel();
         $this->session = \Config\Services::session();
     }
 
@@ -91,7 +97,7 @@ class DriverController extends Controller
 
         $driver_id = $this->userModel
                                ->select('ClearingDriver.clearingDriver_id')
-                               ->where('User.user_id',$this->session->get('user_id'))
+                               ->where('User.user_id',session()->get('user_id'))
                                ->join('ClearingDriver','User.user_id = ClearingDriver.user_id')
                                ->first();
 
@@ -110,6 +116,33 @@ class DriverController extends Controller
         }
         
         return $this->response->setJSON($response);
+    }
+
+    /**
+     * 執行中聯單
+     *
+     * @return void
+     */
+    public function execution()
+    {
+        $driver_id = $this->userModel
+                          ->select('ClearingDriver.clearingDriver_id')
+                          ->where('User.user_id',session()->get('user_id'))
+                          ->join('ClearingDriver','User.user_id = ClearingDriver.user_id')
+                          ->first();
+
+        $getExecutionDoc = $this->pdfDocumentModel
+                                ->join('EngineeringManagement','EngineeringManagement.engineering_id = PdfDocument.engineering_id')
+                                ->where('PdfDocument.pdf_clearingDriverId',$driver_id)
+                                ->where('PdfDocument.pdf_containmentCompanyId',"")
+                                ->paginate(10);
+         $data = [
+            "title" => $this->title . ' - 執行中聯單',
+            "projects"  => $getExecutionDoc,
+            'pager'=>$this->pdfDocumentModel->pager
+        ];
+        
+        return view('user_driver/execution', $data);
     }
        
 }

@@ -6,15 +6,18 @@ use App\Controllers\BaseController;
 
 // use vendor\chillerlan\QRCode\QRCode;
 // use vendor\chillerlan\QRCode\QROptions;
-
+use App\Models\PdfDocumentModel;
 use chillerlan\QRCode\QRCode;
 use chillerlan\QRCode\QROptions;
 
 use TCPDF;
 class QrcodeRender extends BaseController
 {
-
-
+    protected $pdfDocumentModel;
+    public function __construct()
+    {
+        $this->pdfDocumentModel = new PdfDocumentModel();
+    }
 
     public function index()
     {
@@ -92,6 +95,59 @@ class QrcodeRender extends BaseController
         echo '<img src="'.base_url("/assets/qrcode/".$fileName.".png").'" alt="QR Code" />';
     }
 
+     /**
+     * 確認PDF是否被權限簽名
+     * 是=>true
+     * 否=>false
+     *
+     * @return bool
+     */
+    public function checkPermissionSign($pdf_id){
+        $permission_id = session()->get('permission_id');
+
+        $doc =  $this->pdfDocumentModel
+                     ->where('pdf_id',$pdf_id)
+                     ->first();
+        if($permission_id == $this::$permissionIdByClearingDriver){
+            return FALSE;
+        }
+        // switch ($permission_id) {
+        //     case $this::$permissionIdByContractingCompany:
+        //         $contractIsSign = $doc['pdf_contractingSign'];
+        //         if(!empty($contractIsSign)){
+        //             return TRUE;
+        //         }else{
+        //             return FALSE;
+        //         }
+        //         break;
+        //     case $this::$permissionIdByClearingDriver:
+        //         $driverIsSign = $doc['pdf_driverSign'];
+        //         if(!empty($driverIsSign)){
+        //             return TRUE;
+        //         }else{
+        //             return FALSE;
+        //         }
+        //         break;
+        //     case $this::$permissionIdByContainmentCompany:
+        //         $containmentIsSign = $doc['pdf_containmentPlaceSign'];
+        //         if(!empty($containmentIsSign)){
+        //             return TRUE;
+        //         }else{
+        //             return FALSE;
+        //         }
+        //         break;
+        //     case $this::$permissionIdByClearingCompany:
+        //         return TRUE;
+        //         break;
+        //     case $this::$permissionIdByGovernment:
+        //         return TRUE;
+        //         break;
+        //     default:
+        //         return TRUE;
+        //         break;
+        // }
+
+    }
     /**
      * PDF QRCODE
      * 產生PDF QRCODE
@@ -101,7 +157,11 @@ class QrcodeRender extends BaseController
      */
     public function generateQrcode($pdf_id)
     {
+        
+        
         $url = base_url('pdf/validSign'.'/'.$pdf_id);
+        
+        
         $options = new QROptions([
             'version'      => 10,
             'outputType'   => QRCode::OUTPUT_IMAGE_PNG,
@@ -139,7 +199,7 @@ class QrcodeRender extends BaseController
             ],
         ]);
 
-        return '<img class="img-fluid" src="' . (new QRCode())->render($url) . '" alt="QR Code" />';
+        return '<img class="img-fluid" style="max-width: 100%;height: auto;" src="' . (new QRCode())->render($url) . '" alt="QR Code"  />';
     }
 
 }

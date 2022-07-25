@@ -82,6 +82,10 @@
                     <label for="shippingContents" class="form-label">載運內容(土質)</label>
                     <input type="text" class="form-control" id="shippingContents" name="shippingContents" required>
                 </div>
+                 <div class="mb-3">
+                    <label for="containmentPlaceEearthFlowNumer" class="form-label">合法收容處理場所剩餘土石方流向編號</label>
+                    <input type="text" class="form-control" id="containmentPlaceEearthFlowNumer" name="containmentPlaceEearthFlowNumer" required>
+                </div>
                 <div class="input-group mb-3">
                     <label class="input-group-text" for="carFront">車頭照片</label>
                     <input type="file" class="form-control" id="carFront" multiple="multiple" accept="image/*" capture="camera" required>
@@ -229,97 +233,42 @@
     document.getElementById('convertToImage').addEventListener('click', function() {
         writeStatus = 1;
         var image = canvas.toDataURL("image/png");
-        // console.log("1",image.length);
-       
         $("form[id='containment_sign_form']").submit(function(e) {
             e.preventDefault();
-            // console.log(document.getElementById('carFront').files[0].size);
             var formData = new FormData(document.getElementById('containment_sign_form'));
-            var signBase64;
-            compress(image,2.5,function(base64){
-                signBase64 = base64;
-            });    
-            formData.append('sign',signBase64);
+            // var signBase64;
+            formData.append('sign',image);
             formData.append('pdf_id',<?php echo $pdf_id?>);
             Main(formData);
-            // var reader = new FileReader();
-            // reader.readAsDataURL(file);
-        
-            // reader.onload = function (e) { 
-            //     res = e.target.result;
-            //     // console.log(res);
-            // }
-              
-            //  compress(reader.result,2.5,function(base64){
-            //     // signBase64 = base64;
-            //     console.log(base64.length);
-            // });   
-            // const base641 = fileToBase64(file,base64 => {
-            //     // let imgs = document.getElementById('imgs')
-            //     // imgs.src = base64
-            //     // console.log(base64);
-            //     compress(base64,2.5,function(base64After){
-            //         console.log("2",base64After);
-            //     });  
-            // })
-            // Swal.fire({
-            //     title: '已確認簽名了嗎?',
-            //     showDenyButton: true,
-            //     confirmButtonText: '是! 已簽名',
-            //     denyButtonText: `尚未簽名`,
-            // }).then((result) => {
-            //     if (result.isConfirmed) {
-            //         BaseLib.Post("/pdf/uploadSign",formData).then(
-            //         (res)=>{
-            //             // BaseLib.ResponseCheck(res).then(()=>{
-            //                 // console.log(res);
-            //                 // if(res.status =="success"){
-            //                 //     window.location=BaseLib.base_Url+'/lobby';
-            //                 // }
-            //             // })
-            //         },
-            //         (err)=>{
-            //             console.log(err);
-            //         })
-            //     } else if (result.isDenied) {
-            //         Swal.fire('資料尚未更新', '', 'info')
-            //     }
-                
-            // })
-        
         })
     }, false);
 
-    function compress(
-            base64,        // 源图片
-            rate,          // 缩放比例
-            callback       // 回调
-        ) {
-            //处理缩放，转格式
-            var _img = new Image();
-            _img.src = base64;
-            _img.onload = function() {
-                var _canvas = document.createElement("canvas");
-                var w = this.width / rate;
-                var h = this.height / rate;
-                _canvas.setAttribute("width", w);
-                _canvas.setAttribute("height", h);
-                _canvas.getContext("2d").drawImage(this, 0, 0, w, h);
-                var base64 = _canvas.toDataURL("image/png");
-                _canvas.toBlob(function(blob) {
-                    if(blob.size > 750*1334){        //如果还大，继续压缩
-                        compress(base64, rate, callback);
-                    }else{
-                        callback(base64);
-                    }
-                }, "image/png");
+        function compress(
+                base64,        // 源图片
+                rate,          // 缩放比例
+                callback       // 回调
+            ) {
+                //处理缩放，转格式
+                var _img = new Image();
+                _img.src = base64;
+                _img.onload = function() {
+                    var _canvas = document.createElement("canvas");
+                    var w = this.width / rate;
+                    var h = this.height / rate;
+                    _canvas.setAttribute("width", w);
+                    _canvas.setAttribute("height", h);
+                    _canvas.getContext("2d").drawImage(this, 0, 0, w, h);
+                    var base64 = _canvas.toDataURL("image/png");
+                     _canvas.toBlob(function(blob) {
+                        if(blob.size > 750*1334){        //如果还大，继续压缩
+                            compress(base64, rate, callback);
+                        }else{
+                            callback(base64);
+                        }
+                    }, "image/png");
+                }
             }
-        }
-
-     
-
-      
-
+            
         /**
          * 圖片轉BASE64
          */
@@ -330,28 +279,21 @@
             reader.onerror = error => reject(error);
         });
 
+   
         async function Main(formData) {
 
             const carFront = document.querySelector('#carFront').files[0];
             const carBody = document.querySelector('#carBody').files[0];
-            let carFrontBase=  await toBase64(carFront);
-            let carBodyBase=  await toBase64(carBody);
-            let uploadCarFront;
-            let uploadCarBody;
-
-            compress(carFrontBase,4,function(base64){
-                uploadCarFront = base64;
-            });  
-            compress(carBodyBase,4,function(base64){
-                uploadCarBody = base64
-            });  
-
-            formData.append('carFront',uploadCarFront);
-            formData.append('carBody',uploadCarBody);
+            
+            let carFrontBase64  = await compressImgSync(document.querySelector('#carFront'));
+            let carBodyBase64  = await compressImgSync(document.querySelector('#carBody'));
 
             for (var pair of formData.entries()) {
                 console.log(pair[0]+ ', ' + pair[1]); 
             }
+            formData.append('carFront',carFrontBase64);
+            formData.append('carBody',carBodyBase64);
+
             Swal.fire({
                 title: '已確認簽名了嗎?',
                 showDenyButton: true,
@@ -364,7 +306,8 @@
                         BaseLib.ResponseCheck(res).then(()=>{
                             console.log(res);
                             if(res.status =="success"){
-                                window.location=BaseLib.base_Url+'/lobby';
+                                window.location=BaseLib.base_Url+'/project/projectList';
+                                // window.history.go(-2);
                             }
                         })
                     },
@@ -377,57 +320,74 @@
                 
             })
         }
-        // function readFile(file) {
-        //     var reader = new FileReader(),
-        //         result = 'empty';
-
-        //     reader.onload = function(e) {
-        //         result = e.target.result;
-        //     };
-
-        //     reader.readAsDataURL(file);
-
-        //     return result;
-        // }
-        //  function readFile() {
-            // var file = document.getElementById('carFront').files[0];
-            // var reader = new FileReader();
-            // reader.readAsDataURL(file);
-            // reader.onload = function (e) { 
-            //     // txshow.src = this.result; alert(this.result); 
-            //     // console.log(this.result);
-            //     return this.result; 
-            // }
-            
-        // }
-        // const fileToBase64 = (file, callback) =>{
-        //     const reader = new FileReader()
-        //     reader.onload = function(evt){
-        //         if(typeof callback === 'function') {
-        //             callback(evt.target.result)
-        //         } else {
-        //             console.log("我是base64:", evt.target.result);
-        //         }
-
-        //     }
-        //     /* readAsDataURL 方法会读取指定的 Blob 或 File 对象
-        //     ** 读取操作完成的时候，会触发 onload 事件
-        //     *  result 属性将包含一个data:URL格式的字符串（base64编码）以表示所读取文件的内容。
-        //     */ 
-        //     reader.readAsDataURL(file);
-        // }
-            
-            // let _files = document.getElementById('carFront')
-            // _files.addEventListener('change',function(e){
-            //     console.log(e.target.files[0])
-            //     let file = e.target.files[0] // file对象
-            //     const base64 = fileToBase64(file,base64 => {
-            //         // let imgs = document.getElementById('imgs')
-            //         // imgs.src = base64
-            //         console.log(base64);
-            //     })
-            // })
-
-
+        const compressImgSync = (imgfile) => {
+            return new Promise((resolve, reject) => {
+                let img = new Image()
+                let cvs = document.createElement('canvas')
+                let file = imgfile.files[0]
+                // 上傳圖片大於100KB就壓縮
+                if (file && file.size / 1024 > 100) {
+                    let reader = new FileReader()
+                    reader.readAsDataURL(file) // 轉成base64
+                        reader.onload = function (e) {
+                            let naturalBase64 = e.target.result // 原圖base64
+                            img.src = naturalBase64
+                            img.onload = function () {
+                            let ratio = img.naturalWidth / img.naturalHeight // 以原圖長寬比取得壓縮比
+                            cvs.width = 400 // 設定canvas寬度
+                            cvs.height = cvs.width / ratio // 根據原圖寬度比例取得高度
+                            let ctx = cvs.getContext('2d')
+                            ctx.drawImage(img, 0, 0, cvs.width, cvs.height) // 渲染至canvas
+                            // 經壓縮後新圖
+                            let zipBase64 = cvs.toDataURL("image/png")
+                                if (zipBase64) {
+                                    let urlBase64 = zipBase64.split(',')[1]
+                                    console.log('壓縮中')
+                                    resolve(urlBase64)
+                                }
+                            }
+                        }
+                } else { // 上傳圖片小於100KB以下，取原文件base64
+                    console.log('非壓縮')
+                    // let urlBase64 = imgfile.content.split(',')[1]
+                    // resolve(urlBase64)
+                    let reader = new FileReader();
+                    reader.readAsDataURL(file); // 轉成base64
+                    reader.onload = function (e) {
+                        let naturalBase64 = e.target.result 
+                        img.src = naturalBase64
+                        img.onload = function () {
+                            let ratio = img.naturalWidth / img.naturalHeight 
+                            cvs.width = 400 
+                            cvs.height = cvs.width / ratio 
+                            let ctx = cvs.getContext('2d')
+                            ctx.drawImage(img, 0, 0, cvs.width, cvs.height) 
+                            let zipBase64 = cvs.toDataURL("image/png")
+                            resolve(zipBase64)
+                        }
+                    }
+                }
+            }).then(res => {
+                return res
+            }).catch(res => {
+            })
+        }
+ 
+        async function jpeg2png(base64jpeg) {
+            return new Promise(resolve => {
+                const img = new Image();
+                img.setAttribute("src", base64jpeg);
+                img.setAttribute("crossOrigin", "anonymous");
+                img.onload = () => {
+                    const canvas = document.createElement("canvas");
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    const ctx = canvas.getContext("2d");
+                    ctx.drawImage(img, 0, 0);
+                    const dataURL = canvas.toDataURL("image/png");
+                    resolve(dataURL);
+                };
+        })};
+ 
 </script>
 <?= $this->endSection() ?>

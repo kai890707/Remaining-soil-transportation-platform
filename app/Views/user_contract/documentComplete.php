@@ -7,8 +7,8 @@
     <div class="container">
         <div class="row">
             <div class="col-12 mx-auto p-4">
-                <h1 class="display-4 fw-bold text-white text-shadow">工程流向編號清單</h1>
-                <p class="lead fw-bold text-white text-shadow p-0 m-0">Document List</p>
+                <h1 class="display-4 fw-bold text-white text-shadow">工程結案區</h1>
+                <p class="lead fw-bold text-white text-shadow p-0 m-0">Project Complete</p>
             </div>
         </div>
 
@@ -18,16 +18,12 @@
 <div class="container">
     <div class="row mt-4 p-0  ">
         <div class=" col-11 bg-light shadow p-3 m-1  mx-auto ">
-            <?php if(session()->get('permission_id') == "2"){?>
-            <div class="w-100 d-flex justify-content-end align-items-center mb-2">
-               <button type="button" class="btn btn-outline-success"   onclick="location.href='<?php echo base_url('contract/projectCreate')?>'">新增工程</button> 
-            </div>
-            <?php }?>
+            
             <table class="table table-striped fs-5">
                 <thead>
                     <tr>
-                        <th scope="col">名稱</th>
-                        <th scope="col">流向編號</th>
+                        <th scope="col">工程名稱</th>
+                        <th scope="col">聯單編號</th>
                         <th scope="col">操作</th>
 
                     </tr>
@@ -36,8 +32,8 @@
                 <?php foreach ($projects as $proj) {?>     
                     <tr>
                         <td><?php echo $proj['engineering_name']?></td>
-                        <td><?php echo $proj['engineering_projectNumber']?></td>
-                        <td><button type="button" class="btn btn-outline-primary" onclick="location.href='<?php echo base_url('document').'/'.$proj['engineering_id']?>'">查看</button></td>
+                        <td><?php echo $proj['pdf_fileNumber']?></td>
+                        <td><button type="button" class="btn btn-outline-primary" onclick="location.href='<?php echo base_url('document/documentTable').'/'.$proj['pdf_id']?>'">查看</button></td>
                     </tr> 
                 <?php }?>
                    

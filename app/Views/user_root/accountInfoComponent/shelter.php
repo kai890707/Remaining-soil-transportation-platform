@@ -1,4 +1,11 @@
 <div class="mb-3">
+    <input type="text" class="form-control" id="user_id" name="user_id"  value="<?php echo $info['user_id']?>" hidden>
+</div>
+<div class="mb-3">
+    <label for="user_email" class="form-label">使用者帳號</label>
+    <input type="text" class="form-control" id="user_email" name="user_email"  value="<?php echo $info['user_email']?>" disabled>
+</div>
+<div class="mb-3">
     <label for="company_name" class="form-label">公司名稱</label>
     <input type="text" class="form-control" id="company_name" name="containmentCompany_name" value="<?php echo $info['containmentCompany_name'];?>" >
 </div>
