@@ -31,7 +31,7 @@ class DocumentController extends Controller
         $projectInfo = $this->engineeringManagementModel
                             ->where('engineering_id',$project_id)
                             ->first();
-  
+
         $projectStatus = $this->pdfDocumentModel
                                 ->select('status_id as status,Count(status_id) as count')
                                 ->groupBy('status_id')
@@ -85,7 +85,7 @@ class DocumentController extends Controller
                 $subTitle = "未使用聯單列表";
                 $enSubTitle= "Unused List";
                 break;
-            
+
             case '2':
                 $subTitle = "承造已使用聯單列表";
                 $enSubTitle= "Contract Used List";
@@ -118,9 +118,9 @@ class DocumentController extends Controller
             "enSubTitle"=>$enSubTitle,
             "info"=>$projectInfo,
             "pager" => $this->pdfDocumentModel->pager,
-        ];                
+        ];
         return view('document/documentStatusList',$data);
-        
+
     }
 
     /**
@@ -146,9 +146,9 @@ class DocumentController extends Controller
             "projectInfo" => $projectInfo,
             "qrcodeImgHtml" => $qrcodeImgHtml
         ];
-        
+
         return view('document/showDocumentQrcode',$data);
     }
-       
-       
+
+
 }

@@ -7,7 +7,7 @@ use App\Models\ClearingCompanyModel;
 use App\Models\ClearingDriverModel;
 use App\Models\ContainmentCompanyModel;
 use App\Models\ContractingCompanyModel;
-
+use App\Models\GovernmentModel;
 
 /**
  * 註冊控制器
@@ -21,6 +21,7 @@ class RegisterController extends BaseController
     protected $clearingDriverModel;
     protected $containmentCompanyModel;
     protected $contractingCompanyModel;
+    protected $governmentModel;
     protected $db;
 
     public function __construct()
@@ -30,6 +31,7 @@ class RegisterController extends BaseController
         $this->clearingDriverModel = new ClearingDriverModel();
         $this->containmentCompanyModel = new ContainmentCompanyModel();
         $this->contractingCompanyModel = new ContractingCompanyModel();
+        $this->governmentModel = new GovernmentModel();
         $this->db = db_connect();
     }
 
@@ -333,5 +335,58 @@ class RegisterController extends BaseController
         return $this->response->setJSON($response);
     }
 
+
+    public function governmentRegister()
+    {
+
+        $email = $this->request->getPostGet('user_email');
+        $password = sha1($this->request->getPostGet('user_password'));
+        $government_name = $this->request->getPostGet('government_name');
+        $government_principalName = $this->request->getPostGet('government_principalName');
+        $government_principalPhone = $this->request->getPostGet('government_principalPhone');
+        $government_address = $this->request->getPostGet('government_address');
+
+        if($this->userModel->where('user_email',$email)->first()){
+            $response=[
+                'status' => 'fail',
+                'message' => '此Email已存在'
+            ];
+        }else{
+            $data = [
+                'user_email' => $email,
+                'user_password' => $password,
+                'permission_id' =>$this::$permissionIdByGovernment,
+            ];
+
+            $insertUser = $this->userModel->insert($data);
+
+            if($insertUser){
+                $getUserId = $insertUser;
+            }
+
+            $governmentData=[
+                'government_name' => $government_name,
+                'government_principalName' => $government_principalName,
+                'government_principalPhone' => $government_principalPhone,
+                'government_address' => $government_address,
+                'user_id' => $getUserId,
+                'permission_id' => $this::$permissionIdByGovernment,
+            ];
+
+            if($this->governmentModel->insert($governmentData)){
+                $response=[
+                    'status' => 'success',
+                    'message' => '註冊成功'
+                ];
+            }else{
+                $response=[
+                    'status' => 'fail',
+                    'message' => '註冊失敗'
+                ];
+            }
+        }
+
+        return $this->response->setJSON($response);
+    }
 
 }

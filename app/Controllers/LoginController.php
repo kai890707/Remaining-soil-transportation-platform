@@ -8,7 +8,7 @@ use App\Models\ClearingCompanyModel;
 use App\Models\ClearingDriverModel;
 use App\Models\ContainmentCompanyModel;
 use App\Models\ContractingCompanyModel;
-
+use App\Models\GovernmentModel;
 
 class LoginController extends BaseController
 {
@@ -18,6 +18,7 @@ class LoginController extends BaseController
     protected $clearingDriverModel;
     protected $containmentCompanyModel;
     protected $contractingCompanyModel;
+    protected $governmentModel;
     protected $db;
     protected $session;
 
@@ -29,6 +30,7 @@ class LoginController extends BaseController
         $this->containmentCompanyModel = new ContainmentCompanyModel();
         $this->contractingCompanyModel = new ContractingCompanyModel();
         $this->permissionModel = new PermissionModel();
+        $this->governmentModel = new GovernmentModel();
         $this->db = db_connect();
         $this->session = \Config\Services::session();
     }
@@ -65,8 +67,8 @@ class LoginController extends BaseController
             'status' => 'success',
             'message' => '成功',
         ];
-        //清運司機session set
-        if($permission_id ==  $this::$permissionIdByClearingDriver){
+
+        if($permission_id ==  $this::$permissionIdByClearingDriver){ //清運司機session set
             $getDriverData = $this->clearingDriverModel->where('user_id',$user_id)->first();
             $getDriverData['user_email'] = $user_email;
             foreach ($getDriverData as $key => $value) {
@@ -75,7 +77,8 @@ class LoginController extends BaseController
             $permission_name = $this->permissionModel->getPermissonName($permission_id);
             $this->session->set($permission_name);
 
-        }else if($permission_id ==  $this::$permissionIdByClearingCompany){    //清運公司session set
+        }
+        else if($permission_id ==  $this::$permissionIdByClearingCompany){    //清運公司session set
             $getClearCompanyData = $this->clearingCompanyModel->where('user_id',$user_id)->first();
             $getClearCompanyData['user_email'] = $user_email;
             foreach ($getClearCompanyData as $key => $value) {
@@ -83,7 +86,8 @@ class LoginController extends BaseController
             }
             $permission_name = $this->permissionModel->getPermissonName($permission_id);
             $this->session->set($permission_name);
-        }else if($permission_id ==  $this::$permissionIdByContractingCompany){ //承造公司session set
+        }
+        else if($permission_id ==  $this::$permissionIdByContractingCompany){ //承造公司session set
             $getContractCompanyData = $this->contractingCompanyModel->where('user_id',$user_id)->first();
             $getContractCompanyData['user_email'] = $user_email;
             foreach ($getContractCompanyData as $key => $value) {
@@ -91,7 +95,8 @@ class LoginController extends BaseController
             }
             $permission_name = $this->permissionModel->getPermissonName($permission_id);
             $this->session->set($permission_name);
-        }else if($permission_id ==  $this::$permissionIdByContainmentCompany){ //收容公司session set
+        }
+        else if($permission_id ==  $this::$permissionIdByContainmentCompany){ //收容公司session set
             $getContainmentCompanyData = $this->containmentCompanyModel->where('user_id',$user_id)->first();
             $getContainmentCompanyData['user_email'] = $user_email;
             foreach ($getContainmentCompanyData as $key => $value) {
@@ -99,10 +104,20 @@ class LoginController extends BaseController
             }
             $permission_name = $this->permissionModel->getPermissonName($permission_id);
             $this->session->set($permission_name);
-        }else if($permission_id ==  $this::$permissionIdByRoot){ //root session set
+        }
+        else if($permission_id ==  $this::$permissionIdByRoot){ //root session set
             $this->session->set('user_id',$user_id);
             $this->session->set('user_email',$user_email);
             $this->session->set('permission_id',$permission_id);
+            $permission_name = $this->permissionModel->getPermissonName($permission_id);
+            $this->session->set($permission_name);
+        }
+        else if($permission_id ==  $this::$permissionIdByGovernment){//政府單位session set
+            $getGovernmentData = $this->governmentModel->where('user_id',$user_id)->first();
+            $getGovernmentData['user_email'] = $user_email;
+            foreach ($getGovernmentData as $key => $value) {
+                $this->session->set($key,$value);
+            }
             $permission_name = $this->permissionModel->getPermissonName($permission_id);
             $this->session->set($permission_name);
         }

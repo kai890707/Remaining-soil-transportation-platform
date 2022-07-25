@@ -89,8 +89,10 @@ $routes->group(
         $routes->post('clearingCompany', 'RegisterController::clearingCompanyRegister'); //清運公司註冊
         $routes->post('containmentcompany', 'RegisterController::containmentcompanyRegister'); //收容公司註冊
         $routes->post('contractingcompany', 'RegisterController::contractingcompanyRegister'); //承造公司註冊
+        $routes->post('government', 'RegisterController::governmentRegister'); //政府單位註冊
     }
 );
+
 
 /**
  * Root 路由
@@ -175,6 +177,24 @@ $routes->group(
     }
 );
 
+
+/**
+ * 政府單位路由
+ */
+$routes->group(
+    'government',
+    [
+        'namespace' => 'App\Controllers',
+        'filter' => 'government'
+    ],
+    function (\CodeIgniter\Router\RouteCollection $routes) {
+        $routes->get('governmentInfoView', 'GovernmentController::governmentInfoView');
+        $routes->post('governmentInfoUpdate', 'GovernmentController::governmentInfoUpdate');
+    }
+);
+
+
+
 /**
  * 工程路由
  */
@@ -215,11 +235,11 @@ $routes->group(
         'filter' => 'login'
     ],
     function (\CodeIgniter\Router\RouteCollection $routes) {
-        $routes->post('uploadSign', 'PdfController::uploadSign'); //post 簽名 
+        $routes->post('uploadSign', 'PdfController::uploadSign'); //post 簽名
         // $routes->post('uploadContainmentSign', 'PdfController::uploadContainmentSign'); //收容 post 簽名
         $routes->get('validSign/(:num)', 'PdfController::validSign/$1'); //pdf頁面 參數:pdf id
         $routes->get('showPdf/(:num)', 'PdfController::showPdf/$1'); //pdf頁面 參數:pdf id
-        
+
     }
 );
 
@@ -233,8 +253,8 @@ $routes->group(
         'filter' => 'login'
     ],
     function (\CodeIgniter\Router\RouteCollection $routes) {
-        
-        
+
+
     }
 );
 
