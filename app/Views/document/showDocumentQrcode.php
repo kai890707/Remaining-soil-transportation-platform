@@ -61,7 +61,7 @@
                 </div>
                 <div class="col-8 border-end d-flex align-items-center justify-content-center">
                     <p class="m-0 fs-6">
-                        <button class="btn btn-outline-success"  onclick="location.href='<?php echo base_url('pdf/showPdf').'/'.$projectInfo['pdf_id']?>'" >查看</button>
+                        <button class="btn btn-outline-success"  onclick="location.href='<?php echo base_url('document/documentTable').'/'.$projectInfo['pdf_id']?>'" >查看</button>
                     </p>
                 </div>
             </div>

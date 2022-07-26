@@ -112,7 +112,7 @@ class PdfController extends BaseController
                 return $this->RedirectToGovernmentSign($pdf_id);
                 break;
             default:
-                return $this->showPdf($pdf_id);
+                return $this->documentController->documentTable($pdf_id);
                 break;
         }
     
@@ -147,7 +147,7 @@ class PdfController extends BaseController
             ];
             return view('sign/sign',$data);
         }else if($contractSign!=="" && $driverSign!=="" &&$containmentSign!==""){
-            return $this->showPdf($pdf_id);
+            return $this->documentController->documentTable($pdf_id);
         }else{
             return $this->documentController->showDocumentQrcode($pdf_id);
         }
@@ -184,7 +184,7 @@ class PdfController extends BaseController
             ];
             return view('sign/sign',$data);
         }else if($contractSign!=="" && $driverSign!=="" && $containmentSign!==""){
-            return $this->showPdf($pdf_id);
+            return $this->documentController->documentTable($pdf_id);
         }else{
             return $this->documentController->showDocumentQrcode($pdf_id);
         }
@@ -226,7 +226,7 @@ class PdfController extends BaseController
 
         }else if($contractSign!=="" && $driverSign!=="" &&$containmentSign!==""){
 
-            return $this->showPdf($pdf_id);
+            return $this->documentController->documentTable($pdf_id);
 
         }else{
             return $this->documentController->showDocumentQrcode($pdf_id);
@@ -242,7 +242,7 @@ class PdfController extends BaseController
      */
     public function RedirectToCompanySign($pdf_id)
     {
-        return $this->showPdf($pdf_id);
+        return $this->documentController->documentTable($pdf_id);
     }
 
     /**
@@ -253,7 +253,7 @@ class PdfController extends BaseController
      */
     public function RedirectToGovernmentSign($pdf_id)
     {
-        return $this->showPdf($pdf_id);
+        return $this->documentController->documentTable($pdf_id);
     }
 
 
@@ -672,7 +672,7 @@ class PdfController extends BaseController
             $image=file_get_contents($_SERVER['DOCUMENT_ROOT'].'/assets/images/'.$image_path);
             $imagedata=base64_encode($image);
             // return 
-            $imgHtml='<img src="data:image/png;base64, '.$imagedata.'" style="max-width: 90%;height: auto;margin-right: auto!important;margin-left: auto!important;" alt="/assets/images/'.$imagedata.'">';
+            $imgHtml='<img src="data:image/png;base64, '.$imagedata.'" style="max-width: 70%;height: auto;margin: 0 auto;" alt="/assets/images/'.$imagedata.'">';
             
         }
         return $imgHtml;

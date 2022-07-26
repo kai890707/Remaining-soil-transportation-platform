@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Codeigniter 4 PDF Example - positronx.io</title>
+    <title>聯單PDF</title>
     <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"> -->
     <style>
         * {
@@ -133,7 +133,7 @@
                 </td>
             </tr>
             <tr >
-                <td class="sign">
+                <td class="sign" style="text-align: center;">
                    <?php echo $organizeImg;?>
                 </td>
                 <td class="sign">

@@ -65,7 +65,7 @@
                     <p>該聯單檔案</p>
                 </div>
                 <div class="col-6">
-                    <p><button class="btn btn-outline-success"  onclick="location.href='<?php echo base_url('pdf/showPdf').'/'.$pdfInfo['pdf_id']?>'" >查看</button></p>
+                    <p><button class="btn btn-outline-success"  onclick="location.href='<?php echo base_url('document/documentTable').'/'.$pdfInfo['pdf_id']?>'" >查看</button></p>
                 </div>
                 
             </div>

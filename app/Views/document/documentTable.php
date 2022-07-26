@@ -40,61 +40,61 @@
                     </tr>
                     <tr>
                         <td width="25%"class="table-warning" >聯單文件序號</td>
-                        <td width="25%"><?php echo $projects['pdf_fileNumber'];?></td>
+                        <td width="25%"><?php echo $projects['fileNumber'];?></td>
                         <td width="25%"class="table-warning">文件有效日期</td>
-                        <td width="25%"><?php echo $projects['pdf_effectiveDate'];?></td>
+                        <td width="25%"><?php echo $projects['effectiveDate'];?></td>
                     </tr>
                     <tr>
                         <td width="25%"class="table-warning">工程 - 建物或拆除物名稱</td>
-                        <td colspan="3" width="25%"><?php echo $projects['pdf_buildingName']?></td>
+                        <td colspan="3" width="25%"><?php echo $projects['buildingName']?></td>
                     </tr>
                     <tr>
                         <td width="25%" class="table-warning">工程餘土流向管制編號</td>
-                        <td width="25%"><?php echo $projects['engineering_projectNumber']?></td>
+                        <td width="25%"><?php echo $projects['projectNumber']?></td>
                         <td width="25%"class="table-warning">公共工程契約或建(拆)除號碼</td>
-                        <td width="25%"><?php echo $projects['pdf_constructNumber']?></td>
+                        <td width="25%"><?php echo $projects['constructNumber']?></td>
                     </tr>
                     <tr>
                         <td width="25%"class="table-warning">工程(建築物)地點</td>
-                        <td colspan="3" width="25%"><?php echo $projects['pdf_buildingAddress']?></td>
+                        <td colspan="3" width="25%"><?php echo $projects['buildingAddress']?></td>
                     </tr>
                     <tr>
                         <td width="25%"class="table-warning">起造人(名稱)</td>
-                        <td width="25%"><?php echo $projects['pdf_starterName']?></td>
+                        <td width="25%"><?php echo $projects['starterName']?></td>
                         <td width="25%" class="table-warning">起造人(電話)</td>
-                        <td width="25%"><?php echo $projects['pdf_starterPhone']?></td>
+                        <td width="25%"><?php echo $projects['starterPhone']?></td>
                     </tr>
                     <tr>
                         <td width="25%" class="table-warning">承造人(名稱)</td>
-                        <td width="25%"><?php echo $projects['contracting_contractUserName']?></td>
+                        <td width="25%"><?php echo $projects['contractUserName']?></td>
                         <td width="25%"class="table-warning">承造人(電話)</td>
-                        <td width="25%"><?php echo $projects['contracting_contractUserPhone']?></td>
+                        <td width="25%"><?php echo $projects['contractUserPhone']?></td>
                     </tr>
                     <tr>
                         <td width="25%"class="table-warning">監造人(名稱)</td>
-                        <td width="25%"><?php echo $projects['contracting_contractWatcherName']?></td>
+                        <td width="25%"><?php echo $projects['contractWatcherName']?></td>
                         <td width="25%"class="table-warning">監造人(電話)</td>
-                        <td width="25%"><?php echo $projects['contracting_contractWatcherPhone']?></td>
+                        <td width="25%"><?php echo $projects['contractWatcherPhone']?></td>
                     </tr>
                     <tr>
                         <td width="25%"class="table-warning">清運業者(名稱)</td>
-                        <td width="25%"><?php echo $projects['clearingCompany_name']?></td>
+                        <td width="25%"><?php echo $projects['clearingCompanyName']?></td>
                         <td width="25%"class="table-warning">餘土土質種類</td>
-                        <td width="25%"><?php echo $projects['pdf_shippingContents']?></td>
+                        <td width="25%"><?php echo $projects['shippingContents']?></td>
                     </tr>
                     <tr>
                         <td width="25%"class="table-warning">合法收容場、負責人及電話</td>
                         <td width="25%">
-                            <span><?php echo $projects['containmentCompany_name']?></span></br>
-                            <span><?php echo $projects['containmentCompany_principalName']?></span></br>
-                            <span><?php echo $projects['containmentCompany_principalPhone']?></span>
+                            <span><?php echo $projects['containmentCompanyName']?></span></br>
+                            <span><?php echo $projects['containmentCompanyPrincipalName']?></span></br>
+                            <span><?php echo $projects['containmentCompanyPrincipalPhone']?></span>
                         </td>
                         <td width="25%"class="table-warning">合法收容場編號</td>
-                        <td width="25%"><?php echo $projects['pdf_shippingContents']?></td>
+                        <td width="25%"><?php echo $projects['shippingContents']?></td>
                     </tr>
                     <tr>
                         <td width="25%"class="table-warning">預定運送路線</td>
-                        <td colspan="3" width="25%"><?php echo $projects['pdf_transportationRoute']?></td>
+                        <td colspan="3" width="25%"><?php echo $projects['transportationRoute']?></td>
                     </tr>
                 </tbody>
             </table>
@@ -113,15 +113,15 @@
                     </tr>
                     <tr>
                         <td width="25%"class="table-warning">簽核人員</td>
-                        <td width="25%"><?php echo $projects['contracting_companyName']?></td>
-                        <td width="25%"><?php echo $projects['clearingCompany_name']?></td>
-                        <td width="25%"><?php echo $projects['containmentCompany_name']?></td>
+                        <td width="25%"><?php echo $projects['contractUserName']?></td>
+                        <td width="25%"><?php echo $projects['clearingCompanyName']?></td>
+                        <td width="25%"><?php echo $projects['containmentCompanyName']?></td>
                     </tr>
                     <tr>
                         <td width="25%"class="table-warning">簽核時間</td>
-                        <td width="25%"><?php echo $projects['pdf_contractingSignDate']?></td>
-                        <td width="25%"><?php echo $projects['pdf_driverSignDate']?></td>
-                        <td width="25%"><?php echo $projects['pdf_containmentPlaceSignDate']?></td>
+                        <td width="25%"><?php echo $projects['contractingSignDate']?></td>
+                        <td width="25%"><?php echo $projects['driverSignDate']?></td>
+                        <td width="25%"><?php echo $projects['containmentPlaceSignDate']?></td>
                     </tr>
                     <tr>
                         <td width="25%"></td>
@@ -140,10 +140,10 @@
             <!-- <h5 class="fw-bold text-center">載運車輛車頭及車斗圖片</h5>
             <div class="row">
                 <div class="col-xl-6 col-md-6 col-12">
-                    <img class="img-fluid mx-auto" src="<?php echo base_url('assets/car')."/".$projects["pdf_carFront"]?>"/>
+                    <img class="img-fluid mx-auto" src="<?php echo base_url('assets/car')."/".$projects["carFront"]?>"/>
                 </div>
                 <div class="col-xl-6 col-md-6 col-12">
-                    <img class="img-fluid mx-auto" src="<?php echo base_url('assets/car')."/".$projects["pdf_carBody"]?>" />
+                    <img class="img-fluid mx-auto" src="<?php echo base_url('assets/car')."/".$projects["carBody"]?>" />
                 </div>
             </div> -->
             <table class="table table-striped fs-5">
@@ -155,10 +155,20 @@
                 <tbody style="word-break: break-all;">
                     <tr>
                         <td width="50%">
-                            <img class="img-fluid mx-auto" src="<?php echo base_url('assets/car')."/".$projects["pdf_carFront"]?>"/>
+                            <?php if($projects["carFront"]){?>
+                                 <img class="img-fluid mx-auto" src="<?php echo base_url('assets/car')."/".$projects["carFront"]?>"/>
+                            <?php }else{?>
+                              <span>因收容尚未簽屬聯單，故尚無車頭圖片</span>  
+                            <?php }?>
+                           
                         </td>
                         <td  width="50%">
-                            <img class="img-fluid mx-auto" src="<?php echo base_url('assets/car')."/".$projects["pdf_carBody"]?>" />
+                            <?php if($projects["carFront"]){?>
+                                 <img class="img-fluid mx-auto" src="<?php echo base_url('assets/car')."/".$projects["carBody"]?>"/>
+                            <?php }else{?>
+                                <span>因收容尚未簽屬聯單，故尚無車斗圖片</span>
+                            <?php }?>
+                            
                         </td>
                     </tr>
                 </tbody>
