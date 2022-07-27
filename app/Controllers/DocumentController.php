@@ -55,12 +55,14 @@ class DocumentController extends BaseController
 
         $projectStatus = $this->pdfDocumentModel
                                 ->select('status_id as status,Count(status_id) as count')
+                                ->where('engineering_id',$project_id)
                                 ->groupBy('status_id')
                                 ->get()
                                 ->getResultArray();
 
         $allproject = $this->pdfDocumentModel
-                           ->countAll();
+                           ->where('engineering_id',$project_id)
+                           ->countAllResults();
 
         $countArray = [
             "Create"=>0,
