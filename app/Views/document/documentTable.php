@@ -90,7 +90,7 @@
                             <span><?php echo $projects['containmentCompanyPrincipalPhone']?></span>
                         </td>
                         <td width="25%"class="table-warning">合法收容場編號</td>
-                        <td width="25%"><?php echo $projects['shippingContents']?></td>
+                        <td width="25%"><?php echo $projects['containmentPlaceEearthFlowNumer']?></td>
                     </tr>
                     <tr>
                         <td width="25%"class="table-warning">預定運送路線</td>

@@ -94,7 +94,7 @@
                 <div class="input-group mb-3">
                     <label class="input-group-text" for="carBody">車斗照片</label>
                     <!-- <input type="file" class="form-control" id="carBody" multiple="multiple" accept="image/*" capture="camera" required> -->
-                    - <input type="file" class="form-control" id="carBody" required>
+                    <input type="file" class="form-control" id="carBody" required>
                 </div>
                 <div class="d-grid gap-2 d-md-block">
                     <a class="btn btn-success" href="#sign">前往簽名</a>

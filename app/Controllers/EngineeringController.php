@@ -85,10 +85,12 @@ class EngineeringController extends BaseController
         $contracting_id = session()->get('contracting_id');
       
         $doneProject = $this->engineeringManagementModel
+                            ->select('EngineeringManagement.*')
                             ->join('ContractingCompany', 'ContractingCompany.contracting_id = EngineeringManagement.contractCompany_id')
                             ->join('PdfDocument', 'EngineeringManagement.engineering_id = PdfDocument.engineering_id')
                             ->where('PdfDocument.status_id', $this::$pdfStatus_signFinish)
                             ->where('PdfDocument.pdf_contractingCompanyId', $contracting_id)
+                            ->groupBy('EngineeringManagement.engineering_id')
                             ->paginate(10);
 
         // $completeDoc = $this->pdfDocumentModel

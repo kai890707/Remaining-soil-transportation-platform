@@ -327,7 +327,6 @@ class PdfController extends BaseController
             $RealDataField['transportationRoute']=$pdfDataFromPdfModel['pdf_transportationRoute'];
             $RealDataField['shippingQuantity']=$pdfDataFromPdfModel['pdf_shippingQuantity'];
             $RealDataField['shippingContents']=$pdfDataFromPdfModel['pdf_shippingContents'];
-            $RealDataField['containmentPlaceEearthFlowNumer']=$pdfDataFromPdfModel['pdf_containmentPlaceEearthFlowNumer'];
             $RealDataField['pdf_certifiedDocumentsIssuingUnit']=$pdfDataFromPdfModel['pdf_certifiedDocumentsIssuingUnit'];
             //圖片路徑轉為圖檔
             $RealDataField['contractingSign'] = $this->signFileEncodeBase64($pdfDataFromPdfModel['pdf_contractingSign']);
@@ -400,6 +399,7 @@ class PdfController extends BaseController
             $RealDataField['containmentCompanyName']=$pdfDataFromContainmentModel['containmentCompany_name'];
             $RealDataField['containmentCompanyPrincipalName']=$pdfDataFromContainmentModel['containmentCompany_principalName'];
             $RealDataField['containmentCompanyPrincipalPhone']=$pdfDataFromContainmentModel['containmentCompany_principalPhone'];
+            $RealDataField['containmentPlaceEearthFlowNumer'] = $pdfDataFromPdfModel['pdf_containmentPlaceEearthFlowNumer'];
         }                                  
         
 
@@ -466,30 +466,44 @@ class PdfController extends BaseController
             ];
         }else if($permission_id == $this::$permissionIdByClearingDriver){
 
-            $getClearingCompanyIdByDriver = $this->clearingDriverModel
-                                                 ->where('clearingDriver_id',$this->session->get('clearingDriver_id'))
-                                                 ->first();    
-             $updateData = [
-                "pdf_driverSign"=>$fileName,
-                "pdf_driverSignDate"=>$signTime,
-                "status_id"=>$this::$pdfStatus_driverFinish,
-                "pdf_clearingDriverId"=>$this->session->get('clearingDriver_id'),
-                "pdf_clearingCompanyId"=>$getClearingCompanyIdByDriver['clearingDriver_id']
-            ];
-
-            $r =  $this->pdfDocumentModel->update($pdf_id,$updateData);
-
-            if($r){
-                $response=[
-                    'status' => 'success',
-                    'message' => '資料存入成功'
+            $isSignOther = $this->pdfDocumentModel
+                                ->where('pdf_clearingDriverId', $this->session->get('clearingDriver_id'))
+                                ->where('status_id', $this::$pdfStatus_driverFinish)
+                                ->first();
+            
+            if($isSignOther){
+                $response = [
+                    'status' => 'fail',
+                    'message' => '您已簽署其他聯單，請於載運完畢後再接續簽名。'
                 ];
             }else{
-                $response=[
-                    'status' => 'fail',
-                    'message' => '資料存入失敗'
+                $getClearingCompanyIdByDriver = $this->clearingDriverModel
+                                                 ->where('clearingDriver_id',$this->session->get('clearingDriver_id'))
+                                                 ->first();    
+                $updateData = [
+                    "pdf_driverSign"=>$fileName,
+                    "pdf_driverSignDate"=>$signTime,
+                    "status_id"=>$this::$pdfStatus_driverFinish,
+                    "pdf_clearingDriverId"=>$this->session->get('clearingDriver_id'),
+                    "pdf_clearingCompanyId"=>$getClearingCompanyIdByDriver['clearingDriver_id']
                 ];
+
+                $r =  $this->pdfDocumentModel->update($pdf_id,$updateData);
+
+                if($r){
+                    $response=[
+                        'status' => 'success',
+                        'message' => '資料存入成功'
+                    ];
+                }else{
+                    $response=[
+                        'status' => 'fail',
+                        'message' => '資料存入失敗'
+                    ];
+                }
             }
+
+            
         }else if($permission_id == $this::$permissionIdByContainmentCompany){
             
             $pdf_id = $this->request->getPostGet('pdf_id');
