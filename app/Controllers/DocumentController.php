@@ -143,6 +143,7 @@ class DocumentController extends BaseController
             $projectInfo = $this->pdfDocumentModel
                             ->select('PdfDocument.*,PdfStatus.status_remark')
                             ->join('PdfStatus','PdfStatus.status_id = PdfDocument.status_id')
+                            ->where('PdfDocument.engineering_id', $project_id)
                             ->paginate(10);
         }else{
             $projectInfo = $this->pdfDocumentModel
