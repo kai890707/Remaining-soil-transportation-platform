@@ -5,7 +5,7 @@ namespace App\Controllers;
 use CodeIgniter\Controller;
 use App\Models\EngineeringManagementModel;
 
-class EngineeringController extends Controller
+class EngineeringController extends BaseController
 {
     public $title = '營建剩餘土石方憑證系統';
     protected $engineeringManagementModel;
@@ -73,5 +73,36 @@ class EngineeringController extends Controller
 
     }
 
+
+    /**
+     * 已存在結案聯單之工程，屬於工程結案區
+     *
+     * @param [type] $engineering_id
+     * @return void
+     */
+    public function doneProjectView()
+    {
+        $contracting_id = session()->get('contracting_id');
+      
+        $doneProject = $this->engineeringManagementModel
+                            ->join('ContractingCompany', 'ContractingCompany.contracting_id = EngineeringManagement.contractCompany_id')
+                            ->join('PdfDocument', 'EngineeringManagement.engineering_id = PdfDocument.engineering_id')
+                            ->where('PdfDocument.status_id', $this::$pdfStatus_signFinish)
+                            ->where('PdfDocument.pdf_contractingCompanyId', $contracting_id)
+                            ->paginate(10);
+
+        // $completeDoc = $this->pdfDocumentModel
+        //     ->join('EngineeringManagement', 'EngineeringManagement.engineering_id = PdfDocument.engineering_id')
+        //     ->where('PdfDocument.status_id', $this::$pdfStatus_signFinish)
+        //     ->where('PdfDocument.pdf_contractingCompanyId', $contract_id)
+        //     ->paginate(10);
+        $data = [
+            "title" => $this->title . ' - 結案聯單工程列表',
+            'projects' => $doneProject,
+            'pager' => $this->engineeringManagementModel->pager,
+        ];
+        return view('user_contract/doucmentCompleteProject', $data);
+
+    }
 
 }

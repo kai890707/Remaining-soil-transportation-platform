@@ -138,7 +138,9 @@ $routes->group(
         $routes->get('documentCreate/(:num)', 'ContractController::documentCreateView/$1');
         $routes->post('insertEngineeringData', 'PdfController::insertEngineeringData');
         //工程結案區
-        $routes->get('documentComplete', 'DocumentController::documentComplete');
+        $routes->get('documentComplete/(:num)', 'DocumentController::documentComplete/$1');
+        $routes->get('doneProjectView', 'EngineeringController::doneProjectView');
+        
 
     }
 );

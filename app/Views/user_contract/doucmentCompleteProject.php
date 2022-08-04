@@ -7,8 +7,8 @@
     <div class="container">
         <div class="row">
             <div class="col-12 mx-auto p-4">
-                <h1 class="display-4 fw-bold text-white text-shadow"><?php echo $engineeringInfo['engineering_name'] ?> - 聯單結案區</h1>
-                <p class="lead fw-bold text-white text-shadow p-0 m-0">Document Complete Area</p>
+                <h1 class="display-4 fw-bold text-white text-shadow">結案聯單工程列表</h1>
+                <p class="lead fw-bold text-white text-shadow p-0 m-0">List of projects for closing the case</p>
             </div>
         </div>
 
@@ -23,7 +23,7 @@
                 <thead>
                     <tr>
                         <th scope="col">工程名稱</th>
-                        <th scope="col">聯單編號</th>
+                        <th scope="col">工程流向編號</th>
                         <th scope="col">操作</th>
 
                     </tr>
@@ -32,8 +32,8 @@
                     <?php foreach ($projects as $proj) { ?>
                         <tr>
                             <td><?php echo $proj['engineering_name'] ?></td>
-                            <td><?php echo $proj['pdf_fileNumber'] ?></td>
-                            <td><button type="button" class="btn btn-outline-primary" onclick="location.href='<?php echo base_url('document/documentTable') . '/' . $proj['pdf_id'] ?>'">查看</button></td>
+                            <td><?php echo $proj['engineering_projectNumber'] ?></td>
+                            <td><button type="button" class="btn btn-outline-primary" onclick="location.href='<?php echo base_url('contract/documentComplete') . '/' . $proj['engineering_id'] ?>'">查看</button></td>
                         </tr>
                     <?php } ?>
 

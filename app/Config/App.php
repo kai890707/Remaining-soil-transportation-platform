@@ -24,8 +24,8 @@ class App extends BaseConfig
      *
      * @var string
      */
-    public $baseURL = 'https://d78f-42-75-106-219.ngrok.io'; //ngrok ip
-    // public $baseURL = 'http://localhost:8080/'; //spark預設server
+    // public $baseURL = 'https://d78f-42-75-106-219.ngrok.io'; //ngrok ip
+    public $baseURL = 'http://localhost:8080/'; //spark預設server
     // public $baseURL = 'http://127.0.0.1/projectx/'; //ubuntu server
 
 

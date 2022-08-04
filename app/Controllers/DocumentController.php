@@ -203,17 +203,21 @@ class DocumentController extends BaseController
      *
      * @return view
      */
-    public function documentComplete()
+    public function documentComplete($engineering_id)
     {
         $contract_id = session()->get('contracting_id');
-        // print_r($contract_id);
+        $engineeringInfo = $this->engineeringManagementModel
+                                 ->where('engineering_id', $engineering_id)
+                                 ->first();
         $completeDoc = $this->pdfDocumentModel
                             ->join('EngineeringManagement','EngineeringManagement.engineering_id = PdfDocument.engineering_id')
                             ->where('PdfDocument.status_id',$this::$pdfStatus_signFinish)
                             ->where('PdfDocument.pdf_contractingCompanyId',$contract_id)
+                            ->where('PdfDocument.engineering_id', $engineering_id)
                             ->paginate(10);
         $data = [
             "title" => $this->title . ' - 工程結案區',
+            'engineeringInfo'=> $engineeringInfo,
             "projects"=>$completeDoc,
             "pager" => $this->pdfDocumentModel->pager,
         ];
